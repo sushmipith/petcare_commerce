@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "109363944188",
+    "firebase_url": "https://petcarecommerce-b065e-default-rtdb.firebaseio.com",
+    "project_id": "petcarecommerce-b065e",
+    "storage_bucket": "petcarecommerce-b065e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109363944188:android:0da20372bd4190803a5579",
+        "android_client_info": {
+          "package_name": "com.sushmipithakote.petcare_commerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109363944188-r8sb6nhkvj23scd2g23sfa0kitg5s8dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAplWDArpckPFR44YW85Q2gEAOwXXDnbF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109363944188-r8sb6nhkvj23scd2g23sfa0kitg5s8dp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
