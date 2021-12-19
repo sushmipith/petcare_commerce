@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_commerce/provider/auth_provider.dart';
 import 'package:petcare_commerce/screens/auth/login_screen.dart';
+import 'package:petcare_commerce/screens/auth/register_screen.dart';
 import 'package:petcare_commerce/screens/home_screen.dart';
 import 'package:petcare_commerce/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,11 @@ class MyApp extends StatelessWidget {
               .copyWith(secondary: const Color(0xFFF7B733)),
         ),
         home: MainPage(),
-        routes: {},
+        routes: {
+          HomeScreen.routeName: (ctx) => const HomeScreen(),
+          LoginScreen.routeName: (ctx) => LoginScreen(),
+          RegisterScreen.routeName: (ctx) => RegisterScreen(),
+        },
       ),
     );
   }
@@ -77,8 +82,8 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
-      imagePath: "assets/images/app_logo.jpg",
-      backGroundColor: Colors.yellowAccent.shade400,
+      imagePath: "assets/images/app_logo.png",
+      backGroundColor: Colors.orange.shade100,
       logoSize: 200,
       duration: 2500,
       home: _isLogin ? HomeScreen.routeName : LoginScreen.routeName,

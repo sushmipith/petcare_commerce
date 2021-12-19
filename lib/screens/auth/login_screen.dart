@@ -79,23 +79,25 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             children: [
               Container(
-                height: mHeight * 0.18,
+                height: mHeight * 0.25,
               ),
               Text(
                 "Welcome",
                 style: themeConst.textTheme.headline4
-                    .copyWith(fontWeight: FontWeight.bold, color: blackColor),
+                    .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
               ),
               const SizedBox(
                 height: 6,
               ),
               Text(
                 "Sign in to continue",
-                style:
-                    themeConst.textTheme.subtitle1.copyWith(color: greyColor),
+                style: themeConst.textTheme.subtitle1
+                    .copyWith(color: Colors.white),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Card(
-                margin: const EdgeInsets.only(top: 50),
                 elevation: 6,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),

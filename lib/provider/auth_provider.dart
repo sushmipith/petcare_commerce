@@ -200,7 +200,7 @@ class AuthProvider with ChangeNotifier {
       prefs.setString("profileURL", imageUrl);
     } catch (error) {
       print(error);
-      throw (error);
+      rethrow;
     }
   }
 
