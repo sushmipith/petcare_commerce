@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:petcare_commerce/provider/auth_provider.dart';
-import 'package:petcare_commerce/screens/home_screen.dart';
-import 'package:petcare_commerce/theme/constants.dart';
+import 'package:petcare_commerce/core/theme/constants.dart';
+import 'package:petcare_commerce/providers/auth_provider.dart';
+import 'package:petcare_commerce/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -14,8 +14,8 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  late ThemeData themeConst;
-  late double mHeight, mWidth;
+  ThemeData? themeConst;
+  double? mHeight, mWidth;
   final _formKey = GlobalKey<FormState>();
   bool _hidePassword = true;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           _isLoading = true;
         });
         await Provider.of<AuthProvider>(context, listen: false)
-            .signUp(username, email, password);
+            .signUp(username.trim(), email.trim(), password);
         Navigator.pushNamedAndRemoveUntil(
             context, HomeScreen.routeName, (Route<dynamic> route) => false);
       } catch (error) {
@@ -44,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             '$error',
             style: const TextStyle(color: Colors.white),
           ),
-          backgroundColor: themeConst.errorColor,
+          backgroundColor: themeConst!.errorColor,
         ));
       }
       setState(() {
@@ -79,11 +79,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             children: [
               Container(
-                height: mHeight * 0.18,
+                height: mHeight! * 0.18,
               ),
               Text(
                 "Join us",
-                style: themeConst.textTheme.headline4?.copyWith(
+                style: themeConst!.textTheme.headline4?.copyWith(
                     fontWeight: FontWeight.bold, color: Colors.white),
               ),
               const SizedBox(
@@ -91,7 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               Text(
                 "Sign up to continue",
-                style: themeConst.textTheme.subtitle1
+                style: themeConst!.textTheme.subtitle1
                     ?.copyWith(color: Colors.white),
               ),
               Card(
@@ -133,13 +133,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (value!.isEmpty) {
                               return "Email is required";
                             }
-                            if (!emailRegex.hasMatch(value)) {
+                            if (!emailRegex.hasMatch(value.trim())) {
                               return "Email is not valid";
                             }
                             return null;
                           },
                           onSaved: (value) {
-                            email = value!;
+                            email = value!.trim();
                           },
                         ),
                         const SizedBox(
@@ -187,7 +187,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           width: double.infinity,
                           margin: const EdgeInsets.symmetric(horizontal: 15),
                           child: RaisedButton(
-                            color: themeConst.primaryColor,
+                            color: themeConst!.primaryColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
                             onPressed: _isLoading ? null : _saveForm,
@@ -199,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         child: CircularProgressIndicator()))
                                 : Text(
                                     "Sign Up",
-                                    style: themeConst.textTheme.headline6
+                                    style: themeConst!.textTheme.headline6
                                         ?.copyWith(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600),
@@ -214,7 +214,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: [
                             Text(
                               "Already have an account?",
-                              style: themeConst.textTheme.subtitle1?.copyWith(
+                              style: themeConst!.textTheme.subtitle1?.copyWith(
                                   color: greyColor,
                                   fontWeight: FontWeight.w600),
                             ),
@@ -227,7 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 },
                                 child: Text(
                                   "Sign in",
-                                  style: themeConst.textTheme.subtitle1
+                                  style: themeConst!.textTheme.subtitle1
                                       ?.copyWith(
                                           color: accentColor,
                                           fontWeight: FontWeight.w600),

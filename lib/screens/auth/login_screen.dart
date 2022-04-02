@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:petcare_commerce/provider/auth_provider.dart';
+import 'package:petcare_commerce/core/theme/constants.dart';
+import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:petcare_commerce/theme/constants.dart';
-import '../home_screen.dart';
+import '../home/home_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
           _isLoading = true;
         });
         await Provider.of<AuthProvider>(context, listen: false)
-            .signIn(email, password);
+            .signIn(email.trim(), password);
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (value!.isEmpty) {
                               return "Email is required";
                             }
-                            if (!emailRegex.hasMatch(value)) {
+                            if (!emailRegex.hasMatch(value.trim())) {
                               return "Email is not valid";
                             }
                             return null;

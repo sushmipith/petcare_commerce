@@ -6,17 +6,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:petcare_commerce/exception/auth_exception.dart';
+import 'package:petcare_commerce/core/exception/auth_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'API.dart';
 
 class AuthProvider with ChangeNotifier {
-  late String? _userId;
-  late String? _authToken;
-  late DateTime? _expiryDate;
+  String? _userId;
+  String? _authToken;
+  DateTime? _expiryDate;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  late Timer? _authTimer;
+  Timer? _authTimer;
 
   // get if is authenticated
   bool get isAuth {
@@ -54,9 +54,10 @@ class AuthProvider with ChangeNotifier {
       _userId = response.user.uid;
       final idTokenResult = await _firebaseAuth.currentUser?.getIdTokenResult();
       _authToken = idTokenResult?.token;
+      print('auth token is $_authToken');
       _expiryDate = DateTime.now()
           .add(Duration(hours: idTokenResult!.expirationTime!.hour));
-
+      print('auth token is $_expiryDate');
       //auto logout if token expired
       _autoLogout();
       notifyListeners();
@@ -166,8 +167,8 @@ class AuthProvider with ChangeNotifier {
     if (!prefs.containsKey("userData")) {
       return false;
     }
-    Map<String, dynamic> extractedData =
-        json.decode(prefs.getString("userData") ?? '') as Map<String, Object>;
+    String? userData = prefs.getString("userData");
+    Map<String, dynamic> extractedData = json.decode(userData!);
     print("the extractedData is $extractedData");
 
     final expiryDate = DateTime.tryParse(extractedData["expiryDate"]);

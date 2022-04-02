@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/provider/auth_provider.dart';
+import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/screens/auth/login_screen.dart';
 import 'package:petcare_commerce/screens/auth/register_screen.dart';
-import 'package:petcare_commerce/screens/home_screen.dart';
-import 'package:petcare_commerce/splash_screen.dart';
+import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
+import 'package:petcare_commerce/screens/home/home_screen.dart';
+import 'package:petcare_commerce/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -45,48 +46,14 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch()
               .copyWith(secondary: const Color(0xFFF7B733)),
         ),
-        home: MainPage(),
         routes: {
+          '/': (ctx) => const SplashScreen(),
           HomeScreen.routeName: (ctx) => const HomeScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
           RegisterScreen.routeName: (ctx) => RegisterScreen(),
+          BottomOverviewScreen.routeName: (ctx) => BottomOverviewScreen(),
         },
       ),
-    );
-  }
-}
-
-class MainPage extends StatefulWidget {
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  bool _isLogin = false;
-  bool _isInit = true;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_isInit) {
-      checkLogin();
-    }
-    _isInit = false;
-  }
-
-  void checkLogin() async {
-    _isLogin = await Provider.of<AuthProvider>(context).tryAutoLogin();
-    print("the login is $_isLogin");
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SplashScreen(
-      imagePath: "assets/images/app_logo.png",
-      backGroundColor: Colors.orange.shade100,
-      logoSize: 200,
-      duration: 2500,
-      home: _isLogin ? HomeScreen.routeName : LoginScreen.routeName,
     );
   }
 }
