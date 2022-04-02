@@ -3,9 +3,11 @@ import 'package:petcare_commerce/core/theme/constants.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../image_preview_screen.dart';
+
 class ProductDetailScreen extends StatelessWidget {
   static const String routeName = "/product_detail_screen";
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  const ProductDetailScreen({Key? key}) : super(key: key);
 
   Chip _sizeChips(
       {required String title,
@@ -21,20 +23,27 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  ListTile _detailTiles(
+  Widget _detailTiles(
       {required String title,
       required String desc,
       required ThemeData themeConst}) {
-    return ListTile(
-        title: Text(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
           title,
           style: themeConst.textTheme.headline6
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text(
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
           desc,
           style: themeConst.textTheme.subtitle2?.copyWith(color: greyColor),
-        ));
+        )
+      ]),
+    );
   }
 
   @override
@@ -43,10 +52,9 @@ class ProductDetailScreen extends StatelessWidget {
     final mHeight = mediaQuery.size.height;
     ThemeData themeConst = Theme.of(context);
     final id = ModalRoute.of(context)?.settings.arguments as String;
-    final provider = Provider.of<Products>(context, listen: false);
+    final provider = Provider.of<ProductsProvider>(context, listen: false);
     final loadedProduct = provider.findProductById(id);
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           loadedProduct.title,
@@ -56,19 +64,38 @@ class ProductDetailScreen extends StatelessWidget {
         children: [
           Hero(
             tag: "product${loadedProduct.id}",
-            child: Image.network(
-              loadedProduct.imageURL,
-              height: mHeight * 0.4,
-              fit: BoxFit.contain,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, ImagePreviewScreen.routeName,
+                    arguments: {
+                      'imageTitle': loadedProduct.title,
+                      'imageUrl': loadedProduct.imageURL,
+                    });
+              },
+              child: Image.network(
+                loadedProduct.imageURL,
+                height: mHeight * 0.4,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              loadedProduct.title,
+              style: themeConst.textTheme.headline6?.copyWith(
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+              ),
             ),
           ),
           ListTile(
             title: Text(
               "Rs. ${loadedProduct.price}",
-              style: themeConst.textTheme.headline5
+              style: themeConst.textTheme.headline6
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
-            contentPadding: const EdgeInsets.all(18),
+            contentPadding: const EdgeInsets.all(16),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -84,13 +111,13 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                     Text(loadedProduct.rating,
                         style: themeConst.textTheme.subtitle1
-                            ?.copyWith(fontSize: 18)),
+                            ?.copyWith(fontSize: 16)),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
-                Consumer<Products>(
+                Consumer<ProductsProvider>(
                   builder: (ctx, product, child) {
                     return IconButton(
                       padding: const EdgeInsets.all(0),
@@ -152,10 +179,16 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+          const SizedBox(
+            width: 30,
+          ),
           _detailTiles(
             title: "Description",
             desc: loadedProduct.description,
             themeConst: themeConst,
+          ),
+          const SizedBox(
+            height: 20,
           ),
           Padding(
             padding: const EdgeInsets.only(

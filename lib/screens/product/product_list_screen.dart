@@ -7,12 +7,15 @@ import 'package:provider/provider.dart';
 class ProductListScreen extends StatelessWidget {
   static const String routeName = "/product_list_screen";
 
+  const ProductListScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final themeConst = Theme.of(context);
     final Map<String, dynamic> mapArgument =
         ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    final productsProvider = Provider.of<Products>(context, listen: false);
+    final productsProvider =
+        Provider.of<ProductsProvider>(context, listen: false);
     var loadedProducts;
     if (mapArgument['diff'] == "category") {
       loadedProducts = productsProvider.getCategoryProduct(mapArgument['type']);

@@ -11,6 +11,8 @@ import '../bottom_overview_screen.dart';
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "/register_screen";
 
+ const RegisterScreen({Key? key}) : super(key: key);
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }

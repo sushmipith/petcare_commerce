@@ -6,13 +6,17 @@ import 'package:petcare_commerce/screens/auth/login_screen.dart';
 import 'package:petcare_commerce/screens/auth/register_screen.dart';
 import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
 import 'package:petcare_commerce/screens/home/home_screen.dart';
+import 'package:petcare_commerce/screens/image_preview_screen.dart';
 import 'package:petcare_commerce/screens/product/product_detail_screen.dart';
 import 'package:petcare_commerce/screens/product/product_list_screen.dart';
 import 'package:petcare_commerce/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'core/service/service_locator.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await setupLocator();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -20,22 +24,12 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (BuildContext context) {
-          return AuthProvider();
-        }),
-        ChangeNotifierProxyProvider<AuthProvider, Products>(
-          create: (BuildContext context) {
-            return Products("", "");
-          },
-          update: (context, AuthProvider auth, Products? updatedProduct) {
-            return updatedProduct!..setTokenAndId(auth.token, auth.userId);
-          },
-        ),
+        ChangeNotifierProvider.value(value: locator<AuthProvider>()),
+        ChangeNotifierProvider.value(value: locator<ProductsProvider>()),
       ],
       child: MaterialApp(
         title: 'Pet Care Commerce',
@@ -68,11 +62,12 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/': (ctx) => const SplashScreen(),
-          LoginScreen.routeName: (ctx) => LoginScreen(),
-          RegisterScreen.routeName: (ctx) => RegisterScreen(),
-          BottomOverviewScreen.routeName: (ctx) => BottomOverviewScreen(),
-          ProductListScreen.routeName: (ctx) => ProductListScreen(),
-          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen()
+          LoginScreen.routeName: (ctx) => const LoginScreen(),
+          RegisterScreen.routeName: (ctx) => const RegisterScreen(),
+          BottomOverviewScreen.routeName: (ctx) => const BottomOverviewScreen(),
+          ProductListScreen.routeName: (ctx) => const ProductListScreen(),
+          ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
+          ImagePreviewScreen.routeName: (ctx) => const ImagePreviewScreen()
         },
       ),
     );

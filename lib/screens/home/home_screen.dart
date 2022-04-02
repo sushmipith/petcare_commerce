@@ -86,7 +86,7 @@ class HomeScreen extends StatelessWidget {
     double mHeight = mediaConst.size.height;
     double mWidth = mediaConst.size.width;
     ThemeData themeConst = Theme.of(context);
-    final productsProvider = Provider.of<Products>(
+    final productsProvider = Provider.of<ProductsProvider>(
       context,
     );
     final flashSales = productsProvider.flashSaleProducts;
@@ -108,26 +108,24 @@ class HomeScreen extends StatelessWidget {
                     _getCategoryItems(
                         mWidth: mWidth,
                         mHeight: mHeight,
-                        color: Colors.orange,
-                        icon: FontAwesomeIcons.clinicMedical,
-                        title: "Veterinary",
+                        color: Colors.redAccent.shade100,
+                        icon: FontAwesomeIcons.bone,
+                        title: "Food",
                         onPress: () {
                           Navigator.pushNamed(
-                              context, ProductListScreen.routeName, arguments: {
-                            "type": "Clothing",
-                            "diff": "category"
-                          });
+                              context, ProductListScreen.routeName,
+                              arguments: {"type": "Food", "diff": "category"});
                         }),
                     _getCategoryItems(
                         mWidth: mWidth,
                         mHeight: mHeight,
                         color: Colors.green,
-                        icon: FontAwesomeIcons.bath,
+                        icon: FontAwesomeIcons.dog,
                         title: "Grooming",
                         onPress: () {
                           Navigator.pushNamed(
                               context, ProductListScreen.routeName, arguments: {
-                            "type": "Electronics",
+                            "type": "Grooming",
                             "diff": "category"
                           });
                         }),
@@ -136,24 +134,22 @@ class HomeScreen extends StatelessWidget {
                         mHeight: mHeight,
                         color: Colors.blue,
                         icon: FontAwesomeIcons.baseballBall,
-                        title: "Training",
+                        title: "Toys",
                         onPress: () {
                           Navigator.pushNamed(
-                              context, ProductListScreen.routeName, arguments: {
-                            "type": "Furniture",
-                            "diff": "category"
-                          });
+                              context, ProductListScreen.routeName,
+                              arguments: {"type": "Toys", "diff": "category"});
                         }),
                     _getCategoryItems(
                         mWidth: mWidth,
                         mHeight: mHeight,
-                        color: Colors.purple,
-                        icon: FontAwesomeIcons.dog,
-                        title: "Boarding",
+                        color: Colors.orange,
+                        icon: FontAwesomeIcons.clinicMedical,
+                        title: "Veterinary",
                         onPress: () {
                           Navigator.pushNamed(
                               context, ProductListScreen.routeName, arguments: {
-                            "type": "Sports",
+                            "type": "Veterinary",
                             "diff": "category"
                           });
                         }),

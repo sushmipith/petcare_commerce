@@ -101,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: CircleAvatar(
                                       radius: 70,
                                       backgroundImage: _getImageWidget(
-                                          snapshot.data["profileURL"])),
+                                          snapshot.data?["profileURL"] ?? '')),
                                 ),
                               ),
                               const SizedBox(

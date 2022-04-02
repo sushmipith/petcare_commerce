@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petcare_commerce/core/constants/assets_source.dart';
 import 'package:petcare_commerce/core/theme/constants.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
 import 'package:petcare_commerce/screens/product/product_detail_screen.dart';
@@ -15,8 +16,8 @@ class ProductItem extends StatelessWidget {
     double mHeight = mediaQuery.size.height;
     double mWidth = mediaQuery.size.width;
     ThemeData themeData = Theme.of(context);
-    final loadedProduct =
-        Provider.of<Products>(context, listen: false).findProductById(id);
+    final loadedProduct = Provider.of<ProductsProvider>(context, listen: false)
+        .findProductById(id);
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, ProductDetailScreen.routeName,
@@ -36,23 +37,23 @@ class ProductItem extends StatelessWidget {
                 Hero(
                   tag: 'product${loadedProduct.id}',
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(12),
                         topRight: Radius.circular(12)),
                     child: FadeInImage(
-                      placeholder: AssetImage("assets/images/placeholder.png"),
+                      placeholder: const AssetImage(AssetsSource.placeholder),
                       fadeInCurve: Curves.bounceInOut,
                       image: NetworkImage(
                         loadedProduct.imageURL,
                       ),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       height: mHeight * 0.12,
                     ),
                   ),
                 ),
                 Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
+                        horizontal: 10, vertical: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -62,7 +63,12 @@ class ProductItem extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: themeData.textTheme.subtitle1?.copyWith(
-                              fontWeight: FontWeight.w600, color: greyColor),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: greyColor),
+                        ),
+                        const SizedBox(
+                          height: 3,
                         ),
                         Text(
                           "Rs. ${loadedProduct.price}",
@@ -70,7 +76,9 @@ class ProductItem extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: themeData.textTheme.subtitle1?.copyWith(
-                              fontWeight: FontWeight.w800, color: blackColor),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w800,
+                              color: blackColor),
                         ),
                       ],
                     )),

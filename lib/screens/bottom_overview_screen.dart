@@ -13,6 +13,8 @@ import 'home/home_screen.dart';
 class BottomOverviewScreen extends StatefulWidget {
   static const String routeName = "/bottom_overview_screen";
 
+  const BottomOverviewScreen({Key? key}) : super(key: key);
+
   @override
   _BottomOverviewScreenState createState() => _BottomOverviewScreenState();
 }
@@ -77,7 +79,8 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
 
   Future<void> getProducts() async {
     try {
-      await Provider.of<Products>(context, listen: false).fetchAllProducts();
+      await Provider.of<ProductsProvider>(context, listen: false)
+          .fetchAllProducts();
     } on HttpException {
       await Provider.of<AuthProvider>(context, listen: false).logout();
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);

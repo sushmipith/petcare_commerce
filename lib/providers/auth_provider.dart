@@ -169,17 +169,21 @@ class AuthProvider with ChangeNotifier {
     }
     String? userData = prefs.getString("userData");
     Map<String, dynamic> extractedData = json.decode(userData!);
-    print("the extractedData is $extractedData");
+    final expiryDate = extractedData['expiryDate'] == null
+        ? null
+        : DateTime.tryParse(extractedData["expiryDate"]);
+    _authToken = extractedData['token'];
+    _userId = extractedData["userId"];
+    if (_expiryDate == null || _authToken == null || _userId == null) {
+      return false;
+    }
+    _expiryDate = expiryDate;
 
-    final expiryDate = DateTime.tryParse(extractedData["expiryDate"]);
     print("the expiryDate is $expiryDate");
     if (expiryDate!.isBefore(DateTime.now())) {
       return false;
     }
     // auto login start
-    _authToken = extractedData['token'];
-    _expiryDate = expiryDate;
-    _userId = extractedData["userId"];
 
     // start auto logout again for new timer
     notifyListeners();
