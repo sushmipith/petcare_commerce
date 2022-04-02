@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
 import 'package:petcare_commerce/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange.shade100,
+      backgroundColor: const Color(0xFF9d73ef),
       body: FutureBuilder(
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           return Center(
@@ -68,6 +69,7 @@ class _SplashScreenState extends State<SplashScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Image.asset(
                   AssetsSource.appLogo,
+                  color: Colors.white,
                   height: 200,
                 ),
               ),

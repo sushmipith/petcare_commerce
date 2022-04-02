@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:petcare_commerce/core/theme/constants.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
+import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
 import 'package:provider/provider.dart';
 import '../home/home_screen.dart';
 import 'register_screen.dart';
@@ -37,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         await Provider.of<AuthProvider>(context, listen: false)
             .signIn(email.trim(), password);
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        Navigator.pushReplacementNamed(context, BottomOverviewScreen.routeName);
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(

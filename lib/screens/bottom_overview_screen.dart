@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:petcare_commerce/core/constants/assets_source.dart';
+import 'package:petcare_commerce/providers/auth_provider.dart';
+import 'package:petcare_commerce/providers/products_provider.dart';
+import 'package:petcare_commerce/screens/profile/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'auth/login_screen.dart';
 import 'home/home_screen.dart';
@@ -18,6 +21,7 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
   /// Current Page
   int _selectedPageIndex = 0;
   late ThemeData themeConst;
+  late Future _getAllProducts;
 
   // Change the index
   void _selectPage(int index) {
@@ -30,22 +34,31 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
     switch (_selectedPageIndex) {
       case 0:
         return AppBar(
-          title: Image.asset(
-            AssetsSource.appLogo,
-            height: 40,
-            color: Colors.white,
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                AssetsSource.appLogo,
+                height: 40,
+                color: Colors.white,
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              const Text('Pet Care', style: TextStyle(color: Colors.white))
+            ],
           ),
           actions: [],
           backgroundColor: themeConst.primaryColor,
         );
       case 1:
         return AppBar(
-          title: Text("My Cart"),
+          title: const Text("My Cart"),
           backgroundColor: themeConst.primaryColor,
         );
       case 2:
         return AppBar(
-          title: Text(
+          title: const Text(
             "My Products",
           ),
           actions: [],
@@ -62,19 +75,21 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
     }
   }
 
-  /// Get the current page
-  Widget _getCurrentPage() {
-    switch (_selectedPageIndex) {
-      case 0:
-        return HomeScreen();
-      default:
-        return HomeScreen();
+  Future<void> getProducts() async {
+    try {
+      await Provider.of<Products>(context, listen: false).fetchAllProducts();
+    } on HttpException {
+      await Provider.of<AuthProvider>(context, listen: false).logout();
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    } catch (error) {
+      print(error);
     }
   }
 
   @override
   void initState() {
     super.initState();
+    _getAllProducts = getProducts();
   }
 
   @override
@@ -82,7 +97,21 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
     themeConst = Theme.of(context);
     return Scaffold(
       appBar: _getCurrentAppBar(),
-      body: _getCurrentPage(),
+      body: FutureBuilder(
+        future: _getAllProducts,
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : IndexedStack(index: _selectedPageIndex, children: const [
+                  HomeScreen(),
+                  ProfileScreen(),
+                  ProfileScreen(),
+                  ProfileScreen()
+                ]);
+        },
+      ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 20,
         currentIndex: _selectedPageIndex,

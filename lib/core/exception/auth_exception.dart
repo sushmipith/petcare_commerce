@@ -11,7 +11,6 @@ enum AuthResultStatus {
 
 class AuthResultException implements Exception {
   static AuthResultStatus handleException(e) {
-    print(e.code);
     AuthResultStatus status;
     switch (e.code) {
       case "invalid-email":

@@ -6,6 +6,8 @@ import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../bottom_overview_screen.dart';
+
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "/register_screen";
 
@@ -36,8 +38,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         });
         await Provider.of<AuthProvider>(context, listen: false)
             .signUp(username.trim(), email.trim(), password);
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreen.routeName, (Route<dynamic> route) => false);
+        Navigator.pushNamedAndRemoveUntil(context,
+            BottomOverviewScreen.routeName, (Route<dynamic> route) => false);
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
