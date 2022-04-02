@@ -15,22 +15,22 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  ThemeData themeConst;
-  double mHeight, mWidth;
+  late ThemeData themeConst;
+  late double mHeight, mWidth;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _hidePassword = true;
   bool _isLoading = false;
 
   //vars
-  String email, password;
+  late String email, password;
   RegExp emailRegex = RegExp(
       "^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$");
 
   void _saveForm() async {
-    bool isValid = _formKey.currentState.validate();
-    if (isValid) {
-      _formKey.currentState.save();
+    bool? isValid = _formKey.currentState?.validate();
+    if (isValid!) {
+      _formKey.currentState?.save();
       try {
         setState(() {
           _isLoading = true;
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            error,
+            '$error',
             style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: themeConst.errorColor,
@@ -83,15 +83,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Text(
                 "Welcome",
-                style: themeConst.textTheme.headline4
-                    .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+                style: themeConst.textTheme.headline4?.copyWith(
+                    fontWeight: FontWeight.bold, color: Colors.white),
               ),
               const SizedBox(
                 height: 6,
               ),
               Text(
                 "Sign in to continue",
-                style: themeConst.textTheme.subtitle1
+                style: themeConst.textTheme.subtitle1!
                     .copyWith(color: Colors.white),
               ),
               const SizedBox(
@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return "Email is required";
                             }
                             if (!emailRegex.hasMatch(value)) {
@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             return null;
                           },
                           onSaved: (value) {
-                            email = value;
+                            email = value!;
                           },
                         ),
                         const SizedBox(
@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 obscureText: _hidePassword,
                                 obscuringCharacter: "*",
                                 validator: (value) {
-                                  if (value.isEmpty) {
+                                  if (value!.isEmpty) {
                                     return "Password is required";
                                   }
                                   if (value.length < 6) {
@@ -147,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  password = value;
+                                  password = value!;
                                 }),
                             IconButton(
                                 icon: _hidePassword
@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Text(
                               "Forgot Password?",
-                              style: themeConst.textTheme.subtitle1.copyWith(
+                              style: themeConst.textTheme.subtitle1!.copyWith(
                                   color: blackColor,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -198,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             const CircularProgressIndicator()))
                                 : Text(
                                     "Sign In",
-                                    style: themeConst.textTheme.headline6
+                                    style: themeConst.textTheme.headline6!
                                         .copyWith(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600),
@@ -213,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Text(
                               "Dont have an account?",
-                              style: themeConst.textTheme.subtitle1.copyWith(
+                              style: themeConst.textTheme.subtitle1!.copyWith(
                                   color: greyColor,
                                   fontWeight: FontWeight.w600),
                             ),
@@ -227,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                                 child: Text(
                                   "Sign up",
-                                  style: themeConst.textTheme.subtitle1
+                                  style: themeConst.textTheme.subtitle1!
                                       .copyWith(
                                           color: accentColor,
                                           fontWeight: FontWeight.w600),

@@ -8,10 +8,10 @@ class SplashScreen extends StatefulWidget {
   final double logoSize;
 
   SplashScreen(
-      {Key key,
-      @required this.imagePath,
-      @required this.home,
-      this.duration,
+      {Key? key,
+      required this.imagePath,
+      required this.home,
+      required this.duration,
       this.backGroundColor = Colors.white,
       this.logoSize = 250.0})
       : super(key: key);
@@ -22,13 +22,13 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-  Animation _animation;
-  String _home;
-  String _imagePath;
-  int _duration;
-  Color _backGroundColor;
-  double _logoSize;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+  late String _home;
+  late String _imagePath;
+  late int _duration;
+  late Color _backGroundColor;
+  late double _logoSize;
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
         backgroundColor: _backGroundColor,
         body: FadeTransition(
-            opacity: _animation,
+            opacity: _animation ,
             child: Center(
                 child: SizedBox(
                     height: _logoSize, child: Image.asset(_imagePath)))));

@@ -12,11 +12,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'API.dart';
 
 class AuthProvider with ChangeNotifier {
-  String _userId;
-  String _authToken;
-  DateTime _expiryDate;
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  Timer _authTimer;
+  late String? _userId;
+  late String? _authToken;
+  late DateTime? _expiryDate;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  late Timer? _authTimer;
 
   // get if is authenticated
   bool get isAuth {
@@ -24,9 +24,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   // get token for apis
-  String get token {
+  String? get token {
     if (_expiryDate != null &&
-        _expiryDate.isAfter(DateTime.now()) &&
+        _expiryDate!.isAfter(DateTime.now()) &&
         _authToken != null) {
       return _authToken;
     }
@@ -34,7 +34,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   // get userid
-  String get userId {
+  String? get userId {
     return _userId;
   }
 
@@ -55,7 +55,7 @@ class AuthProvider with ChangeNotifier {
       final idTokenResult = await _firebaseAuth.currentUser?.getIdTokenResult();
       _authToken = idTokenResult?.token;
       _expiryDate = DateTime.now()
-          .add(Duration(hours: idTokenResult.expirationTime.hour));
+          .add(Duration(hours: idTokenResult!.expirationTime!.hour));
 
       //auto logout if token expired
       _autoLogout();
@@ -64,7 +64,7 @@ class AuthProvider with ChangeNotifier {
       //get user data if its sign in
       String profileURL = "";
       if (type == "signIn") {
-        final extractedData = await _getUserData(_userId);
+        final extractedData = await _getUserData(_userId!);
         profileURL = extractedData["profileURL"];
         username = extractedData["username"];
       } else {
@@ -157,7 +157,7 @@ class AuthProvider with ChangeNotifier {
       _authTimer = null;
     }
     final timeToExpire = _expiryDate?.difference(DateTime.now()).inHours;
-    _authTimer = Timer(Duration(hours: timeToExpire), logout);
+    _authTimer = Timer(Duration(hours: timeToExpire!), logout);
   }
 
   // auto login user
@@ -166,13 +166,13 @@ class AuthProvider with ChangeNotifier {
     if (!prefs.containsKey("userData")) {
       return false;
     }
-    final extractedData =
-        json.decode(prefs.getString("userData")) as Map<String, Object>;
+    Map<String, dynamic> extractedData =
+        json.decode(prefs.getString("userData") ?? '') as Map<String, Object>;
     print("the extractedData is $extractedData");
 
-    final expiryDate = DateTime.parse(extractedData["expiryDate"]);
+    final expiryDate = DateTime.tryParse(extractedData["expiryDate"]);
     print("the expiryDate is $expiryDate");
-    if (expiryDate.isBefore(DateTime.now())) {
+    if (expiryDate!.isBefore(DateTime.now())) {
       return false;
     }
     // auto login start
@@ -205,7 +205,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   // create new user in database
-  Future<void> _addPhotoToDB(String imageURL) async {
+  Future<Map<String, dynamic>> _addPhotoToDB(String imageURL) async {
     try {
       final response = await http.put(Uri.parse(API.users + "$userId.json"),
           body: json.encode({
@@ -216,7 +216,7 @@ class AuthProvider with ChangeNotifier {
       return extractedData;
     } catch (error) {
       print(error);
-      throw (error);
+      rethrow;
     }
   }
 }

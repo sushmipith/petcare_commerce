@@ -14,22 +14,22 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  ThemeData themeConst;
-  double mHeight, mWidth;
+  late ThemeData themeConst;
+  late double mHeight, mWidth;
   final _formKey = GlobalKey<FormState>();
   bool _hidePassword = true;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isLoading = false;
 
   //vars
-  String email, password, username;
+  late String email, password, username;
   RegExp emailRegex = RegExp(
       "^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$");
 
   void _saveForm() async {
-    bool isValid = _formKey.currentState.validate();
-    if (isValid) {
-      _formKey.currentState.save();
+    bool? isValid = _formKey.currentState?.validate();
+    if (isValid!) {
+      _formKey.currentState?.save();
       try {
         setState(() {
           _isLoading = true;
@@ -41,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-            error,
+            '$error',
             style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: themeConst.errorColor,
@@ -83,8 +83,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               Text(
                 "Join us",
-                style: themeConst.textTheme.headline4
-                    .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+                style: themeConst.textTheme.headline4?.copyWith(
+                    fontWeight: FontWeight.bold, color: Colors.white),
               ),
               const SizedBox(
                 height: 6,
@@ -92,7 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Text(
                 "Sign up to continue",
                 style: themeConst.textTheme.subtitle1
-                    .copyWith(color: Colors.white),
+                    ?.copyWith(color: Colors.white),
               ),
               Card(
                 margin: const EdgeInsets.only(top: 50),
@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return "Name is required";
                             }
                             if (value.length < 6) {
@@ -121,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                           onSaved: (value) {
-                            username = value;
+                            username = value!;
                           },
                         ),
                         TextFormField(
@@ -130,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return "Email is required";
                             }
                             if (!emailRegex.hasMatch(value)) {
@@ -139,10 +139,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                           onSaved: (value) {
-                            email = value;
+                            email = value!;
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Stack(
@@ -154,7 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 obscureText: _hidePassword,
                                 obscuringCharacter: "*",
                                 validator: (value) {
-                                  if (value.isEmpty) {
+                                  if (value!.isEmpty) {
                                     return "Password is required";
                                   }
                                   if (value.length < 6) {
@@ -163,16 +163,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  password = value;
+                                  password = value!;
                                 }),
                             IconButton(
                                 icon: _hidePassword
-                                    ? Icon(
-                                        FontAwesomeIcons.eyeSlash,
+                                    ? const Icon(
+                                        FontAwesomeIcons.eye,
                                         size: 15,
                                       )
-                                    : Icon(
-                                        FontAwesomeIcons.eye,
+                                    : const Icon(
+                                        FontAwesomeIcons.eyeSlash,
                                         size: 15,
                                       ),
                                 onPressed: () {
@@ -200,7 +200,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 : Text(
                                     "Sign Up",
                                     style: themeConst.textTheme.headline6
-                                        .copyWith(
+                                        ?.copyWith(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600),
                                   ),
@@ -214,7 +214,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: [
                             Text(
                               "Already have an account?",
-                              style: themeConst.textTheme.subtitle1.copyWith(
+                              style: themeConst.textTheme.subtitle1?.copyWith(
                                   color: greyColor,
                                   fontWeight: FontWeight.w600),
                             ),
@@ -228,7 +228,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: Text(
                                   "Sign in",
                                   style: themeConst.textTheme.subtitle1
-                                      .copyWith(
+                                      ?.copyWith(
                                           color: accentColor,
                                           fontWeight: FontWeight.w600),
                                 ))
