@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:petcare_commerce/core/theme/constants.dart';
+import 'package:petcare_commerce/core/constants/constants.dart';
+import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,7 @@ import '../bottom_overview_screen.dart';
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "/register_screen";
 
- const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -22,13 +23,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   double? mHeight, mWidth;
   final _formKey = GlobalKey<FormState>();
   bool _hidePassword = true;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isLoading = false;
 
   //vars
   late String email, password, username;
-  RegExp emailRegex = RegExp(
-      "^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$");
 
   void _saveForm() async {
     bool? isValid = _formKey.currentState?.validate();
@@ -38,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         setState(() {
           _isLoading = true;
         });
-        await Provider.of<AuthProvider>(context, listen: false)
+        await locator<AuthProvider>()
             .signUp(username.trim(), email.trim(), password);
         Navigator.pushNamedAndRemoveUntil(context,
             BottomOverviewScreen.routeName, (Route<dynamic> route) => false);
@@ -64,7 +62,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     mWidth = mediaConst.size.width;
     themeConst = Theme.of(context);
     return Scaffold(
-      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [

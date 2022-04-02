@@ -10,45 +10,45 @@ import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/models/product_model.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 
-import 'API.dart';
+import '../core/network/API.dart';
 
 class ProductsProvider with ChangeNotifier {
-  List<Product> _products = [];
+  List<ProductModel> _products = [];
   final httpService = locator<HttpService>();
 
   //Get the product list
-  List<Product> get products {
+  List<ProductModel> get products {
     return [..._products];
   }
 
   //Get the flash sale product list
-  List<Product> get flashSaleProducts {
+  List<ProductModel> get flashSaleProducts {
     return [..._products.where((prod) => prod.type == "Flash").toList()];
   }
 
   //Get the flash sale product list
-  List<Product> getCategoryProduct(String category) {
+  List<ProductModel> getCategoryProduct(String category) {
     return [..._products.where((prod) => prod.category == category).toList()];
   }
 
   //Get the flash sale product list
-  List<Product> get newProducts {
+  List<ProductModel> get newProducts {
     return [..._products.where((prod) => prod.type == "New").toList()];
   }
 
   //Get the favourite product list
-  List<Product> get favProducts {
+  List<ProductModel> get favProducts {
     return [..._products.where((prod) => prod.isFavourite).toList()];
   }
 
   // Find product by id
-  Product findProductById(String id) {
+  ProductModel findProductById(String id) {
     return _products.firstWhere((prod) => prod.id == id);
   }
 
   // toggle favourites
   Future<void> toggleFavourite(String id) async {
-    Product toggleProduct = _products.firstWhere((prod) => prod.id == id);
+    ProductModel toggleProduct = _products.firstWhere((prod) => prod.id == id);
     final oldStatus = toggleProduct.isFavourite;
     toggleProduct.isFavourite = !toggleProduct.isFavourite;
     notifyListeners();
@@ -76,9 +76,9 @@ class ProductsProvider with ChangeNotifier {
           await httpService.get(API.toggleFavourite + "$userId.json");
       final favouriteData = json.decode(favouriteResponse.body);
 
-      List<Product> allProducts = [];
+      List<ProductModel> allProducts = [];
       allMap.forEach((prodId, prodData) {
-        allProducts.add(Product(
+        allProducts.add(ProductModel(
             id: prodId,
             type: prodData['type'],
             category: prodData['category'],
@@ -100,7 +100,7 @@ class ProductsProvider with ChangeNotifier {
   }
 
   //add product
-  Future<void> addProduct(Product addProduct, File imageFile) async {
+  Future<void> addProduct(ProductModel addProduct, File imageFile) async {
     //add to firebase
     try {
       final Map<String, dynamic> addMap = {
@@ -121,7 +121,7 @@ class ProductsProvider with ChangeNotifier {
           await httpService.post(API.products, body: json.encode(addMap));
       print(response.body);
       final id = json.decode(response.body);
-      final newProduct = Product(
+      final newProduct = ProductModel(
         id: id["name"],
         type: addProduct.type,
         category: addProduct.category,
@@ -140,7 +140,7 @@ class ProductsProvider with ChangeNotifier {
   }
 
   //update product
-  Future<void> updateProduct(String id, Product updatedProduct,
+  Future<void> updateProduct(String id, ProductModel updatedProduct,
       String prevImageUrl, File imageFile) async {
     try {
       final prodIndex = _products.indexWhere((prod) => prod.id == id);
@@ -161,7 +161,7 @@ class ProductsProvider with ChangeNotifier {
           API.baseUrl + "/products/$id.json",
           body: json.encode(updateMap));
       print(response.body);
-      final editedProduct = Product(
+      final editedProduct = ProductModel(
         id: updatedProduct.id,
         type: updatedProduct.type,
         category: updatedProduct.category,
@@ -184,7 +184,7 @@ class ProductsProvider with ChangeNotifier {
   Future<void> deleteProduct(String productId) async {
     try {
       final prodIndex = _products.indexWhere((prod) => prod.id == productId);
-      Product existingProduct = _products[prodIndex];
+      ProductModel existingProduct = _products[prodIndex];
       //remove the product
       _products.removeAt(prodIndex);
       notifyListeners();
@@ -220,7 +220,7 @@ class ProductsProvider with ChangeNotifier {
   }
 
   // get search results according to query
-  List<Product> getSearchItems(String query) {
+  List<ProductModel> getSearchItems(String query) {
     if (query.isNotEmpty && query != null) {
       return _products
           .where((prod) => prod.title.toLowerCase().startsWith(query))

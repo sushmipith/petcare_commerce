@@ -3,9 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:petcare_commerce/core/constants/assets_source.dart';
+import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
+import 'package:petcare_commerce/providers/cart_provider.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
+import 'package:petcare_commerce/screens/cart/cart_screen.dart';
 import 'package:petcare_commerce/screens/profile/profile_screen.dart';
+import 'package:petcare_commerce/widgets/badge_widget.dart';
 import 'package:provider/provider.dart';
 import 'auth/login_screen.dart';
 import 'home/home_screen.dart';
@@ -79,8 +83,7 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
 
   Future<void> getProducts() async {
     try {
-      await Provider.of<ProductsProvider>(context, listen: false)
-          .fetchAllProducts();
+      await locator<ProductsProvider>().fetchAllProducts();
     } on HttpException {
       await Provider.of<AuthProvider>(context, listen: false).logout();
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
@@ -109,7 +112,7 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
                 )
               : IndexedStack(index: _selectedPageIndex, children: const [
                   HomeScreen(),
-                  ProfileScreen(),
+                  CartScreen(),
                   ProfileScreen(),
                   ProfileScreen()
                 ]);
@@ -122,13 +125,21 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
         type: BottomNavigationBarType.fixed,
         unselectedItemColor: const Color(0xFF727C8E),
         onTap: (index) => _selectPage(index),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+        items: [
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), label: "Cart"),
-          BottomNavigationBarItem(
+              icon: Consumer<CartProvider>(builder: (ctx, data, child) {
+                final cartCount = data.totalCount;
+                return cartCount == 0
+                    ? const Icon(Icons.shopping_cart)
+                    : BadgeWidget(
+                        child: const Icon(Icons.shopping_cart),
+                        value: '$cartCount');
+              }),
+              label: "Cart"),
+          const BottomNavigationBarItem(
               icon: Icon(Icons.all_inbox), label: "My Products"),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_rounded), label: "Profile"),
         ],
       ),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/theme/constants.dart';
+import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/screens/auth/login_screen.dart';
 import 'package:provider/provider.dart';
@@ -213,8 +213,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             await Provider.of<AuthProvider>(context,
                                     listen: false)
                                 .logout();
-                            Navigator.pushReplacementNamed(
-                                context, LoginScreen.routeName);
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                LoginScreen.routeName, (route) => false);
                           }
                         } catch (error) {
                           print(error);

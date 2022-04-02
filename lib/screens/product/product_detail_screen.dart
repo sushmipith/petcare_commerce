@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/theme/constants.dart';
+import 'package:petcare_commerce/core/constants/constants.dart';
+import 'package:petcare_commerce/core/service/service_locator.dart';
+import 'package:petcare_commerce/providers/cart_provider.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +9,7 @@ import '../image_preview_screen.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const String routeName = "/product_detail_screen";
+
   const ProductDetailScreen({Key? key}) : super(key: key);
 
   Chip _sizeChips(
@@ -52,8 +55,8 @@ class ProductDetailScreen extends StatelessWidget {
     final mHeight = mediaQuery.size.height;
     ThemeData themeConst = Theme.of(context);
     final id = ModalRoute.of(context)?.settings.arguments as String;
-    final provider = Provider.of<ProductsProvider>(context, listen: false);
-    final loadedProduct = provider.findProductById(id);
+    final productProvider = locator<ProductsProvider>();
+    final loadedProduct = productProvider.findProductById(id);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -61,6 +64,7 @@ class ProductDetailScreen extends StatelessWidget {
         ),
       ),
       body: ListView(
+        padding: const EdgeInsets.only(bottom: 100),
         children: [
           Hero(
             tag: "product${loadedProduct.id}",
@@ -130,7 +134,7 @@ class ProductDetailScreen extends StatelessWidget {
                       color: themeConst.primaryColor,
                       onPressed: () async {
                         try {
-                          await provider.toggleFavourite(id);
+                          await productProvider.toggleFavourite(id);
                         } catch (error) {
                           print(error);
                         }
@@ -141,7 +145,7 @@ class ProductDetailScreen extends StatelessWidget {
               ],
             ),
           ),
-          loadedProduct.category == "Electronics"
+          loadedProduct.category != "Toys"
               ? Container()
               : Padding(
                   padding: const EdgeInsets.only(
@@ -152,7 +156,7 @@ class ProductDetailScreen extends StatelessWidget {
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
-          loadedProduct.category == "Electronics"
+          loadedProduct.category != "Toys"
               ? Container()
               : Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -179,33 +183,49 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-          const SizedBox(
-            width: 30,
+          SizedBox(
+            height: loadedProduct.category != "Toys" ? 0 : 30,
           ),
           _detailTiles(
             title: "Description",
             desc: loadedProduct.description,
             themeConst: themeConst,
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 16.0, right: 16, top: 10, bottom: 10),
-            child: RaisedButton.icon(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                color: Colors.lightGreen,
-                textColor: Colors.white,
-                onPressed: () {},
-                icon: const Icon(Icons.shopping_cart),
-                label: const Text("Add to Cart")),
-          )
         ],
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        child: RaisedButton.icon(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            color: Colors.lightGreen,
+            textColor: Colors.white,
+            onPressed: () {
+              locator<CartProvider>()
+                  .addToCart(id, loadedProduct.title, loadedProduct.price);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: themeConst.colorScheme.secondary,
+                  duration: const Duration(seconds: 2),
+                  content: const Text(
+                    "Added item to the cart",
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  action: SnackBarAction(
+                    label: "UNDO",
+                    textColor: Colors.black87,
+                    onPressed: () {
+                      locator<CartProvider>().removeSingleItem(id);
+                    },
+                  )));
+            },
+            icon: const Icon(Icons.shopping_cart),
+            label: const Text("Add to Cart")),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }

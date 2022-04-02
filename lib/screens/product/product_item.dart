@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/theme/constants.dart';
+import 'package:petcare_commerce/core/constants/constants.dart';
+import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
 import 'package:petcare_commerce/screens/product/product_detail_screen.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +17,7 @@ class ProductItem extends StatelessWidget {
     double mHeight = mediaQuery.size.height;
     double mWidth = mediaQuery.size.width;
     ThemeData themeData = Theme.of(context);
-    final loadedProduct = Provider.of<ProductsProvider>(context, listen: false)
-        .findProductById(id);
+    final loadedProduct = locator<ProductsProvider>().findProductById(id);
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, ProductDetailScreen.routeName,

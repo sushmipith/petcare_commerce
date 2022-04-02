@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:petcare_commerce/core/theme/constants.dart';
+import 'package:petcare_commerce/core/service/service_locator.dart';
+import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
-import 'package:provider/provider.dart';
-import '../home/home_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,14 +20,11 @@ class _LoginScreenState extends State<LoginScreen> {
   late ThemeData themeConst;
   late double mHeight, mWidth;
   final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _hidePassword = true;
   bool _isLoading = false;
 
   //vars
   late String email, password;
-  RegExp emailRegex = RegExp(
-      "^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$");
 
   void _saveForm() async {
     bool? isValid = _formKey.currentState?.validate();
@@ -38,8 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           _isLoading = true;
         });
-        await Provider.of<AuthProvider>(context, listen: false)
-            .signIn(email.trim(), password);
+        await locator<AuthProvider>().signIn(email.trim(), password);
         Navigator.pushReplacementNamed(context, BottomOverviewScreen.routeName);
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -63,7 +58,6 @@ class _LoginScreenState extends State<LoginScreen> {
     mWidth = mediaConst.size.width;
     themeConst = Theme.of(context);
     return Scaffold(
-      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [

@@ -1,7 +1,5 @@
-import 'package:flutter/services.dart';
+import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
-import 'package:petcare_commerce/screens/home/home_screen.dart';
-import 'package:provider/provider.dart';
 
 import '../core/constants/assets_source.dart';
 import '../providers/auth_provider.dart';
@@ -44,8 +42,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future _fetchData() async {
     await Future.delayed(const Duration(seconds: 3));
-    bool isLogin =
-        await Provider.of<AuthProvider>(context, listen: false).tryAutoLogin();
+    bool isLogin = await locator<AuthProvider>().tryAutoLogin();
     if (isLogin) {
       Navigator.of(context)
           .pushReplacementNamed(BottomOverviewScreen.routeName);
@@ -59,19 +56,18 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       backgroundColor: const Color(0xFF9d73ef),
       body: FutureBuilder(
+        future: _getData,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           return Center(
-              child: Container(
-            child: ScaleTransition(
-              scale: _animation,
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: Image.asset(
-                  AssetsSource.appLogo,
-                  color: Colors.white,
-                  height: 200,
-                ),
+              child: ScaleTransition(
+            scale: _animation,
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Image.asset(
+                AssetsSource.appLogo,
+                color: Colors.white,
+                height: 200,
               ),
             ),
           ));

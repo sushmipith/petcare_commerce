@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
+import 'package:petcare_commerce/providers/cart_provider.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
 import 'package:petcare_commerce/screens/auth/login_screen.dart';
 import 'package:petcare_commerce/screens/auth/register_screen.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: locator<AuthProvider>()),
         ChangeNotifierProvider.value(value: locator<ProductsProvider>()),
+        ChangeNotifierProvider.value(value: locator<CartProvider>()),
       ],
       child: MaterialApp(
         title: 'Pet Care Commerce',

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
 import 'package:petcare_commerce/screens/product/product_list_screen.dart';
-import 'package:petcare_commerce/widgets/home_carousel_widget.dart';
-import 'package:petcare_commerce/widgets/product_item.dart';
+import 'package:petcare_commerce/screens/home/home_carousel_widget.dart';
+import 'package:petcare_commerce/screens/product/product_item.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -86,133 +86,149 @@ class HomeScreen extends StatelessWidget {
     double mHeight = mediaConst.size.height;
     double mWidth = mediaConst.size.width;
     ThemeData themeConst = Theme.of(context);
-    final productsProvider = Provider.of<ProductsProvider>(
-      context,
-    );
-    final flashSales = productsProvider.flashSaleProducts;
-    final newSales = productsProvider.newProducts;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          HomeCarouselWidget(),
-          SizedBox(
-            height: mHeight * 0.03,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+    return Consumer<ProductsProvider>(
+      builder: (ctx, data, child) {
+        final flashSales = data.flashSaleProducts;
+        final newSales = data.newProducts;
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              HomeCarouselWidget(),
+              SizedBox(
+                height: mHeight * 0.03,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
                   children: [
-                    _getCategoryItems(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _getCategoryItems(
+                            mWidth: mWidth,
+                            mHeight: mHeight,
+                            color: Colors.redAccent.shade100,
+                            icon: FontAwesomeIcons.bone,
+                            title: "Food",
+                            onPress: () {
+                              Navigator.pushNamed(
+                                  context, ProductListScreen.routeName,
+                                  arguments: {
+                                    "type": "Food",
+                                    "diff": "category"
+                                  });
+                            }),
+                        _getCategoryItems(
+                            mWidth: mWidth,
+                            mHeight: mHeight,
+                            color: Colors.green,
+                            icon: FontAwesomeIcons.dog,
+                            title: "Grooming",
+                            onPress: () {
+                              Navigator.pushNamed(
+                                  context, ProductListScreen.routeName,
+                                  arguments: {
+                                    "type": "Grooming",
+                                    "diff": "category"
+                                  });
+                            }),
+                        _getCategoryItems(
+                            mWidth: mWidth,
+                            mHeight: mHeight,
+                            color: Colors.blue,
+                            icon: FontAwesomeIcons.baseballBall,
+                            title: "Toys",
+                            onPress: () {
+                              Navigator.pushNamed(
+                                  context, ProductListScreen.routeName,
+                                  arguments: {
+                                    "type": "Toys",
+                                    "diff": "category"
+                                  });
+                            }),
+                        _getCategoryItems(
+                            mWidth: mWidth,
+                            mHeight: mHeight,
+                            color: Colors.orange,
+                            icon: FontAwesomeIcons.clinicMedical,
+                            title: "Veterinary",
+                            onPress: () {
+                              Navigator.pushNamed(
+                                  context, ProductListScreen.routeName,
+                                  arguments: {
+                                    "type": "Veterinary",
+                                    "diff": "category"
+                                  });
+                            }),
+                      ],
+                    ),
+                    SizedBox(
+                      height: mHeight * 0.03,
+                    ),
+                    _getTitleWidget(
                         mWidth: mWidth,
                         mHeight: mHeight,
-                        color: Colors.redAccent.shade100,
-                        icon: FontAwesomeIcons.bone,
-                        title: "Food",
-                        onPress: () {
-                          Navigator.pushNamed(
-                              context, ProductListScreen.routeName,
-                              arguments: {"type": "Food", "diff": "category"});
-                        }),
-                    _getCategoryItems(
-                        mWidth: mWidth,
-                        mHeight: mHeight,
-                        color: Colors.green,
-                        icon: FontAwesomeIcons.dog,
-                        title: "Grooming",
+                        themeConst: themeConst,
+                        title: "Flash Sale",
                         onPress: () {
                           Navigator.pushNamed(
                               context, ProductListScreen.routeName, arguments: {
-                            "type": "Grooming",
-                            "diff": "category"
+                            "type": "Flash Sale",
+                            "diff": "type"
                           });
                         }),
-                    _getCategoryItems(
+                    Container(
+                      height: mHeight * 0.22,
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(10),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: flashSales.length,
+                        itemBuilder: (ctx, index) {
+                          return ProductItem(
+                            id: flashSales[index].id,
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: mHeight * 0.02,
+                    ),
+                    _getTitleWidget(
                         mWidth: mWidth,
                         mHeight: mHeight,
-                        color: Colors.blue,
-                        icon: FontAwesomeIcons.baseballBall,
-                        title: "Toys",
-                        onPress: () {
-                          Navigator.pushNamed(
-                              context, ProductListScreen.routeName,
-                              arguments: {"type": "Toys", "diff": "category"});
-                        }),
-                    _getCategoryItems(
-                        mWidth: mWidth,
-                        mHeight: mHeight,
-                        color: Colors.orange,
-                        icon: FontAwesomeIcons.clinicMedical,
-                        title: "Veterinary",
+                        themeConst: themeConst,
+                        title: "New Product",
                         onPress: () {
                           Navigator.pushNamed(
                               context, ProductListScreen.routeName, arguments: {
-                            "type": "Veterinary",
-                            "diff": "category"
+                            "type": "New Product",
+                            "diff": "type"
                           });
                         }),
+                    Container(
+                      height: mHeight * 0.22,
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(10),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: newSales.length,
+                        itemBuilder: (ctx, index) {
+                          return ProductItem(
+                            id: newSales[index].id,
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(
-                  height: mHeight * 0.03,
-                ),
-                _getTitleWidget(
-                    mWidth: mWidth,
-                    mHeight: mHeight,
-                    themeConst: themeConst,
-                    title: "Flash Sale",
-                    onPress: () {
-                      Navigator.pushNamed(context, ProductListScreen.routeName,
-                          arguments: {"type": "Flash Sale", "diff": "type"});
-                    }),
-                Container(
-                  height: mHeight * 0.22,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(10),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: flashSales.length,
-                    itemBuilder: (ctx, index) {
-                      return ProductItem(
-                        id: flashSales[index].id,
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: mHeight * 0.02,
-                ),
-                _getTitleWidget(
-                    mWidth: mWidth,
-                    mHeight: mHeight,
-                    themeConst: themeConst,
-                    title: "New Product",
-                    onPress: () {
-                      Navigator.pushNamed(context, ProductListScreen.routeName,
-                          arguments: {"type": "New Product", "diff": "type"});
-                    }),
-                Container(
-                  height: mHeight * 0.22,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(10),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: newSales.length,
-                    itemBuilder: (ctx, index) {
-                      return ProductItem(
-                        id: newSales[index].id,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: mHeight * 0.04,
+              ),
+            ],
           ),
-          SizedBox(
-            height: mHeight * 0.04,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

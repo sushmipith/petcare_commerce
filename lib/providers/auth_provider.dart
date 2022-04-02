@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:petcare_commerce/core/exception/auth_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'API.dart';
+import '../core/network/API.dart';
 
 class AuthProvider with ChangeNotifier {
   String? _userId;
@@ -169,17 +169,14 @@ class AuthProvider with ChangeNotifier {
     }
     String? userData = prefs.getString("userData");
     Map<String, dynamic> extractedData = json.decode(userData!);
-    final expiryDate = extractedData['expiryDate'] == null
-        ? null
-        : DateTime.tryParse(extractedData["expiryDate"]);
+    final expiryDate =
+        DateTime.tryParse(extractedData["expiryDate"].toString());
     _authToken = extractedData['token'];
     _userId = extractedData["userId"];
-    if (_expiryDate == null || _authToken == null || _userId == null) {
+    if (_authToken == null || _userId == null) {
       return false;
     }
     _expiryDate = expiryDate;
-
-    print("the expiryDate is $expiryDate");
     if (expiryDate!.isBefore(DateTime.now())) {
       return false;
     }
