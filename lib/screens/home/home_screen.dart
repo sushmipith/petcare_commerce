@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
 import 'package:petcare_commerce/screens/product/product_list_screen.dart';
 import 'package:petcare_commerce/screens/home/home_carousel_widget.dart';
-import 'package:petcare_commerce/screens/product/product_item.dart';
+import 'package:petcare_commerce/screens/product/product_item_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -185,7 +185,7 @@ class HomeScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: flashSales.length,
                         itemBuilder: (ctx, index) {
-                          return ProductItem(
+                          return ProductItemWidget(
                             id: flashSales[index].id,
                           );
                         },
@@ -213,7 +213,7 @@ class HomeScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: newSales.length,
                         itemBuilder: (ctx, index) {
-                          return ProductItem(
+                          return ProductItemWidget(
                             id: newSales[index].id,
                           );
                         },

@@ -15,6 +15,8 @@ import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'favourites_screen.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -34,7 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //image picker
   File? _croppedImg;
   final _imagePicker = ImagePicker();
-  final _imageCropper = ImageCropper();
 
   // get user data from shared preferences
   Future<Map<String, dynamic>> getData() async {
@@ -51,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final pickedFile =
         await _imagePicker.pickImage(source: imgSrc, imageQuality: 50);
     if (pickedFile != null) {
-      final croppedFile = await _imageCropper.cropImage(
+      final croppedFile = await ImageCropper().cropImage(
         sourcePath: await pickedFile.path,
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
@@ -84,6 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
         setState(() {
           _croppedImg = croppedFile;
+          _uploadNewPhoto = true;
         });
       }
     }
@@ -98,27 +100,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               SimpleDialogOption(
                 onPressed: () => _getImageForProfile(ImageSource.camera),
-                child: ListTile(
-                    contentPadding: const EdgeInsets.all(0),
+                child: const ListTile(
+                    contentPadding: EdgeInsets.all(0),
                     leading: Icon(Icons.camera_alt),
                     title: Text(
                       'Take a Picture',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     )),
               ),
-              Divider(
+              const Divider(
                 height: 0,
               ),
               SimpleDialogOption(
                 onPressed: () => _getImageForProfile(ImageSource.gallery),
-                child: ListTile(
-                    contentPadding: const EdgeInsets.all(0),
+                child: const ListTile(
+                    contentPadding: EdgeInsets.all(0),
                     leading: Icon(Icons.collections),
                     title: Text(
                       'Select from Gallery',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     )),
               ),
             ],
@@ -223,7 +225,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       thickness: 2,
                     ),
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, FavouritesScreen.routeName);
+                      },
                       leading: Icon(
                         FontAwesomeIcons.solidHeart,
                         color: Colors.blue.shade600,
@@ -323,7 +328,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         showDialog(
                                             context: context,
                                             builder: (dCtx) => AlertDialog(
-                                                  content: Text(
+                                                  content: const Text(
                                                       "Cant upload the photo"),
                                                   actions: [
                                                     FlatButton(
@@ -339,7 +344,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         _isUploading = false;
                                       });
                                     },
-                              color: themeConst!.colorScheme.secondary,
+                              color: themeConst!.primaryColor,
                               textColor: Colors.white,
                               child: _isUploading
                                   ? const Center(

@@ -95,6 +95,7 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
       await locator<AuthProvider>().logout();
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     } catch (error) {
+      print(error);
       showCustomSnackBar(
         isError: true,
         message: 'Something went wrong. Please try again!',
@@ -124,7 +125,9 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
               : IndexedStack(index: _selectedPageIndex, children: const [
                   HomeScreen(),
                   CartScreen(),
-                  ProfileScreen(),
+                  Center(
+                    child: Text('Work in Progress'),
+                  ),
                   ProfileScreen()
                 ]);
         },

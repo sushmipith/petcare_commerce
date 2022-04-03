@@ -194,7 +194,6 @@ class AuthProvider with ChangeNotifier {
       String imageFileName = imageFile.path.split('/').last;
       Reference storageRef =
           FirebaseStorage.instance.ref().child('users/$_userId/$imageFileName');
-
       UploadTask uploadTask = storageRef.putFile(imageFile);
       String imageUrl = await (await uploadTask).ref.getDownloadURL();
       await _addPhotoToDB(imageUrl);

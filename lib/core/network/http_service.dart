@@ -49,7 +49,7 @@ class HttpService {
     try {
       String? token = locator<AuthProvider>().token;
       final response =
-          await http.post(Uri.parse(url + "?auth=$token"), body: body);
+          await http.put(Uri.parse(url + "?auth=$token"), body: body);
       if (response.statusCode != 200) {
         throw const HttpException('Something went wrong!');
       }
@@ -62,7 +62,7 @@ class HttpService {
   Future<dynamic> delete(String url) async {
     try {
       String? token = locator<AuthProvider>().token;
-      final response = await http.post(Uri.parse(url + "?auth=$token"));
+      final response = await http.delete(Uri.parse(url + "?auth=$token"));
       if (response.statusCode != 200) {
         throw const HttpException('Something went wrong!');
       }

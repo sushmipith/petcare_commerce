@@ -6,10 +6,10 @@ import 'package:petcare_commerce/providers/products_provider.dart';
 import 'package:petcare_commerce/screens/product/product_detail_screen.dart';
 import 'package:provider/provider.dart';
 
-class ProductItem extends StatelessWidget {
+class ProductItemWidget extends StatelessWidget {
   final String id;
 
-  const ProductItem({required this.id});
+  const ProductItemWidget({required this.id});
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/models/product_model.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/screens/product/product_item.dart';
+import 'package:petcare_commerce/screens/product/product_item_widget.dart';
 
 class ProductListScreen extends StatelessWidget {
   static const String routeName = "/product_list_screen";
@@ -46,7 +46,7 @@ class ProductListScreen extends StatelessWidget {
               mainAxisSpacing: 10),
           itemCount: loadedProducts.length,
           itemBuilder: (ctx, index) {
-            return ProductItem(
+            return ProductItemWidget(
               id: loadedProducts[index].id,
             );
           }),

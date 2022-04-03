@@ -11,6 +11,7 @@ import 'package:petcare_commerce/screens/image_preview_screen.dart';
 import 'package:petcare_commerce/screens/order/order_screen.dart';
 import 'package:petcare_commerce/screens/product/product_detail_screen.dart';
 import 'package:petcare_commerce/screens/product/product_list_screen.dart';
+import 'package:petcare_commerce/screens/profile/favourites_screen.dart';
 import 'package:petcare_commerce/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -72,7 +73,8 @@ class MyApp extends StatelessWidget {
           ProductListScreen.routeName: (ctx) => const ProductListScreen(),
           ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
           ImagePreviewScreen.routeName: (ctx) => const ImagePreviewScreen(),
-          OrderScreen.routeName: (ctx) => const OrderScreen()
+          OrderScreen.routeName: (ctx) => const OrderScreen(),
+          FavouritesScreen.routeName: (ctx) => const FavouritesScreen(),
         },
       ),
     );
