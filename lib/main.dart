@@ -2,12 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/providers/cart_provider.dart';
+import 'package:petcare_commerce/providers/order_provider.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
 import 'package:petcare_commerce/screens/auth/login_screen.dart';
 import 'package:petcare_commerce/screens/auth/register_screen.dart';
 import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
-import 'package:petcare_commerce/screens/home/home_screen.dart';
 import 'package:petcare_commerce/screens/image_preview_screen.dart';
+import 'package:petcare_commerce/screens/order/order_screen.dart';
 import 'package:petcare_commerce/screens/product/product_detail_screen.dart';
 import 'package:petcare_commerce/screens/product/product_list_screen.dart';
 import 'package:petcare_commerce/screens/splash_screen.dart';
@@ -19,7 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: locator<AuthProvider>()),
         ChangeNotifierProvider.value(value: locator<ProductsProvider>()),
         ChangeNotifierProvider.value(value: locator<CartProvider>()),
+        ChangeNotifierProvider.value(value: locator<OrderProvider>()),
       ],
       child: MaterialApp(
         title: 'Pet Care Commerce',
@@ -69,7 +71,8 @@ class MyApp extends StatelessWidget {
           BottomOverviewScreen.routeName: (ctx) => const BottomOverviewScreen(),
           ProductListScreen.routeName: (ctx) => const ProductListScreen(),
           ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
-          ImagePreviewScreen.routeName: (ctx) => const ImagePreviewScreen()
+          ImagePreviewScreen.routeName: (ctx) => const ImagePreviewScreen(),
+          OrderScreen.routeName: (ctx) => const OrderScreen()
         },
       ),
     );

@@ -14,7 +14,7 @@ import '../core/network/API.dart';
 
 class ProductsProvider with ChangeNotifier {
   List<ProductModel> _products = [];
-  final httpService = locator<HttpService>();
+  final HttpService httpService = locator<HttpService>();
 
   //Get the product list
   List<ProductModel> get products {
@@ -67,7 +67,6 @@ class ProductsProvider with ChangeNotifier {
   Future<void> fetchAllProducts() async {
     try {
       final response = await httpService.get(API.products);
-      print(response.body);
       final allMap = json.decode(response.body) as Map<String, dynamic>;
 
       //fetch favourite api also
@@ -94,8 +93,7 @@ class ProductsProvider with ChangeNotifier {
       _products = allProducts;
       notifyListeners();
     } catch (error) {
-      print("the error is $error");
-      throw (error);
+      rethrow;
     }
   }
 

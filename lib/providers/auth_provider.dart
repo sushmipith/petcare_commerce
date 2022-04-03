@@ -147,7 +147,7 @@ class AuthProvider with ChangeNotifier {
       await _firebaseAuth.signOut();
       notifyListeners();
     } catch (error) {
-      throw error;
+      rethrow;
     }
   }
 

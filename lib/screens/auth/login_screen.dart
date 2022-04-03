@@ -5,6 +5,7 @@ import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
+import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -37,13 +38,11 @@ class _LoginScreenState extends State<LoginScreen> {
         await locator<AuthProvider>().signIn(email.trim(), password);
         Navigator.pushReplacementNamed(context, BottomOverviewScreen.routeName);
       } catch (error) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            '$error',
-            style: const TextStyle(color: Colors.white),
-          ),
-          backgroundColor: themeConst.errorColor,
-        ));
+        showCustomSnackBar(
+          isError: true,
+          message: '$error',
+          context: context,
+        );
       }
       setState(() {
         _isLoading = false;

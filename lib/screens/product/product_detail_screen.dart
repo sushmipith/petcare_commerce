@@ -3,6 +3,7 @@ import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/cart_provider.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
+import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../image_preview_screen.dart';
@@ -204,23 +205,16 @@ class ProductDetailScreen extends StatelessWidget {
             onPressed: () {
               locator<CartProvider>()
                   .addToCart(id, loadedProduct.title, loadedProduct.price);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: themeConst.colorScheme.secondary,
-                  duration: const Duration(seconds: 2),
-                  content: const Text(
-                    "Added item to the cart",
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                  ),
+              showCustomSnackBar(
+                  context: context,
+                  message: 'Added item to the cart',
                   action: SnackBarAction(
                     label: "UNDO",
-                    textColor: Colors.black87,
+                    textColor: Colors.white,
                     onPressed: () {
                       locator<CartProvider>().removeSingleItem(id);
                     },
-                  )));
+                  ));
             },
             icon: const Icon(Icons.shopping_cart),
             label: const Text("Add to Cart")),

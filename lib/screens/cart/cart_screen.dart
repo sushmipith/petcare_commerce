@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_commerce/core/constants/constants.dart';
+import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/cart_provider.dart';
+import 'package:petcare_commerce/providers/order_provider.dart';
 import 'package:petcare_commerce/screens/cart/cart_item_widget.dart';
+import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
 import 'package:petcare_commerce/widgets/empty_order_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -88,13 +91,32 @@ class _CartScreenState extends State<CartScreen> {
                               onPressed: _isLoading
                                   ? null
                                   : () async {
-                                      setState(() {
-                                        _isLoading = true;
-                                      });
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                      data.clearCart();
+                                      try {
+                                        setState(() {
+                                          _isLoading = true;
+                                        });
+                                        await locator<OrderProvider>().addOrder(
+                                            cartMap.values.toList(),
+                                            data.totalAmount);
+                                        showCustomSnackBar(
+                                          isError: false,
+                                          message:
+                                              'Success! Your items have been ordered! Add new items to the cart ',
+                                          context: context,
+                                        );
+                                        data.clearCart();
+                                      } catch (error) {
+                                        showCustomSnackBar(
+                                          isError: true,
+                                          message:
+                                              'Something went wrong! Couldn\'t order your items',
+                                          context: context,
+                                        );
+                                      } finally {
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                      }
                                     },
                               child: _isLoading
                                   ? const SizedBox(

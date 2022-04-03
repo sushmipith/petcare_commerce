@@ -5,6 +5,7 @@ import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/screens/home/home_screen.dart';
+import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../bottom_overview_screen.dart';
@@ -41,13 +42,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         Navigator.pushNamedAndRemoveUntil(context,
             BottomOverviewScreen.routeName, (Route<dynamic> route) => false);
       } catch (error) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-            '$error',
-            style: const TextStyle(color: Colors.white),
-          ),
-          backgroundColor: themeConst!.errorColor,
-        ));
+        showCustomSnackBar(
+          isError: true,
+          message: '$error',
+          context: context,
+        );
       }
       setState(() {
         _isLoading = false;
