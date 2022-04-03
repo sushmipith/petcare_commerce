@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget _getTitleWidget({
     required String title,
-    required Function onPress,
+    required void Function() onPress,
     required double mHeight,
     required double mWidth,
     required ThemeData themeConst,
@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
-                onTap: () => onPress(),
+                onTap: onPress,
                 child: const Text("All", style: TextStyle(fontSize: 15))),
             const SizedBox(
               width: 10,
@@ -178,7 +178,7 @@ class HomeScreen extends StatelessWidget {
                             "diff": "type"
                           });
                         }),
-                    Container(
+                    SizedBox(
                       height: mHeight * 0.22,
                       child: ListView.builder(
                         padding: const EdgeInsets.all(10),
