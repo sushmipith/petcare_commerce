@@ -1,9 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:petcare_commerce/core/constants/constants.dart';
+import 'package:petcare_commerce/providers/admin_order_provider.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/providers/cart_provider.dart';
 import 'package:petcare_commerce/providers/order_provider.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
+import 'package:petcare_commerce/screens/admin/orders/ongoing_order_details.dart';
+import 'package:petcare_commerce/screens/admin/product/edit_product_screen.dart';
+import 'package:petcare_commerce/screens/auth/forgot_password_screen.dart';
 import 'package:petcare_commerce/screens/auth/login_screen.dart';
 import 'package:petcare_commerce/screens/auth/register_screen.dart';
 import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
@@ -35,6 +40,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: locator<ProductsProvider>()),
         ChangeNotifierProvider.value(value: locator<CartProvider>()),
         ChangeNotifierProvider.value(value: locator<OrderProvider>()),
+        ChangeNotifierProvider.value(value: locator<AdminOrderProvider>()),
       ],
       child: MaterialApp(
         title: 'Pet Care Commerce',
@@ -60,10 +66,10 @@ class MyApp extends StatelessWidget {
                 fontSize: 24),
           ),
           colorScheme: ColorScheme.fromSwatch().copyWith(
-              primary: const Color(0xFF9d73ef),
+              primary: primaryColor,
               brightness: Brightness.light,
-              onPrimary: const Color(0xFF9d73ef),
-              secondary: const Color(0xFFF7B733)),
+              onPrimary: primaryColor,
+              secondary: accentColor),
         ),
         routes: {
           '/': (ctx) => const SplashScreen(),
@@ -75,6 +81,10 @@ class MyApp extends StatelessWidget {
           ImagePreviewScreen.routeName: (ctx) => const ImagePreviewScreen(),
           OrderScreen.routeName: (ctx) => const OrderScreen(),
           FavouritesScreen.routeName: (ctx) => const FavouritesScreen(),
+          ForgotPasswordScreen.routeName: (ctx) => const ForgotPasswordScreen(),
+          EditProductScreen.routeName: (ctx) => const EditProductScreen(),
+          OngoingOrderDetailScreen.routeName: (ctx) =>
+              const OngoingOrderDetailScreen(),
         },
       ),
     );

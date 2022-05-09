@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:petcare_commerce/core/network/http_service.dart';
+import 'package:petcare_commerce/providers/admin_order_provider.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/providers/cart_provider.dart';
 import 'package:petcare_commerce/providers/order_provider.dart';
@@ -22,4 +23,7 @@ Future<void> setupLocator() async {
 
   // * Order Provider
   locator.registerLazySingleton<OrderProvider>(() => OrderProvider());
+
+  // * Admin Order Provider
+  locator.registerLazySingleton<AdminOrderProvider>(() => AdminOrderProvider());
 }

@@ -13,6 +13,7 @@ import '../core/network/API.dart';
 
 class AuthProvider with ChangeNotifier {
   String? _userId;
+  bool _isAdmin = false;
   String? _authToken;
   DateTime? _expiryDate;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -38,6 +39,11 @@ class AuthProvider with ChangeNotifier {
     return _userId;
   }
 
+  // get userid
+  bool get isAdmin {
+    return _isAdmin;
+  }
+
   /// sign in user with firebase
   Future<void> _authenticate(
       String username, String email, String password, String type) async {
@@ -54,10 +60,8 @@ class AuthProvider with ChangeNotifier {
       _userId = response.user.uid;
       final idTokenResult = await _firebaseAuth.currentUser?.getIdTokenResult();
       _authToken = idTokenResult?.token;
-      print('auth token is $_authToken');
       _expiryDate = DateTime.now()
           .add(Duration(hours: idTokenResult!.expirationTime!.hour));
-      print('auth token is $_expiryDate');
       //auto logout if token expired
       _autoLogout();
       notifyListeners();
@@ -68,6 +72,8 @@ class AuthProvider with ChangeNotifier {
         final extractedData = await _getUserData(_userId!);
         profileURL = extractedData["profileURL"];
         username = extractedData["username"];
+        print('the user is ${extractedData["isAdmin"]}');
+        _isAdmin = extractedData["isAdmin"];
       } else {
         await _addNewUser(response.user.uid, username, email);
       }
@@ -76,6 +82,7 @@ class AuthProvider with ChangeNotifier {
       final userData = json.encode({
         "token": _authToken,
         "userId": _userId,
+        "isAdmin": _isAdmin,
         "expiryDate": _expiryDate?.toIso8601String(),
         "email": email,
         "username": username,
@@ -83,7 +90,6 @@ class AuthProvider with ChangeNotifier {
       prefs.setString("userData", userData);
       prefs.setString("profileURL", profileURL);
     } catch (error) {
-      print(error);
       AuthResultStatus status = AuthResultException.handleException(error);
       String message = AuthResultException.generatedExceptionMessage(status);
       throw message;
@@ -111,9 +117,7 @@ class AuthProvider with ChangeNotifier {
       final response = await http.put(
           Uri.parse(API.users + "$userId.json" + "?auth=$_authToken"),
           body: json.encode(addUser));
-      print(response.body);
     } catch (error) {
-      print(error);
       rethrow;
     }
   }
@@ -123,12 +127,38 @@ class AuthProvider with ChangeNotifier {
     try {
       final response = await http
           .get(Uri.parse(API.users + "$userId.json" + "?auth=$_authToken"));
-      print(response.body);
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final adminResponse = await http
+          .get(Uri.parse(API.admins + "$userId.json" + "?auth=$_authToken"));
+      var extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final extractedAdmin = json.decode(adminResponse.body) as String?;
+      extractedData.putIfAbsent('isAdmin', () => extractedAdmin == userId);
       return extractedData;
     } catch (error) {
       print(error);
       rethrow;
+    }
+  }
+
+  // forgot password
+  Future<void> forgotPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+    } catch (error) {
+      AuthResultStatus status = AuthResultException.handleException(error);
+      String message = AuthResultException.generatedExceptionMessage(status);
+      throw message;
+    }
+  }
+
+  // reset password
+  Future<void> resetPassword(String password, String code) async {
+    try {
+      await _firebaseAuth.confirmPasswordReset(
+          code: code, newPassword: password);
+    } catch (error) {
+      AuthResultStatus status = AuthResultException.handleException(error);
+      String message = AuthResultException.generatedExceptionMessage(status);
+      throw message;
     }
   }
 
@@ -138,6 +168,7 @@ class AuthProvider with ChangeNotifier {
       _authToken = null;
       _userId = null;
       _expiryDate = null;
+      _isAdmin = false;
       if (_authTimer != null) {
         _authTimer?.cancel();
         _authTimer = null;
@@ -173,6 +204,7 @@ class AuthProvider with ChangeNotifier {
         DateTime.tryParse(extractedData["expiryDate"].toString());
     _authToken = extractedData['token'];
     _userId = extractedData["userId"];
+    _isAdmin = extractedData["isAdmin"] ?? false;
     if (_authToken == null || _userId == null) {
       return false;
     }

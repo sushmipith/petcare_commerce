@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
+import 'package:petcare_commerce/screens/auth/forgot_password_screen.dart';
 import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
 import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
 import 'register_screen.dart';
@@ -129,22 +130,26 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           children: [
                             TextFormField(
-                                decoration: const InputDecoration(
-                                    labelText: "Password"),
-                                obscureText: _hidePassword,
-                                obscuringCharacter: "*",
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Password is required";
-                                  }
-                                  if (value.length < 6) {
-                                    return "Password must be at least 6 characters long";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  password = value!;
-                                }),
+                              decoration:
+                                  const InputDecoration(labelText: "Password"),
+                              obscureText: _hidePassword,
+                              obscuringCharacter: "*",
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Password is required";
+                                }
+                                if (value.length < 6) {
+                                  return "Password must be at least 6 characters long";
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                password = value!;
+                              },
+                              onFieldSubmitted: (value) {
+                                _saveForm();
+                              },
+                            ),
                             IconButton(
                                 icon: _hidePassword
                                     ? const Icon(
@@ -168,11 +173,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text(
-                              "Forgot Password?",
-                              style: themeConst.textTheme.subtitle1!.copyWith(
-                                  color: blackColor,
-                                  fontWeight: FontWeight.bold),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, ForgotPasswordScreen.routeName);
+                              },
+                              child: Text(
+                                "Forgot Password?",
+                                style: themeConst.textTheme.subtitle1!.copyWith(
+                                    color: blackColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ],
                         ),
@@ -186,12 +197,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(12)),
                             onPressed: _isLoading ? null : _saveForm,
                             child: _isLoading
-                                ? Center(
-                                    child: Container(
+                                ? const Center(
+                                    child: SizedBox(
                                         height: 20,
                                         width: 20,
-                                        child:
-                                            const CircularProgressIndicator()))
+                                        child: CircularProgressIndicator()))
                                 : Text(
                                     "Sign In",
                                     style: themeConst.textTheme.headline6!
@@ -208,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Dont have an account?",
+                              "Don't have an account?",
                               style: themeConst.textTheme.subtitle1!.copyWith(
                                   color: greyColor,
                                   fontWeight: FontWeight.w600),

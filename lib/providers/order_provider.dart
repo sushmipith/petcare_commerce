@@ -27,23 +27,7 @@ class OrderProvider with ChangeNotifier {
       }
       final List<OrderModel> _loadedOrders = [];
       extractedData.forEach((orderId, orderData) {
-        _loadedOrders.add(
-          OrderModel(
-            id: orderId,
-            status: orderData['status'],
-            amount: double.parse(orderData['amount'].toString()),
-            products: (orderData['products'] as List<dynamic>)
-                .map((cartItem) => CartModel(
-                    id: cartItem['id'],
-                    title: cartItem['title'],
-                    price: cartItem['price'],
-                    quantity: cartItem['quantity']))
-                .toList(),
-            dateTime: DateTime.parse(
-              orderData['dateTime'],
-            ),
-          ),
-        );
+        _loadedOrders.add(OrderModel.fromJson(orderId, orderData));
       });
       _orders = _loadedOrders.reversed.toList();
       return _orders;
@@ -61,7 +45,7 @@ class OrderProvider with ChangeNotifier {
           body: json.encode({
             'amount': total,
             'dateTime': DateTime.now().toIso8601String(),
-            'status': "Pending",
+            'status': "new_order_created",
             'products': cartProducts
                 .map((cp) => {
                       'id': cp.id,
@@ -75,9 +59,13 @@ class OrderProvider with ChangeNotifier {
       _orders.add(OrderModel(
           id: id['name'],
           amount: total,
-          status: "Pending",
+          status: "new_order_created",
           products: cartProducts,
-          dateTime: DateTime.now()));
+          dateTime: DateTime.now(),
+          deliveryLocation: '',
+          orderUsername: '',
+          paymentMethod: '',
+          orderMobileNumber: ''));
       notifyListeners();
     } catch (error) {
       print(error);

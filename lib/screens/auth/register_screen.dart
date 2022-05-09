@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:petcare_commerce/core/constants/assets_source.dart';
 import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
@@ -62,6 +63,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     themeConst = Theme.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        backgroundColor: Colors.transparent,
+      ),
       body: Stack(
         children: [
           Container(
@@ -70,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 fit: BoxFit.cover,
                 alignment: Alignment.topCenter,
                 image: AssetImage(
-                  "assets/images/bg_picture.png",
+                  AssetsSource.bgPic,
                 ),
               ),
             ),

@@ -8,6 +8,9 @@ import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/providers/cart_provider.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
+import 'package:petcare_commerce/screens/admin/orders/ongoing_order_screen.dart';
+import 'package:petcare_commerce/screens/admin/product/edit_product_screen.dart';
+import 'package:petcare_commerce/screens/admin/product/user_product_screen.dart';
 import 'package:petcare_commerce/screens/cart/cart_screen.dart';
 import 'package:petcare_commerce/screens/profile/profile_screen.dart';
 import 'package:petcare_commerce/widgets/badge_widget.dart';
@@ -28,6 +31,7 @@ class BottomOverviewScreen extends StatefulWidget {
 class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
   /// Current Page
   int _selectedPageIndex = 0;
+  bool _isAdmin = false;
   late ThemeData themeConst;
   late Future _getAllProducts;
 
@@ -38,7 +42,7 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
     });
   }
 
-  PreferredSizeWidget _getCurrentAppBar() {
+  PreferredSizeWidget? _getCurrentAppBar() {
     switch (_selectedPageIndex) {
       case 0:
         return AppBar(
@@ -60,16 +64,31 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
           backgroundColor: themeConst.primaryColor,
         );
       case 1:
-        return AppBar(
-          title: const Text("My Cart"),
-          backgroundColor: themeConst.primaryColor,
-        );
+        return _isAdmin
+            ? null
+            : AppBar(
+                title: const Text("My Cart"),
+                backgroundColor: themeConst.primaryColor,
+              );
       case 2:
         return AppBar(
           title: const Text(
-            "My Products",
+            "Products",
           ),
-          actions: [],
+          actions: [
+            TextButton.icon(
+                label: const Icon(Icons.add),
+                style: TextButton.styleFrom(
+                  primary: Colors.white,
+                ),
+                icon: const Text(
+                  'Add',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, EditProductScreen.routeName);
+                })
+          ],
           backgroundColor: themeConst.primaryColor,
         );
       case 3:
@@ -108,6 +127,7 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
   void initState() {
     super.initState();
     _getAllProducts = getProducts();
+    _isAdmin = locator<AuthProvider>().isAdmin;
   }
 
   @override
@@ -122,13 +142,11 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : IndexedStack(index: _selectedPageIndex, children: const [
-                  HomeScreen(),
-                  CartScreen(),
-                  Center(
-                    child: Text('Work in Progress'),
-                  ),
-                  ProfileScreen()
+              : IndexedStack(index: _selectedPageIndex, children: [
+                  const HomeScreen(),
+                  _isAdmin ? const OngoingOrderScreen() : const CartScreen(),
+                  const UserProductScreen(),
+                  const ProfileScreen()
                 ]);
         },
       ),
@@ -141,18 +159,21 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
         onTap: (index) => _selectPage(index),
         items: [
           const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Consumer<CartProvider>(builder: (ctx, data, child) {
-                final cartCount = data.totalCount;
-                return cartCount == 0
-                    ? const Icon(Icons.shopping_cart)
-                    : BadgeWidget(
-                        child: const Icon(Icons.shopping_cart),
-                        value: '$cartCount');
-              }),
-              label: "Cart"),
+          _isAdmin
+              ? const BottomNavigationBarItem(
+                  icon: Icon(Icons.business_center_outlined), label: "Orders")
+              : BottomNavigationBarItem(
+                  icon: Consumer<CartProvider>(builder: (ctx, data, child) {
+                    final cartCount = data.totalCount;
+                    return cartCount == 0
+                        ? const Icon(Icons.shopping_cart)
+                        : BadgeWidget(
+                            child: const Icon(Icons.shopping_cart),
+                            value: '$cartCount');
+                  }),
+                  label: "Cart"),
           const BottomNavigationBarItem(
-              icon: Icon(Icons.all_inbox), label: "My Products"),
+              icon: Icon(Icons.all_inbox), label: "Products"),
           const BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_rounded), label: "Profile"),
         ],

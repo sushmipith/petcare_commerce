@@ -98,7 +98,7 @@ class ProductsProvider with ChangeNotifier {
   }
 
   //add product
-  Future<void> addProduct(ProductModel addProduct, File imageFile) async {
+  Future<void> addProduct(ProductModel addProduct, File? imageFile) async {
     //add to firebase
     try {
       final Map<String, dynamic> addMap = {
@@ -139,7 +139,7 @@ class ProductsProvider with ChangeNotifier {
 
   //update product
   Future<void> updateProduct(String id, ProductModel updatedProduct,
-      String prevImageUrl, File imageFile) async {
+      String prevImageUrl, File? imageFile) async {
     try {
       final prodIndex = _products.indexWhere((prod) => prod.id == id);
       Map updateMap = {
