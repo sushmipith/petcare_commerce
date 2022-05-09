@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/core/utils/order_helper.dart';
 import 'package:petcare_commerce/models/order_model.dart';
+import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/screens/admin/orders/ongoing_order_details.dart';
+import 'package:petcare_commerce/screens/order/order_details_screen.dart';
 import 'package:petcare_commerce/widgets/text_with_icon.dart';
 
 class OngoingOrderItem extends StatelessWidget {
@@ -21,8 +24,10 @@ class OngoingOrderItem extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(6),
         onTap: () {
-          Navigator.of(context).pushReplacementNamed(
-            OngoingOrderDetailScreen.routeName,
+          Navigator.of(context).pushNamed(
+            locator<AuthProvider>().isAdmin
+                ? OngoingOrderDetailScreen.routeName
+                : OrderDetailScreen.routeName,
             arguments: selectedOrder.id,
           );
         },
@@ -35,7 +40,7 @@ class OngoingOrderItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    selectedOrder.orderUsername ?? '',
+                    selectedOrder.orderUsername,
                     style: const TextStyle(
                         color: Colors.black87,
                         fontSize: 14,
@@ -110,13 +115,12 @@ class OngoingOrderItem extends StatelessWidget {
                 height: 5,
               ),
               const Divider(),
-              Text(
-                selectedOrder.status == 'order_cancelled'
-                    ? 'Cancellation Charge: Rs. ${selectedOrder.cancelCharge}'
-                    : 'Rs. ${selectedOrder.amount}',
-                style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                    fontWeight: FontWeight.w600, color: Colors.black87),
-              )
+              if (selectedOrder.status != 'order_cancelled')
+                Text(
+                  'Rs. ${selectedOrder.amount}',
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      fontWeight: FontWeight.w600, color: Colors.black87),
+                )
             ],
           ),
         ),

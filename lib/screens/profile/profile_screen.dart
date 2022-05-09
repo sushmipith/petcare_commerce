@@ -293,9 +293,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 );
                               });
                           if (shouldLogout) {
-                            await Provider.of<AuthProvider>(context,
-                                    listen: false)
-                                .logout();
+                            await locator<AuthProvider>().logout();
                             Navigator.of(context).pushNamedAndRemoveUntil(
                                 LoginScreen.routeName, (route) => false);
                           }

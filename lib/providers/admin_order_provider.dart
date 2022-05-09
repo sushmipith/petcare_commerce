@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:petcare_commerce/core/network/http_service.dart';
 import 'package:petcare_commerce/core/service/service_locator.dart';
+import 'package:petcare_commerce/core/utils/order_helper.dart';
 import 'package:petcare_commerce/models/cart_model.dart';
 import 'package:petcare_commerce/models/order_model.dart';
 import 'package:petcare_commerce/core/network/API.dart';
@@ -42,22 +43,17 @@ class AdminOrderProvider with ChangeNotifier {
     if (status == ButtonStatus.transit) {
       orderList = _allOrders.where((orderItem) {
         final status = orderItem.status;
-        return status == 'processing' ||
-            status == 'new_order_created' ||
-            status == 'pickup_rider_assigned' ||
-            status == 'dispatch_rider_assigned' ||
+        return status == 'new_order_created' ||
+            status == 'ready_for_delivery' ||
+            status == 'package_pickup' ||
             status == 'order_accepted' ||
-            status == 'pick_up_reached' ||
-            status == 'trip_started' ||
-            status == 'reached_collection_station' ||
-            status == 'dispatched_from_station' ||
-            status == 'payment_completed' ||
-            status == 'drop_off_reached';
+            status == 'out_for_delivery' ||
+            status == 'payment_completed';
       }).toList();
     } else if (status == ButtonStatus.cancelled) {
       orderList = _allOrders.where((orderItem) {
         final status = orderItem.status;
-        return status == 'order_canceled';
+        return status == 'order_cancelled';
       }).toList();
     } else if (status == ButtonStatus.delivered) {
       orderList = _allOrders.where((orderItem) {
@@ -70,5 +66,38 @@ class AdminOrderProvider with ChangeNotifier {
 
   OrderModel getSingleOrderById(String id) {
     return _allOrders.firstWhere((order) => order.id == id);
+  }
+
+  Future<void> updateOrderStatus({required String orderId}) async {
+    try {
+      final index = _allOrders.indexWhere((order) => order.id == orderId);
+
+      if (index != -1) {
+        OrderModel orderModel = _allOrders[index];
+        final updateIndex = OrderHelper.orderStatusList
+            .indexWhere((element) => element == orderModel.status);
+        print(updateIndex);
+        final updateStatus = OrderHelper.orderStatusList[updateIndex + 1];
+        orderModel.orderActions!.add(
+            OrderStatusModel(action: updateStatus, createdAt: DateTime.now()));
+        final response = await httpService.patch(
+            API.orders + '${orderModel.userId}/$orderId.json',
+            body: json.encode({
+              'status': updateStatus,
+              'order_actions': orderModel.orderActions
+                  ?.map((item) => {
+                        'action': item.action,
+                        'created_at': item.createdAt?.toIso8601String(),
+                      })
+                  .toList(),
+            }));
+        final responseMap = json.decode(response.body) as Map<String, dynamic>;
+        _allOrders[index].orderActions = orderModel.orderActions;
+        _allOrders[index].status = updateStatus;
+        notifyListeners();
+      }
+    } catch (error) {
+      rethrow;
+    }
   }
 }

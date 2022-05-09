@@ -47,6 +47,9 @@ dependencies:
   get_it: ^7.2.0
   lottie: ^1.2.2
   image_cropper: ^1.5.1
+  timeline_tile: ^2.0.0
+  flutter_rating_bar: ^4.0.0
+
 
 dev_dependencies:
   flutter_test:

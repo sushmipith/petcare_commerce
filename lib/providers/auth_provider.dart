@@ -13,6 +13,7 @@ import '../core/network/API.dart';
 
 class AuthProvider with ChangeNotifier {
   String? _userId;
+  String? _currentUsername;
   bool _isAdmin = false;
   String? _authToken;
   DateTime? _expiryDate;
@@ -39,6 +40,11 @@ class AuthProvider with ChangeNotifier {
     return _userId;
   }
 
+  // get username
+  String? get currentUsername {
+    return _currentUsername;
+  }
+
   // get userid
   bool get isAdmin {
     return _isAdmin;
@@ -58,10 +64,12 @@ class AuthProvider with ChangeNotifier {
       }
       //get user id and get auth token
       _userId = response.user.uid;
-      final idTokenResult = await _firebaseAuth.currentUser?.getIdTokenResult();
-      _authToken = idTokenResult?.token;
-      _expiryDate = DateTime.now()
-          .add(Duration(hours: idTokenResult!.expirationTime!.hour));
+      final idTokenResult =
+          await _firebaseAuth.currentUser!.getIdTokenResult(true);
+      _authToken = idTokenResult.token;
+      final expirationDuration =
+          idTokenResult.expirationTime?.difference(DateTime.now());
+      _expiryDate = DateTime.now().add(expirationDuration!);
       //auto logout if token expired
       _autoLogout();
       notifyListeners();
@@ -72,12 +80,12 @@ class AuthProvider with ChangeNotifier {
         final extractedData = await _getUserData(_userId!);
         profileURL = extractedData["profileURL"];
         username = extractedData["username"];
-        print('the user is ${extractedData["isAdmin"]}');
-        _isAdmin = extractedData["isAdmin"];
+        _isAdmin = extractedData["isAdmin"] ?? false;
       } else {
         await _addNewUser(response.user.uid, username, email);
       }
       //save to shared prefs
+      _currentUsername = username;
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode({
         "token": _authToken,
@@ -127,10 +135,10 @@ class AuthProvider with ChangeNotifier {
     try {
       final response = await http
           .get(Uri.parse(API.users + "$userId.json" + "?auth=$_authToken"));
+      var extractedData = json.decode(response.body) as Map<String, dynamic>;
       final adminResponse = await http
           .get(Uri.parse(API.admins + "$userId.json" + "?auth=$_authToken"));
-      var extractedData = json.decode(response.body) as Map<String, dynamic>;
-      final extractedAdmin = json.decode(adminResponse.body) as String?;
+      final extractedAdmin = json.decode(adminResponse.body);
       extractedData.putIfAbsent('isAdmin', () => extractedAdmin == userId);
       return extractedData;
     } catch (error) {

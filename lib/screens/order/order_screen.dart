@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/order_provider.dart';
+import 'package:petcare_commerce/screens/admin/orders/ongoing_order_item.dart';
 import 'package:petcare_commerce/widgets/empty_order_widget.dart';
+import 'package:provider/provider.dart';
 
 import 'order_item_widget.dart';
 
@@ -17,15 +19,11 @@ class OrderScreen extends StatefulWidget {
 class _OrderScreenState extends State<OrderScreen>
     with SingleTickerProviderStateMixin {
   Future? _fetchAllOrders;
-  bool _isInit = true;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_isInit) {
-      _fetchAllOrders = locator<OrderProvider>().fetchAllAndSetOrders();
-    }
-    _isInit = false;
+  void initState() {
+    super.initState();
+    _fetchAllOrders = locator<OrderProvider>().fetchAllAndSetOrders();
   }
 
   @override
@@ -45,18 +43,25 @@ class _OrderScreenState extends State<OrderScreen>
                   ? const Center(
                       child: Text("Something went wrong!"),
                     )
-                  : snapshot.data?.length == 0
-                      ? EmptyOrder(type: "Order")
-                      : ListView.builder(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
-                          itemBuilder: (context, i) {
-                            return OrderItemWidget(
-                              orderModel: snapshot.data[i],
-                            );
-                          },
-                          itemCount: snapshot.data.length,
-                        );
+                  : Consumer<OrderProvider>(
+                      builder: (ctx, data, child) {
+                        final orders = data.orders;
+                        return orders.isEmpty
+                            ? EmptyOrder(type: "Order")
+                            : ListView.builder(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                itemBuilder: (context, index) {
+                                  final order = data.orders[index];
+                                  return OngoingOrderItem(
+                                    key: ValueKey(order.id),
+                                    selectedOrder: order,
+                                  );
+                                },
+                                itemCount: orders.length,
+                              );
+                      },
+                    );
         },
       ),
     );

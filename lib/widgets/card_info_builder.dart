@@ -14,8 +14,8 @@ class CardInfoBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10),
-      elevation: 2,
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       child: Container(
         width: double.infinity,

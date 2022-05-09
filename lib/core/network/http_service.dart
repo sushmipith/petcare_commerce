@@ -48,6 +48,7 @@ class HttpService {
   }) async {
     try {
       String? token = locator<AuthProvider>().token;
+      print(token);
       final response =
           await http.put(Uri.parse(url + "?auth=$token"), body: body);
       if (response.statusCode != 200) {

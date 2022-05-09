@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:petcare_commerce/core/constants/assets_source.dart';
 import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/cart_provider.dart';
@@ -193,6 +195,64 @@ class ProductDetailScreen extends StatelessWidget {
             desc: loadedProduct.description,
             themeConst: themeConst,
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Rating and Reviews',
+                      style: themeConst.textTheme.headline6
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    if (loadedProduct.reviews != null &&
+                        loadedProduct.reviews!.isNotEmpty)
+                      ...loadedProduct.reviews!
+                          .map((review) => Column(
+                                children: [
+                                  ListTile(
+                                    dense: true,
+                                    contentPadding: EdgeInsets.zero,
+                                    title: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(review.userName),
+                                          RatingBarIndicator(
+                                            rating: double.parse(
+                                                loadedProduct.rating),
+                                            itemBuilder: (context, index) =>
+                                                const Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
+                                            itemCount: 5,
+                                            itemSize: 20.0,
+                                            direction: Axis.horizontal,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    subtitle: Text(review.review),
+                                    leading: const CircleAvatar(
+                                      backgroundImage:
+                                          AssetImage(AssetsSource.userAvatar),
+                                    ),
+                                  ),
+                                  const Divider(),
+                                ],
+                              ))
+                          .toList()
+                  ])),
         ],
       ),
       floatingActionButton: Padding(

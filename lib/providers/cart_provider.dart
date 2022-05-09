@@ -25,10 +25,7 @@ class CartProvider with ChangeNotifier {
       _items.putIfAbsent(
           productId,
           () => CartModel(
-              id: DateTime.now().toString(),
-              title: title,
-              price: price,
-              quantity: 1));
+              id: productId, title: title, price: price, quantity: 1));
     }
     notifyListeners();
   }

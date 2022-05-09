@@ -63,7 +63,48 @@ class ProductsProvider with ChangeNotifier {
     }
   }
 
-  // fetch all the product from firebase
+  // toggle favourites
+  Future<void> reviewProduct({
+    required String productId,
+    required String review,
+    required String rating,
+  }) async {
+    try {
+      final index = _products.indexWhere((prod) => prod.id == productId);
+      ProductModel indexProduct = _products[index];
+      ReviewModel newReview = ReviewModel(
+          rating: rating,
+          review: review,
+          userName: locator<AuthProvider>().currentUsername!);
+      List<ReviewModel>? updatedReviews = indexProduct.reviews ?? [];
+      updatedReviews.add(newReview);
+      double totalRating = 0;
+      updatedReviews.forEach((element) {
+        double parseRating = double.tryParse(element.rating) ?? 0.0;
+        totalRating += parseRating;
+      });
+
+      await httpService.patch(API.productId + "$productId.json",
+          body: json.encode({
+            'rating': '${totalRating / updatedReviews.length}',
+            'reviews': updatedReviews
+                .map((e) => {
+                      'rating': e.rating,
+                      'review': e.review,
+                      'userName': e.userName
+                    })
+                .toList()
+          }));
+      _products[index].reviews = updatedReviews;
+      _products[index].rating = rating;
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+// fetch all the product from firebase
   Future<void> fetchAllProducts() async {
     try {
       final response = await httpService.get(API.products);
@@ -77,18 +118,7 @@ class ProductsProvider with ChangeNotifier {
 
       List<ProductModel> allProducts = [];
       allMap.forEach((prodId, prodData) {
-        allProducts.add(ProductModel(
-            id: prodId,
-            type: prodData['type'],
-            category: prodData['category'],
-            title: prodData['title'],
-            description: prodData['description'],
-            rating: prodData['rating'],
-            price: double.tryParse(prodData["price"].toString()) ?? 0,
-            imageURL: prodData['imageURL'],
-            isFavourite: favouriteData == null
-                ? false
-                : favouriteData[prodId] ?? false));
+        allProducts.add(ProductModel.fromJson(prodId, prodData, favouriteData));
       });
       _products = allProducts;
       notifyListeners();
@@ -97,7 +127,7 @@ class ProductsProvider with ChangeNotifier {
     }
   }
 
-  //add product
+//add product
   Future<void> addProduct(ProductModel addProduct, File? imageFile) async {
     //add to firebase
     try {
@@ -137,7 +167,7 @@ class ProductsProvider with ChangeNotifier {
     }
   }
 
-  //update product
+//update product
   Future<void> updateProduct(String id, ProductModel updatedProduct,
       String prevImageUrl, File? imageFile) async {
     try {
@@ -178,7 +208,7 @@ class ProductsProvider with ChangeNotifier {
     }
   }
 
-  //delete product
+//delete product
   Future<void> deleteProduct(String productId) async {
     try {
       final prodIndex = _products.indexWhere((prod) => prod.id == productId);
@@ -200,7 +230,7 @@ class ProductsProvider with ChangeNotifier {
     }
   }
 
-  // Upload product photo to firebase
+// Upload product photo to firebase
   Future<String> uploadProductPhoto(String productId, File imageFile) async {
     try {
       String imageFileName = imageFile.path.split('/').last;
@@ -213,11 +243,11 @@ class ProductsProvider with ChangeNotifier {
       return imageUrl;
     } catch (error) {
       print(error);
-      throw (error);
+      rethrow;
     }
   }
 
-  // get search results according to query
+// get search results according to query
   List<ProductModel> getSearchItems(String query) {
     if (query.isNotEmpty && query != null) {
       return _products

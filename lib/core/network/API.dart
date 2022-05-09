@@ -4,6 +4,7 @@ class API {
   static const String users = baseUrl + "/users/";
   static const String admins = baseUrl + "/admins/";
   static const String products = baseUrl + "/products.json";
+  static const String productId = baseUrl + "/products/";
   static const String orders = baseUrl + "/orders/";
   static const String toggleFavourite = baseUrl + "/usersFavourites/";
 }

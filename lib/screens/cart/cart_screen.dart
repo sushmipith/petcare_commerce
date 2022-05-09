@@ -4,6 +4,7 @@ import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/cart_provider.dart';
 import 'package:petcare_commerce/providers/order_provider.dart';
 import 'package:petcare_commerce/screens/cart/cart_item_widget.dart';
+import 'package:petcare_commerce/screens/cart/checkout_dialog.dart';
 import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
 import 'package:petcare_commerce/widgets/empty_order_widget.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class _CartScreenState extends State<CartScreen> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       height: mHeight! * 0.68,
                       child: ListView.builder(
                         padding: const EdgeInsets.symmetric(
@@ -88,47 +89,19 @@ class _CartScreenState extends State<CartScreen> {
                           Expanded(
                             flex: 1,
                             child: RaisedButton(
-                              onPressed: _isLoading
-                                  ? null
-                                  : () async {
-                                      try {
-                                        setState(() {
-                                          _isLoading = true;
-                                        });
-                                        await locator<OrderProvider>().addOrder(
-                                            cartMap.values.toList(),
-                                            data.totalAmount);
-                                        showCustomSnackBar(
-                                          isError: false,
-                                          message:
-                                              'Success! Your items have been ordered! Add new items to the cart ',
-                                          context: context,
-                                        );
-                                        data.clearCart();
-                                      } catch (error) {
-                                        showCustomSnackBar(
-                                          isError: true,
-                                          message:
-                                              'Something went wrong! Couldn\'t order your items',
-                                          context: context,
-                                        );
-                                      } finally {
-                                        setState(() {
-                                          _isLoading = false;
-                                        });
-                                      }
-                                    },
-                              child: _isLoading
-                                  ? const SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    )
-                                  : const Text(
-                                      "Checkout",
-                                    ),
+                              onPressed: () {
+                                showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  // false = user must tap button, true = tap outside dialog
+                                  builder: (BuildContext dialogContext) {
+                                    return CheckoutDialog(cartMap: cartMap);
+                                  },
+                                );
+                              },
+                              child: const Text(
+                                "Checkout",
+                              ),
                               textColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),

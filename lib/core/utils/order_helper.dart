@@ -5,19 +5,26 @@ import 'order_utils.dart';
 
 /// Helper [OrderHelper] : OrderHelper for getting the values for the status
 class OrderHelper {
+  static const List<String> orderStatusList = [
+    'new_order_created',
+    'order_accepted',
+    'ready_for_delivery',
+    'package_pickup',
+    'out_for_delivery',
+    'payment_completed',
+    'order_delivered',
+  ];
+
   /// FUNC [getIconForOrder] : Get the Icon according to status
   static Icon getIconForOrder({required String orderAction, Color? iconColor}) {
     Color color = iconColor ?? Colors.white;
     switch (orderAction) {
       case 'processing':
       case 'new_order_created':
-      case 'pickup_rider_assigned':
       case 'order_accepted':
-      case 'trip_started':
-      case 'pick_up_reached':
-      case 'reached_collection_station':
-      case 'dispatched_from_station':
-      case 'drop_off_reached':
+      case 'ready_for_delivery':
+      case 'package_pickup':
+      case 'out_for_delivery':
       case 'payment_completed':
         return Icon(
           Icons.two_wheeler_rounded,
@@ -30,7 +37,7 @@ class OrderHelper {
           color: color,
           size: 20,
         );
-      case 'order_canceled':
+      case 'order_cancelled':
         return Icon(
           Icons.cancel_outlined,
           color: color,
@@ -59,30 +66,44 @@ class OrderHelper {
     }
   }
 
+  /// String [getNextStringAction] : Get the next string text for status
+  static String getNextStringAction(String orderAction) {
+    switch (orderAction) {
+      case 'processing':
+      case 'new_order_created':
+        return 'Accept Order';
+      case 'order_accepted':
+        return 'Ready for Delivery';
+      case 'ready_for_delivery':
+        return 'Package Pickup';
+      case 'package_pickup':
+        return 'Out for Delivery';
+      case 'out_for_delivery':
+        return 'Payment Completed';
+      case 'payment_completed':
+        return 'Order Delivered';
+      default:
+        return 'Ongoing';
+    }
+  }
+
   /// String [getStringForOrder] : Get the string text for status
   static String getStringForOrderAction(String orderAction) {
     switch (orderAction) {
       case 'processing':
       case 'new_order_created':
-        return 'Order Accepted';
-      case 'pickup_rider_assigned':
+        return 'New Order';
       case 'order_accepted':
-        return 'Rider Assigned';
-      case 'trip_started':
-        return 'Trip Started';
-      case 'pick_up_reached':
-        return 'Pickup Reached';
-      case 'dispatch_rider_assigned':
-        return 'Dispatched From Station';
-      case 'reached_collection_station':
-        return 'Reached Collection Station';
-      case 'dispatched_from_station':
-        return 'Dispatched From Station';
-      case 'drop_off_reached':
-        return 'Drop Off Reached';
+        return 'Order Accepted';
+      case 'ready_for_delivery':
+        return 'Ready for Delivery';
+      case 'package_pickup':
+        return 'Package Pickup';
+      case 'out_for_delivery':
+        return 'Out for Delivery';
       case 'order_delivered':
         return 'Order Delivered';
-      case 'order_canceled':
+      case 'order_cancelled':
         return 'Order Cancelled';
       case 'payment_completed':
         return 'Payment Completed';
@@ -96,19 +117,15 @@ class OrderHelper {
     switch (orderAction) {
       case 'processing':
       case 'new_order_created':
-      case 'pickup_rider_assigned':
+      case 'package_pickup':
+      case 'out_for_delivery':
+      case 'ready_for_delivery':
       case 'order_accepted':
-      case 'pick_up_reached':
-      case 'trip_started':
-      case 'reached_collection_station':
-      case 'dispatched_from_station':
-      case 'dispatch_rider_assigned':
-      case 'drop_off_reached':
       case 'payment_completed':
         return accentColor;
       case 'order_delivered':
         return Colors.green;
-      case 'order_canceled':
+      case 'order_cancelled':
         return Colors.redAccent;
       default:
         return Colors.green;

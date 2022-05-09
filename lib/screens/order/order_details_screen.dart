@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
+import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/core/utils/order_helper.dart';
-import 'package:petcare_commerce/providers/admin_order_provider.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
+import 'package:petcare_commerce/providers/order_provider.dart';
+import 'package:petcare_commerce/screens/review/review_dialog.dart';
 import 'package:petcare_commerce/widgets/card_info_builder.dart';
 import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
 import 'package:petcare_commerce/widgets/order_status_timeline.dart';
 import 'package:petcare_commerce/widgets/text_with_icon.dart';
 import 'package:provider/provider.dart';
 
-class OngoingOrderDetailScreen extends StatelessWidget {
-  static const String routeName = "/ongoing-detail-screen";
+class OrderDetailScreen extends StatelessWidget {
+  static const String routeName = "/order-detail-screen";
 
-  const OngoingOrderDetailScreen({Key? key}) : super(key: key);
+  const OrderDetailScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdminOrderProvider>(
+    return Consumer<OrderProvider>(
       builder: (ctx, data, child) {
         final orderId = ModalRoute.of(context)?.settings.arguments as String;
         final selectedOrder = data.getSingleOrderById(orderId);
@@ -257,6 +256,7 @@ class OngoingOrderDetailScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 4.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
                                   flex: 4,
@@ -272,14 +272,58 @@ class OngoingOrderDetailScreen extends StatelessWidget {
                                 ),
                                 Expanded(
                                   flex: 5,
-                                  child: Text(
-                                    "${product.quantity} x Rs. ${product.price}",
-                                    textAlign: TextAlign.end,
-                                    style: const TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "${product.quantity} x Rs. ${product.price}",
+                                        textAlign: TextAlign.end,
+                                        style: const TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      if (selectedOrder.status !=
+                                          'order_delivered')
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: accentColor,
+                                          ),
+                                          child: const Text(
+                                            'Review',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () async {
+                                            try {
+                                              showDialog(
+                                                context: context,
+                                                barrierDismissible: false,
+                                                builder: (BuildContext
+                                                    dialogContext) {
+                                                  return ReviewDialog(
+                                                    productId: product.id,
+                                                    productTitle: product.title,
+                                                    key: ValueKey(product.id),
+                                                  );
+                                                },
+                                              );
+                                              //await data.updateOrderStatus(orderId: orderId);
+                                              //Navigator.of(context).pop();
+                                            } catch (error) {
+                                              Navigator.of(context).pop();
+                                              showCustomSnackBar(
+                                                  context: context,
+                                                  isError: true,
+                                                  message:
+                                                      "Sorry! Couldn't add the review.");
+                                            }
+                                          },
+                                        ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -320,71 +364,36 @@ class OngoingOrderDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  if (selectedOrder.status != 'order_delivered' &&
-                      selectedOrder.status != 'pickup_order' &&
-                      selectedOrder.status != 'order_cancelled')
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                          shape: const StadiumBorder(),
-                          padding: const EdgeInsets.symmetric(horizontal: 25),
-                          side: const BorderSide(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (selectedOrder.status != 'order_delivered' &&
+                        selectedOrder.status != 'pickup_order' &&
+                        selectedOrder.status != 'order_cancelled')
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            shape: const StadiumBorder(),
+                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            side: const BorderSide(
+                              color: Colors.redAccent,
+                            )),
+                        child: const Text(
+                          'Cancel Order',
+                          style: TextStyle(
+                            fontSize: 14,
                             color: Colors.redAccent,
-                          )),
-                      child: const Text(
-                        'Cancel Order',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.redAccent,
+                          ),
                         ),
+                        onPressed: () {
+                          // locator<NavigationService>().navigateTo(
+                          //     routes.CancelBookingScreenRoute,
+                          //     arguments: orderId);
+                        },
                       ),
-                      onPressed: () {
-                        // locator<NavigationService>().navigateTo(
-                        //     routes.CancelBookingScreenRoute,
-                        //     arguments: orderId);
-                      },
-                    ),
-                  if (selectedOrder.status != 'order_delivered' &&
-                      selectedOrder.status != 'order_cancelled' &&
-                      locator<AuthProvider>().isAdmin)
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: const StadiumBorder(),
-                          primary: Colors.green,
-                          padding: const EdgeInsets.symmetric(horizontal: 25)),
-                      child: Text(
-                        OrderHelper.getNextStringAction(selectedOrder.status),
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        try {
-                          showDialog<void>(
-                            context: context,
-                            barrierDismissible: false,
-                            // false = user must tap button, true = tap outside dialog
-                            builder: (BuildContext dialogContext) {
-                              return const AlertDialog(
-                                title: Text('Updating Order Status'),
-                                content: Text(
-                                    'Please wait the status is being updated...'),
-                              );
-                            },
-                          );
-                          await data.updateOrderStatus(orderId: orderId);
-                          Navigator.of(context).pop();
-                        } catch (error) {
-                          Navigator.of(context).pop();
-                          showCustomSnackBar(
-                              context: context,
-                              isError: true,
-                              message: "Sorry! Couldn't update the status.");
-                        }
-                      },
-                    ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 40,
