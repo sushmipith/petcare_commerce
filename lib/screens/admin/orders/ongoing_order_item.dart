@@ -114,13 +114,14 @@ class OngoingOrderItem extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              const Divider(),
-              if (selectedOrder.status != 'order_cancelled')
+              if (selectedOrder.status != 'order_cancelled') ...[
+                const Divider(),
                 Text(
                   'Rs. ${selectedOrder.amount}',
                   style: Theme.of(context).textTheme.subtitle2!.copyWith(
                       fontWeight: FontWeight.w600, color: Colors.black87),
                 )
+              ]
             ],
           ),
         ),

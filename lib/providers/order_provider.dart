@@ -96,4 +96,41 @@ class OrderProvider with ChangeNotifier {
   OrderModel getSingleOrderById(String id) {
     return _orders.firstWhere((order) => order.id == id);
   }
+
+  Future<void> cancelOrder(
+      {required String orderId,
+      required String cancelReason,
+      required String cancelDetails}) async {
+    try {
+      final index = _orders.indexWhere((order) => order.id == orderId);
+
+      if (index != -1) {
+        OrderModel orderModel = _orders[index];
+        const updateStatus = 'order_cancelled';
+        orderModel.orderActions!.add(
+            OrderStatusModel(action: updateStatus, createdAt: DateTime.now()));
+        final response = await httpService.patch(
+            API.orders + '${orderModel.userId}/$orderId.json',
+            body: json.encode({
+              'status': updateStatus,
+              'cancel_reason': cancelReason,
+              'cancel_details': cancelDetails,
+              'order_actions': orderModel.orderActions
+                  ?.map((item) => {
+                        'action': item.action,
+                        'created_at': item.createdAt?.toIso8601String(),
+                      })
+                  .toList(),
+            }));
+        final responseMap = json.decode(response.body) as Map<String, dynamic>;
+        _orders[index].orderActions = orderModel.orderActions;
+        _orders[index].status = updateStatus;
+        _orders[index].cancelReason = cancelReason;
+        _orders[index].cancelDetails = cancelDetails;
+        notifyListeners();
+      }
+    } catch (error) {
+      rethrow;
+    }
+  }
 }

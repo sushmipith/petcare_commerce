@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/core/utils/order_helper.dart';
 import 'package:petcare_commerce/providers/order_provider.dart';
+import 'package:petcare_commerce/screens/order/cancel_order_screen.dart';
 import 'package:petcare_commerce/screens/review/review_dialog.dart';
 import 'package:petcare_commerce/widgets/card_info_builder.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
 import 'package:petcare_commerce/widgets/order_status_timeline.dart';
 import 'package:petcare_commerce/widgets/text_with_icon.dart';
 import 'package:provider/provider.dart';
@@ -128,7 +128,6 @@ class OrderDetailScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(
                 height: 20,
               ),
@@ -210,40 +209,51 @@ class OrderDetailScreen extends StatelessWidget {
                   ),
                   title: 'Remarks',
                   iconType: FontAwesomeIcons.commentDots),
-              // if (selectedOrder.status == 'order_cancelled') ...[
-              //   SizedBox(
-              //     height: 20,
-              //   ),
-              //   CardInfoBuilder(
-              //       description: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Text(
-              //             'Reason:  ${selectedOrder?.cancelReason ?? 'No reason added'}',
-              //             style: const TextStyle(
-              //               color: Colors.black87,
-              //               fontWeight: FontWeight.w500,
-              //             ),
-              //           ),
-              //           SizedBox(
-              //             height: 20,
-              //           ),
-              //           Text(
-              //             selectedOrder?.refundModel?.cancelDetails == null ||
-              //                     selectedOrder?.refundModel?.cancelDetails ==
-              //                         ''
-              //                 ? 'Details:  No details added!'
-              //                 : 'Details:  ${selectedOrder.refundModel.cancelDetails}',
-              //             style: const TextStyle(
-              //               color: Colors.black87,
-              //               fontWeight: FontWeight.w500,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //       title: 'Cancellation Reason',
-              //       iconType: FontAwesomeIcons.windowClose),
-              // ],
+              if (selectedOrder.status == 'order_cancelled') ...[
+                const SizedBox(
+                  height: 20,
+                ),
+                CardInfoBuilder(
+                    description: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (selectedOrder.cancelBy == 'admin') ...[
+                          const Text(
+                            'Cancelled by: PetCareCommerce',
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                        Text(
+                          'Reason:  ${selectedOrder.cancelReason ?? 'No reason added'}',
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          selectedOrder.cancelDetails == null ||
+                                  selectedOrder.cancelDetails == ''
+                              ? 'Details:  No details added!'
+                              : 'Details:  ${selectedOrder.cancelDetails}',
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    title: 'Cancellation Reason',
+                    iconType: FontAwesomeIcons.windowClose),
+              ],
               const SizedBox(
                 height: 20,
               ),
@@ -284,7 +294,7 @@ class OrderDetailScreen extends StatelessWidget {
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      if (selectedOrder.status !=
+                                      if (selectedOrder.status ==
                                           'order_delivered')
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
@@ -298,31 +308,20 @@ class OrderDetailScreen extends StatelessWidget {
                                                 color: Colors.white),
                                           ),
                                           onPressed: () async {
-                                            try {
-                                              showDialog(
-                                                context: context,
-                                                barrierDismissible: false,
-                                                builder: (BuildContext
-                                                    dialogContext) {
-                                                  return ReviewDialog(
-                                                    productId: product.id,
-                                                    productTitle: product.title,
-                                                    key: ValueKey(product.id),
-                                                  );
-                                                },
-                                              );
-                                              //await data.updateOrderStatus(orderId: orderId);
-                                              //Navigator.of(context).pop();
-                                            } catch (error) {
-                                              Navigator.of(context).pop();
-                                              showCustomSnackBar(
-                                                  context: context,
-                                                  isError: true,
-                                                  message:
-                                                      "Sorry! Couldn't add the review.");
-                                            }
+                                            await showDialog(
+                                              context: context,
+                                              barrierDismissible: false,
+                                              builder:
+                                                  (BuildContext dialogContext) {
+                                                return ReviewDialog(
+                                                  productId: product.id,
+                                                  productTitle: product.title,
+                                                  key: ValueKey(product.id),
+                                                );
+                                              },
+                                            );
                                           },
-                                        ),
+                                        )
                                     ],
                                   ),
                                 ),
@@ -387,9 +386,9 @@ class OrderDetailScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // locator<NavigationService>().navigateTo(
-                          //     routes.CancelBookingScreenRoute,
-                          //     arguments: orderId);
+                          Navigator.of(context).pushNamed(
+                              CancelOrderScreen.routeName,
+                              arguments: orderId);
                         },
                       ),
                   ],

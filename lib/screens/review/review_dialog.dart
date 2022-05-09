@@ -111,7 +111,6 @@ class _ReviewDialogState extends State<ReviewDialog> {
                               'Success! Your review and rating has been submitted',
                           context: context,
                         );
-                        locator<CartProvider>().clearCart();
                       } catch (error) {
                         showCustomSnackBar(
                           isError: true,

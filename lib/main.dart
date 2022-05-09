@@ -13,6 +13,7 @@ import 'package:petcare_commerce/screens/auth/login_screen.dart';
 import 'package:petcare_commerce/screens/auth/register_screen.dart';
 import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
 import 'package:petcare_commerce/screens/image_preview_screen.dart';
+import 'package:petcare_commerce/screens/order/cancel_order_screen.dart';
 import 'package:petcare_commerce/screens/order/order_details_screen.dart';
 import 'package:petcare_commerce/screens/order/order_screen.dart';
 import 'package:petcare_commerce/screens/product/product_detail_screen.dart';
@@ -85,6 +86,7 @@ class MyApp extends StatelessWidget {
           ForgotPasswordScreen.routeName: (ctx) => const ForgotPasswordScreen(),
           EditProductScreen.routeName: (ctx) => const EditProductScreen(),
           OrderDetailScreen.routeName: (ctx) => const OrderDetailScreen(),
+          CancelOrderScreen.routeName: (ctx) => const CancelOrderScreen(),
           OngoingOrderDetailScreen.routeName: (ctx) =>
               const OngoingOrderDetailScreen(),
         },

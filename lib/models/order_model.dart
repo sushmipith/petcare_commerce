@@ -4,14 +4,16 @@ import 'package:petcare_commerce/models/cart_model.dart';
 class OrderModel {
   final String id;
   final double amount;
-  final double? cancelCharge;
+
   final List<CartModel> products;
   final DateTime dateTime;
   String status;
   final String deliveryLocation;
   final String orderUsername;
   final String orderMobileNumber;
-  final String? cancelReason;
+  String? cancelReason;
+  String? cancelDetails;
+  String? cancelBy;
   final String? remarks;
   final String userId;
   List<OrderStatusModel>? orderActions;
@@ -23,12 +25,13 @@ class OrderModel {
     required this.products,
     required this.dateTime,
     required this.deliveryLocation,
-    this.cancelCharge,
     required this.orderUsername,
     required this.orderMobileNumber,
     required this.userId,
     this.orderActions,
+    this.cancelBy,
     this.cancelReason,
+    this.cancelDetails,
     this.remarks,
   });
 
@@ -48,6 +51,7 @@ class OrderModel {
         json['dateTime'],
       ),
       orderUsername: json['orderUsername'],
+      cancelBy: json['cancel_by'],
       deliveryLocation: json['deliveryLocation'],
       orderMobileNumber: json['orderMobileNumber'],
       remarks: json['remarks'],
@@ -56,6 +60,8 @@ class OrderModel {
           : List.from((json['order_actions'] as List<dynamic>)
               .map((action) => OrderStatusModel.fromJson(action))),
       userId: json['userId'],
+      cancelReason: json['cancelReason'],
+      cancelDetails: json['cancelDetails'],
     );
   }
 }

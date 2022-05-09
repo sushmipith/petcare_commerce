@@ -154,6 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     mHeight = mediaConst.size.height;
     mWidth = mediaConst.size.width;
     themeConst = Theme.of(context);
+    bool isAdmin = locator<AuthProvider>().isAdmin;
     return FutureBuilder(
         future: _getUserData,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -186,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 height: 10,
                               ),
                               Text(
-                                snapshot.data["username"],
+                                snapshot.data["username"] ?? '',
                                 style: themeConst?.textTheme.headline6
                                     ?.copyWith(
                                         color: Colors.white,
@@ -207,23 +208,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ]),
-                    ListTile(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(OrderScreen.routeName);
-                      },
-                      leading: Icon(
-                        FontAwesomeIcons.boxes,
-                        color: themeConst?.colorScheme.secondary,
+                    if (!isAdmin) ...[
+                      ListTile(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(OrderScreen.routeName);
+                        },
+                        leading: Icon(
+                          FontAwesomeIcons.boxes,
+                          color: themeConst?.colorScheme.secondary,
+                        ),
+                        title: Text(
+                          "My Orders",
+                          style: themeConst?.textTheme.subtitle1
+                              ?.copyWith(fontWeight: FontWeight.w600),
+                        ),
                       ),
-                      title: Text(
-                        "My Orders",
-                        style: themeConst?.textTheme.subtitle1
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                      const Divider(
+                        thickness: 2,
                       ),
-                    ),
-                    const Divider(
-                      thickness: 2,
-                    ),
+                    ],
                     ListTile(
                       onTap: () {
                         Navigator.pushNamed(

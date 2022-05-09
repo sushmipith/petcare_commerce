@@ -5,4 +5,5 @@ class AssetsSource {
   static const String emptyOrder = 'assets/images/empty_order.json';
   static const String userAvatar = 'assets/images/user_avatar.png';
   static const String placeholder = 'assets/images/placeholder.png';
+  static const String cancelOrder = 'assets/images/cancel_order.png';
 }

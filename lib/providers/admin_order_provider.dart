@@ -100,4 +100,43 @@ class AdminOrderProvider with ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<void> cancelOrder(
+      {required String orderId,
+      required String cancelReason,
+      required String cancelDetails}) async {
+    try {
+      final index = _allOrders.indexWhere((order) => order.id == orderId);
+
+      if (index != -1) {
+        OrderModel orderModel = _allOrders[index];
+        const updateStatus = 'order_cancelled';
+        orderModel.orderActions!.add(
+            OrderStatusModel(action: updateStatus, createdAt: DateTime.now()));
+        final response = await httpService.patch(
+            API.orders + '${orderModel.userId}/$orderId.json',
+            body: json.encode({
+              'status': updateStatus,
+              'cancel_reason': cancelReason,
+              'cancel_by': 'admin',
+              'cancel_details': cancelDetails,
+              'order_actions': orderModel.orderActions
+                  ?.map((item) => {
+                        'action': item.action,
+                        'created_at': item.createdAt?.toIso8601String(),
+                      })
+                  .toList(),
+            }));
+        final responseMap = json.decode(response.body) as Map<String, dynamic>;
+        _allOrders[index].orderActions = orderModel.orderActions;
+        _allOrders[index].status = updateStatus;
+        _allOrders[index].cancelReason = cancelReason;
+        _allOrders[index].cancelDetails = cancelDetails;
+        _allOrders[index].cancelBy = 'admin';
+        notifyListeners();
+      }
+    } catch (error) {
+      rethrow;
+    }
+  }
 }
