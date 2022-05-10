@@ -36,6 +36,7 @@ class _CheckoutDialogState extends State<CheckoutDialog> {
               TextFormField(
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 keyboardType: const TextInputType.numberWithOptions(),
+                maxLength: 10,
                 decoration: const InputDecoration(labelText: "Contact Number"),
                 validator: (value) {
                   if (value!.isEmpty) {

@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:petcare_commerce/core/constants/assets_source.dart';
 import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/core/service/service_locator.dart';
+import 'package:petcare_commerce/providers/auth_provider.dart';
 import 'package:petcare_commerce/providers/cart_provider.dart';
 import 'package:petcare_commerce/providers/products_provider.dart';
 import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
@@ -255,31 +256,34 @@ class ProductDetailScreen extends StatelessWidget {
                   ])),
         ],
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 10, bottom: 10),
-        child: RaisedButton.icon(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            color: Colors.lightGreen,
-            textColor: Colors.white,
-            onPressed: () {
-              locator<CartProvider>()
-                  .addToCart(id, loadedProduct.title, loadedProduct.price);
-              showCustomSnackBar(
-                  context: context,
-                  message: 'Added item to the cart',
-                  action: SnackBarAction(
-                    label: "UNDO",
-                    textColor: Colors.white,
-                    onPressed: () {
-                      locator<CartProvider>().removeSingleItem(id);
-                    },
-                  ));
-            },
-            icon: const Icon(Icons.shopping_cart),
-            label: const Text("Add to Cart")),
-      ),
+      floatingActionButton: locator<AuthProvider>().isAdmin
+          ? Container()
+          : Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: RaisedButton.icon(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  color: Colors.lightGreen,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    locator<CartProvider>().addToCart(
+                        id, loadedProduct.title, loadedProduct.price);
+                    showCustomSnackBar(
+                        context: context,
+                        message: 'Added item to the cart',
+                        action: SnackBarAction(
+                          label: "UNDO",
+                          textColor: Colors.white,
+                          onPressed: () {
+                            locator<CartProvider>().removeSingleItem(id);
+                          },
+                        ));
+                  },
+                  icon: const Icon(Icons.shopping_cart),
+                  label: const Text("Add to Cart")),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
