@@ -61,20 +61,21 @@ class HomeScreen extends StatelessWidget {
         Text(title,
             style: themeConst.textTheme.headline5
                 ?.copyWith(fontWeight: FontWeight.w600)),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            InkWell(
-                onTap: onPress,
-                child: const Text("All", style: TextStyle(fontSize: 15))),
-            const SizedBox(
-              width: 10,
-            ),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-            ),
-          ],
+        InkWell(
+          onTap: onPress,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text("All", style: TextStyle(fontSize: 15)),
+              SizedBox(
+                width: 10,
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ],
+          ),
         ),
       ],
     );

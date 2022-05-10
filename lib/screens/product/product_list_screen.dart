@@ -28,14 +28,6 @@ class ProductListScreen extends StatelessWidget {
         title: Text(
           mapArgument['type'],
         ),
-        actions: [
-          IconButton(
-              icon: const Icon(
-                Icons.search,
-                color: blackColor,
-              ),
-              onPressed: () {})
-        ],
       ),
       body: GridView.builder(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),

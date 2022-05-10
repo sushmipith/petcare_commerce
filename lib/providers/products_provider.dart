@@ -115,7 +115,7 @@ class ProductsProvider with ChangeNotifier {
       final favouriteResponse =
           await httpService.get(API.toggleFavourite + "$userId.json");
       final favouriteData = json.decode(favouriteResponse.body);
-
+      print('favourite data is $favouriteData');
       List<ProductModel> allProducts = [];
       allMap.forEach((prodId, prodData) {
         allProducts.add(ProductModel.fromJson(prodId, prodData, favouriteData));

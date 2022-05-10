@@ -27,12 +27,7 @@ class AuthProvider with ChangeNotifier {
 
   // get token for apis
   String? get token {
-    if (_expiryDate != null &&
-        _expiryDate!.isAfter(DateTime.now()) &&
-        _authToken != null) {
-      return _authToken;
-    }
-    return null;
+    return _authToken;
   }
 
   // get userid
@@ -64,8 +59,7 @@ class AuthProvider with ChangeNotifier {
       }
       //get user id and get auth token
       _userId = response.user.uid;
-      final idTokenResult =
-          await _firebaseAuth.currentUser!.getIdTokenResult(true);
+      final idTokenResult = await _firebaseAuth.currentUser!.getIdTokenResult();
       _authToken = idTokenResult.token;
       final expirationDuration =
           idTokenResult.expirationTime?.difference(DateTime.now());
@@ -196,8 +190,8 @@ class AuthProvider with ChangeNotifier {
       _authTimer?.cancel();
       _authTimer = null;
     }
-    final timeToExpire = _expiryDate?.difference(DateTime.now()).inHours;
-    _authTimer = Timer(Duration(hours: timeToExpire!), logout);
+    final timeToExpire = _expiryDate?.difference(DateTime.now());
+    _authTimer = Timer(timeToExpire!, logout);
   }
 
   // auto login user
@@ -211,6 +205,7 @@ class AuthProvider with ChangeNotifier {
     final expiryDate =
         DateTime.tryParse(extractedData["expiryDate"].toString());
     _authToken = extractedData['token'];
+    print(_authToken);
     _userId = extractedData["userId"];
     _isAdmin = extractedData["isAdmin"] ?? false;
     if (_authToken == null || _userId == null) {
@@ -252,11 +247,9 @@ class AuthProvider with ChangeNotifier {
           body: json.encode({
             "profileURL": imageURL,
           }));
-      print(response.body);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       return extractedData;
     } catch (error) {
-      print(error);
       rethrow;
     }
   }

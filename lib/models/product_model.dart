@@ -22,8 +22,8 @@ class ProductModel {
       required this.imageURL,
       this.isFavourite = false});
 
-  factory ProductModel.fromJson(String prodId, Map<String, dynamic> json,
-      Map<String, dynamic> favouriteData) {
+  factory ProductModel.fromJson(
+      String prodId, Map<String, dynamic> json, dynamic favouriteData) {
     return ProductModel(
         id: prodId,
         type: json['type'],

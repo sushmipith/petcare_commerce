@@ -60,7 +60,14 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
               const Text('Pet Care', style: TextStyle(color: Colors.white))
             ],
           ),
-          actions: [],
+          actions: [
+            IconButton(
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+                onPressed: () {})
+          ],
           backgroundColor: themeConst.primaryColor,
         );
       case 1:

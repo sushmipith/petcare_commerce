@@ -187,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 height: 10,
                               ),
                               Text(
-                                snapshot.data["username"] ?? '',
+                                snapshot.data?["username"] ?? '',
                                 style: themeConst?.textTheme.headline6
                                     ?.copyWith(
                                         color: Colors.white,
@@ -197,7 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 height: 5,
                               ),
                               Text(
-                                snapshot.data["email"],
+                                snapshot.data?["email"],
                                 style: themeConst?.textTheme.caption?.copyWith(
                                     fontSize: 14,
                                     color: Colors.white,

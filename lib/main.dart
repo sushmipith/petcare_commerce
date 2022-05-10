@@ -48,9 +48,9 @@ class MyApp extends StatelessWidget {
         title: 'Pet Care Commerce',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: const Color(0xFF9d73ef),
-          primaryColorLight: const Color(0xFFb38ffa),
-          primaryColorDark: const Color(0xFF9d73ef),
+          primaryColor: primaryColor,
+          primaryColorLight: primaryLightColor,
+          primaryColorDark: primaryColor,
           canvasColor: Colors.white,
           fontFamily: "Montserrat",
           appBarTheme: const AppBarTheme(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:petcare_commerce/core/constants/assets_source.dart';
 import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/core/constants/constants.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
@@ -67,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fit: BoxFit.cover,
                 alignment: Alignment.topCenter,
                 image: AssetImage(
-                  "assets/images/bg_picture.png",
+                  AssetsSource.bgPic,
                 ),
               ),
             ),

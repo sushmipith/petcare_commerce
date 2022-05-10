@@ -6,7 +6,7 @@ import 'package:petcare_commerce/core/service/service_locator.dart';
 import 'package:petcare_commerce/providers/auth_provider.dart';
 
 class HttpService {
-  Future<dynamic> get(
+  Future<http.Response> get(
     String url,
   ) async {
     try {
