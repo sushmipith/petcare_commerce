@@ -15,6 +15,7 @@ import 'package:petcare_commerce/screens/cart/cart_screen.dart';
 import 'package:petcare_commerce/screens/profile/profile_screen.dart';
 import 'package:petcare_commerce/widgets/badge_widget.dart';
 import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
+import 'package:petcare_commerce/widgets/product_search_delegate.dart';
 import 'package:provider/provider.dart';
 import 'auth/login_screen.dart';
 import 'home/home_screen.dart';
@@ -66,7 +67,10 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
                   Icons.search,
                   color: Colors.white,
                 ),
-                onPressed: () {})
+                onPressed: () {
+                  showSearch(
+                      context: context, delegate: ProductSearchDelegate());
+                })
           ],
           backgroundColor: themeConst.primaryColor,
         );

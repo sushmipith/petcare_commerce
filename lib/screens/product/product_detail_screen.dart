@@ -199,21 +199,21 @@ class ProductDetailScreen extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Rating and Reviews',
-                      style: themeConst.textTheme.headline6
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    if (loadedProduct.reviews != null &&
-                        loadedProduct.reviews!.isNotEmpty)
+          if (loadedProduct.reviews != null &&
+              loadedProduct.reviews!.isNotEmpty)
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Rating and Reviews',
+                        style: themeConst.textTheme.headline6
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       ...loadedProduct.reviews!
                           .map((review) => Column(
                                 children: [
@@ -253,7 +253,7 @@ class ProductDetailScreen extends StatelessWidget {
                                 ],
                               ))
                           .toList()
-                  ])),
+                    ])),
         ],
       ),
       floatingActionButton: locator<AuthProvider>().isAdmin
