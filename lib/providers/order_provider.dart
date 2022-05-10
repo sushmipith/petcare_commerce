@@ -49,7 +49,7 @@ class OrderProvider with ChangeNotifier {
           body: json.encode({
             'amount': total,
             'userId': userId,
-            'remarks': remarks ?? '',
+            'remarks': remarks,
             'dateTime': DateTime.now().toIso8601String(),
             'orderUsername': locator<AuthProvider>().currentUsername,
             'deliveryLocation': deliveryLocation,

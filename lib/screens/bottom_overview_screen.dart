@@ -78,26 +78,33 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
                 backgroundColor: themeConst.primaryColor,
               );
       case 2:
-        return AppBar(
-          title: const Text(
-            "Products",
-          ),
-          actions: [
-            TextButton.icon(
-                label: const Icon(Icons.add),
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
+        return _isAdmin
+            ? AppBar(
+                title: const Text(
+                  "Products",
                 ),
-                icon: const Text(
-                  'Add',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, EditProductScreen.routeName);
-                })
-          ],
-          backgroundColor: themeConst.primaryColor,
-        );
+                actions: [
+                  TextButton.icon(
+                      label: const Icon(Icons.add),
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                      ),
+                      icon: const Text(
+                        'Add',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, EditProductScreen.routeName);
+                      })
+                ],
+                backgroundColor: themeConst.primaryColor,
+              )
+            : AppBar(
+                title: const Text("My Profile",
+                    style: TextStyle(color: Colors.white)),
+                backgroundColor: themeConst.primaryColor,
+              );
       case 3:
         return AppBar(
           title:
@@ -152,7 +159,7 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
               : IndexedStack(index: _selectedPageIndex, children: [
                   const HomeScreen(),
                   _isAdmin ? const OngoingOrderScreen() : const CartScreen(),
-                  const UserProductScreen(),
+                  if (_isAdmin) const UserProductScreen(),
                   const ProfileScreen()
                 ]);
         },
@@ -179,8 +186,9 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
                             value: '$cartCount');
                   }),
                   label: "Cart"),
-          const BottomNavigationBarItem(
-              icon: Icon(Icons.all_inbox), label: "Products"),
+          if (_isAdmin)
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.all_inbox), label: "Products"),
           const BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_rounded), label: "Profile"),
         ],

@@ -77,7 +77,7 @@ class OrderStatusTimeline extends StatelessWidget {
     orderActions.map((orderAction) {
       final index = orderActions
           .indexWhere((item) => item.createdAt == orderAction.createdAt);
-      String title = OrderHelper.getStringForOrderAction(orderAction.action);
+      String title = OrderHelper.getStringForOrderAction(orderAction.action!);
       _buildTimeline.add(_buildTimelineWidget(
         title: title,
         isFirst: orderAction.action == 'new_order_created',

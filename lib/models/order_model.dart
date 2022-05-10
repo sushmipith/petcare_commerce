@@ -4,7 +4,6 @@ import 'package:petcare_commerce/models/cart_model.dart';
 class OrderModel {
   final String id;
   final double amount;
-
   final List<CartModel> products;
   final DateTime dateTime;
   String status;
@@ -15,7 +14,7 @@ class OrderModel {
   String? cancelDetails;
   String? cancelBy;
   final String? remarks;
-  final String userId;
+  final String? userId;
   List<OrderStatusModel>? orderActions;
 
   OrderModel({
@@ -67,7 +66,7 @@ class OrderModel {
 }
 
 class OrderStatusModel {
-  String action;
+  String? action;
   DateTime? createdAt;
 
   OrderStatusModel({
