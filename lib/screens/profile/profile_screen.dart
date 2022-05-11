@@ -322,7 +322,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           _isUploading = true;
                                         });
                                         await locator<AuthProvider>()
-                                            .uploadProductPhoto(_croppedImg!);
+                                            .uploadUserPhoto(_croppedImg!);
                                         setState(() {
                                           _uploadNewPhoto = false;
                                         });

@@ -227,7 +227,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   // Upload product photo to firebase
-  Future<void> uploadProductPhoto(File imageFile) async {
+  Future<void> uploadUserPhoto(File imageFile) async {
     try {
       String imageFileName = imageFile.path.split('/').last;
       Reference storageRef =

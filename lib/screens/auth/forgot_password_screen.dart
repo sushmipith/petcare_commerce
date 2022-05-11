@@ -1,4 +1,3 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../core/constants/assets_source.dart';
 import '../../core/constants/constants.dart';
 import '../../core/service/service_locator.dart';
