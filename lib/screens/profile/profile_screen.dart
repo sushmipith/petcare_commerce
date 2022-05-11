@@ -347,10 +347,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       });
                                     },
                               style: ElevatedButton.styleFrom(
-                                  primary: themeConst!.primaryColor,
-                                  textStyle: const TextStyle(
-                                    color: Colors.white,
-                                  )),
+                                primary: themeConst!.primaryColor,
+                              ),
                               child: _isUploading
                                   ? const Center(
                                       child: SizedBox(
@@ -358,7 +356,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       width: 15,
                                       child: CircularProgressIndicator(),
                                     ))
-                                  : const Text("Upload Profile Photo"),
+                                  : const Text("Upload Profile Photo",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      )),
                             ),
                           )
                         : Container()

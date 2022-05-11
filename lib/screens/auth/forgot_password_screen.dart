@@ -17,11 +17,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> _formVerificationKey = GlobalKey<FormState>();
-  String? _email, _verificationCode, _password;
+  String? _email;
   bool _isLoading = false;
-  bool _isVerify = false;
-  bool _hidePassword = true;
 
   void _saveForm() async {
     try {
@@ -47,35 +44,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       showCustomSnackBar(
         context: context,
         message: 'Sorry, couldn\'t send verification code. $error',
-        isError: true,
-      );
-    }
-  }
-
-  void _verifyForm() async {
-    try {
-      if (!_formVerificationKey.currentState!.validate()) {
-        return;
-      }
-      _formVerificationKey.currentState!.save();
-      setState(() {
-        _isLoading = true;
-      });
-      await locator<AuthProvider>()
-          .resetPassword(_password!, _verificationCode!);
-      setState(() {
-        _isLoading = false;
-      });
-      showCustomSnackBar(
-        context: context,
-        message: 'Your password has been reset successfully. Please login',
-        isError: false,
-      );
-    } catch (error) {
-      setState(() => _isLoading = false);
-      showCustomSnackBar(
-        context: context,
-        message: 'Sorry, couldn\'t reset password.',
         isError: true,
       );
     }
@@ -172,111 +140,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  /// FUNC [_buildVerificationWidget] : Build Verification and reset password
-  Widget _buildVerificationWidget(ThemeData themeConst) {
-    return Form(
-      key: _formVerificationKey,
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 15, right: 15, top: 25, bottom: 40),
-        child: Column(
-          children: [
-            Text(
-              "Enter the verification code and new password to reset",
-              style: themeConst.textTheme.subtitle1!
-                  .copyWith(color: blackColor, fontWeight: FontWeight.bold),
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                  labelText: "Verification Code", focusColor: greyColor),
-              keyboardType: const TextInputType.numberWithOptions(
-                  signed: false, decimal: false),
-              textInputAction: TextInputAction.next,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return "Verification Code is required";
-                }
-                if (!emailRegex.hasMatch(value.trim())) {
-                  return "Verification Code is not valid";
-                }
-                return null;
-              },
-              onSaved: (value) {
-                _verificationCode = value!;
-              },
-            ),
-            const SizedBox(height: 20),
-            Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                TextFormField(
-                    decoration: const InputDecoration(labelText: "Password"),
-                    obscureText: _hidePassword,
-                    obscuringCharacter: "*",
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Password is required";
-                      }
-                      if (value.length < 6) {
-                        return "Password must be at least 6 characters long";
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _password = value!;
-                    }),
-                IconButton(
-                    icon: _hidePassword
-                        ? const Icon(
-                            FontAwesomeIcons.eyeSlash,
-                            size: 15,
-                          )
-                        : const Icon(
-                            FontAwesomeIcons.eye,
-                            size: 15,
-                          ),
-                    onPressed: () {
-                      setState(() {
-                        _hidePassword = !_hidePassword;
-                      });
-                    }),
-              ],
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 15),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: themeConst.primaryColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                ),
-                onPressed: _isLoading ? null : _verifyForm,
-                child: _isLoading
-                    ? const Center(
-                        child: SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator()))
-                    : Text(
-                        "Reset Password",
-                        style: themeConst.textTheme.headline6!.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.w600),
-                      ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaConst = MediaQuery.of(context);
@@ -330,9 +193,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   elevation: 6,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  child: !_isVerify
-                      ? _buildForgotWidget(themeConst)
-                      : _buildVerificationWidget(themeConst))
+                  child: _buildForgotWidget(themeConst))
             ],
           ),
         ],
