@@ -1,13 +1,8 @@
-import 'dart:io';
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/exception/auth_exception.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/screens/auth/login_screen.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
-import 'package:petcare_commerce/widgets/custom_textformfield.dart';
+import '../../core/constants/assets_source.dart';
+import '../../core/constants/constants.dart';
+import '../../core/service/service_locator.dart';
+import '../../widgets/custom_snack_bar.dart';
 import '../../providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -76,7 +71,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         isError: false,
       );
     } catch (error) {
-      print(error);
       setState(() => _isLoading = false);
       showCustomSnackBar(
         context: context,
@@ -126,17 +120,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             Container(
               width: double.infinity,
               margin: const EdgeInsets.symmetric(horizontal: 15),
-              child: RaisedButton(
-                color: themeConst.primaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: themeConst.primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
                 onPressed: _isLoading ? null : _saveForm,
                 child: _isLoading
-                    ? Center(
+                    ? const Center(
                         child: SizedBox(
                             height: 20,
                             width: 20,
-                            child: const CircularProgressIndicator()))
+                            child: CircularProgressIndicator()))
                     : Text(
                         "Send Code",
                         style: themeConst.textTheme.headline6!.copyWith(
@@ -251,10 +247,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             Container(
               width: double.infinity,
               margin: const EdgeInsets.symmetric(horizontal: 15),
-              child: RaisedButton(
-                color: themeConst.primaryColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: themeConst.primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
                 onPressed: _isLoading ? null : _verifyForm,
                 child: _isLoading
                     ? const Center(
@@ -282,7 +280,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     MediaQueryData mediaConst = MediaQuery.of(context);
     double mHeight = mediaConst.size.height;
-    double mWidth = mediaConst.size.width;
     ThemeData themeConst = Theme.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,

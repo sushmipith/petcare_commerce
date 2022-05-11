@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/core/utils/order_helper.dart';
-import 'package:petcare_commerce/providers/admin_order_provider.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/screens/order/cancel_order_screen.dart';
-import 'package:petcare_commerce/widgets/card_info_builder.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
-import 'package:petcare_commerce/widgets/order_status_timeline.dart';
-import 'package:petcare_commerce/widgets/text_with_icon.dart';
+import '../../../core/service/service_locator.dart';
+import '../../../core/utils/order_helper.dart';
+import '../../../providers/admin_order_provider.dart';
+import '../../../providers/auth_provider.dart';
+import '../../order/cancel_order_screen.dart';
+import '../../../widgets/card_info_builder.dart';
+import '../../../widgets/custom_snack_bar.dart';
+import '../../../widgets/order_status_timeline.dart';
+import '../../../widgets/text_with_icon.dart';
 import 'package:provider/provider.dart';
 
 class OngoingOrderDetailScreen extends StatelessWidget {
@@ -29,7 +28,6 @@ class OngoingOrderDetailScreen extends StatelessWidget {
             elevation: 0,
             title: const Text('Order Details'),
             centerTitle: true,
-            actions: [],
           ),
           body: ListView(
             children: [

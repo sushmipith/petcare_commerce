@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/cart_provider.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:provider/provider.dart';
+import '../../core/constants/constants.dart';
+import '../../core/service/service_locator.dart';
+import '../../providers/cart_provider.dart';
+import '../../providers/products_provider.dart';
 
 class CartItemWidget extends StatelessWidget {
   final String id;
@@ -24,7 +23,6 @@ class CartItemWidget extends StatelessWidget {
     ThemeData themeConst = Theme.of(context);
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double mHeight = mediaQueryData.size.height;
-    double mWidth = mediaQueryData.size.width;
     final loadedProduct = locator<ProductsProvider>().findProductById(cartId);
     final cartProvider = locator<CartProvider>();
     return Dismissible(
@@ -55,13 +53,13 @@ class CartItemWidget extends StatelessWidget {
                   content:
                       const Text("Do you want remove this item from cart?"),
                   actions: [
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         Navigator.pop(dCtx, false);
                       },
                       child: const Text("No"),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         Navigator.pop(dCtx, true);
                       },
@@ -91,7 +89,7 @@ class CartItemWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Expanded(

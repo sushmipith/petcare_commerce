@@ -1,21 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/network/http_service.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/providers/cart_provider.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/screens/admin/orders/ongoing_order_screen.dart';
-import 'package:petcare_commerce/screens/admin/product/edit_product_screen.dart';
-import 'package:petcare_commerce/screens/admin/product/user_product_screen.dart';
-import 'package:petcare_commerce/screens/cart/cart_screen.dart';
-import 'package:petcare_commerce/screens/profile/profile_screen.dart';
-import 'package:petcare_commerce/widgets/badge_widget.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
-import 'package:petcare_commerce/widgets/product_search_delegate.dart';
+import '../core/constants/assets_source.dart';
+import '../core/service/service_locator.dart';
+import '../providers/auth_provider.dart';
+import '../providers/cart_provider.dart';
+import '../providers/products_provider.dart';
+import 'admin/orders/ongoing_order_screen.dart';
+import 'admin/product/edit_product_screen.dart';
+import 'admin/product/user_product_screen.dart';
+import 'cart/cart_screen.dart';
+import 'profile/profile_screen.dart';
+import '../widgets/badge_widget.dart';
+import '../widgets/custom_snack_bar.dart';
+import '../widgets/product_search_delegate.dart';
 import 'package:provider/provider.dart';
 import 'auth/login_screen.dart';
 import 'home/home_screen.dart';
@@ -132,7 +130,6 @@ class _BottomOverviewScreenState extends State<BottomOverviewScreen> {
       await locator<AuthProvider>().logout();
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     } catch (error) {
-      print(error);
       showCustomSnackBar(
         isError: true,
         message: 'Something went wrong. Please try again!',

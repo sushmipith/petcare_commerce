@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/core/utils/order_utils.dart';
-import 'package:petcare_commerce/providers/admin_order_provider.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/providers/order_provider.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
-import 'package:petcare_commerce/widgets/custom_textformfield.dart';
-import 'package:provider/provider.dart';
+import '../../core/service/service_locator.dart';
+import '../../core/utils/order_utils.dart';
+import '../../providers/admin_order_provider.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/order_provider.dart';
+import '../../widgets/custom_snack_bar.dart';
+import '../../widgets/custom_textformfield.dart';
 
 import '../../core/constants/assets_source.dart';
 

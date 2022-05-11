@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
+import '../service/service_locator.dart';
+import '../../providers/auth_provider.dart';
 
 class HttpService {
   Future<http.Response> get(
@@ -48,7 +48,6 @@ class HttpService {
   }) async {
     try {
       String? token = locator<AuthProvider>().token;
-      print(token);
       final response =
           await http.put(Uri.parse(url + "?auth=$token"), body: body);
       if (response.statusCode != 200) {

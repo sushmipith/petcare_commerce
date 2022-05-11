@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
+import '../constants/constants.dart';
 
 import 'order_utils.dart';
 

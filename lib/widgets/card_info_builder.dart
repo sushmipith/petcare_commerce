@@ -9,7 +9,11 @@ class CardInfoBuilder extends StatelessWidget {
   final IconData iconType;
 
   const CardInfoBuilder(
-      {required this.description, required this.title, required this.iconType});
+      {Key? key,
+      required this.description,
+      required this.title,
+      required this.iconType})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

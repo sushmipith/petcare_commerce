@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/screens/home/home_screen.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
-import 'package:provider/provider.dart';
+import '../../core/constants/assets_source.dart';
+import '../../core/constants/constants.dart';
+import '../../core/service/service_locator.dart';
+import '../../providers/auth_provider.dart';
+import '../../widgets/custom_snack_bar.dart';
 
 import '../bottom_overview_screen.dart';
 
@@ -188,18 +185,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 }),
                           ],
                         ),
-                        SizedBox(height: 60),
+                        const SizedBox(height: 60),
                         Container(
                           width: double.infinity,
                           margin: const EdgeInsets.symmetric(horizontal: 15),
-                          child: RaisedButton(
-                            color: themeConst!.primaryColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              primary: themeConst!.primaryColor,
+                            ),
                             onPressed: _isLoading ? null : _saveForm,
                             child: _isLoading
-                                ? Center(
-                                    child: Container(
+                                ? const Center(
+                                    child: SizedBox(
                                         height: 20,
                                         width: 20,
                                         child: CircularProgressIndicator()))

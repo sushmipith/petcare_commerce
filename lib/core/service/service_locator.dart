@@ -1,10 +1,10 @@
 import 'package:get_it/get_it.dart';
-import 'package:petcare_commerce/core/network/http_service.dart';
-import 'package:petcare_commerce/providers/admin_order_provider.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/providers/cart_provider.dart';
-import 'package:petcare_commerce/providers/order_provider.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
+import '../network/http_service.dart';
+import '../../providers/admin_order_provider.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/cart_provider.dart';
+import '../../providers/order_provider.dart';
+import '../../providers/products_provider.dart';
 
 GetIt locator = GetIt.instance;
 

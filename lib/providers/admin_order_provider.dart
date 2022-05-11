@@ -1,18 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:petcare_commerce/core/network/http_service.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/core/utils/order_helper.dart';
-import 'package:petcare_commerce/models/cart_model.dart';
-import 'package:petcare_commerce/models/order_model.dart';
-import 'package:petcare_commerce/core/network/API.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/screens/admin/orders/ongoing_order_screen.dart';
+import '../core/network/http_service.dart';
+import '../core/service/service_locator.dart';
+import '../core/utils/order_helper.dart';
+import '../models/order_model.dart';
+import '../core/network/api.dart';
+import '../screens/admin/orders/ongoing_order_screen.dart';
 
 class AdminOrderProvider with ChangeNotifier {
   final HttpService httpService = locator<HttpService>();
 
-  List<OrderModel> _allOrders = [];
+  final List<OrderModel> _allOrders = [];
 
   List<OrderModel> get allOrders {
     return [..._allOrders];
@@ -33,7 +31,6 @@ class AdminOrderProvider with ChangeNotifier {
       _allOrders.sort((a, b) => b.dateTime.compareTo(a.dateTime));
       notifyListeners();
     } catch (error) {
-      print(error);
       rethrow;
     }
   }
@@ -76,11 +73,10 @@ class AdminOrderProvider with ChangeNotifier {
         OrderModel orderModel = _allOrders[index];
         final updateIndex = OrderHelper.orderStatusList
             .indexWhere((element) => element == orderModel.status);
-        print(updateIndex);
         final updateStatus = OrderHelper.orderStatusList[updateIndex + 1];
         orderModel.orderActions!.add(
             OrderStatusModel(action: updateStatus, createdAt: DateTime.now()));
-        final response = await httpService.patch(
+        await httpService.patch(
             API.orders + '${orderModel.userId}/$orderId.json',
             body: json.encode({
               'status': updateStatus,
@@ -91,7 +87,6 @@ class AdminOrderProvider with ChangeNotifier {
                       })
                   .toList(),
             }));
-        final responseMap = json.decode(response.body) as Map<String, dynamic>;
         _allOrders[index].orderActions = orderModel.orderActions;
         _allOrders[index].status = updateStatus;
         notifyListeners();
@@ -113,7 +108,7 @@ class AdminOrderProvider with ChangeNotifier {
         const updateStatus = 'order_cancelled';
         orderModel.orderActions!.add(
             OrderStatusModel(action: updateStatus, createdAt: DateTime.now()));
-        final response = await httpService.patch(
+        await httpService.patch(
             API.orders + '${orderModel.userId}/$orderId.json',
             body: json.encode({
               'status': updateStatus,
@@ -127,7 +122,6 @@ class AdminOrderProvider with ChangeNotifier {
                       })
                   .toList(),
             }));
-        final responseMap = json.decode(response.body) as Map<String, dynamic>;
         _allOrders[index].orderActions = orderModel.orderActions;
         _allOrders[index].status = updateStatus;
         _allOrders[index].cancelReason = cancelReason;

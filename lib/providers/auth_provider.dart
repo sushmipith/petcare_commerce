@@ -6,10 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:petcare_commerce/core/exception/auth_exception.dart';
+import '../core/exception/auth_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/network/API.dart';
+import '../core/network/api.dart';
 
 class AuthProvider with ChangeNotifier {
   String? _userId;
@@ -49,7 +49,7 @@ class AuthProvider with ChangeNotifier {
   Future<void> _authenticate(
       String username, String email, String password, String type) async {
     try {
-      var response;
+      UserCredential response;
       if (type == "signIn") {
         response = await _firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
@@ -58,7 +58,7 @@ class AuthProvider with ChangeNotifier {
             email: email, password: password);
       }
       //get user id and get auth token
-      _userId = response.user.uid;
+      _userId = response.user?.uid;
       final idTokenResult = await _firebaseAuth.currentUser!.getIdTokenResult();
       _authToken = idTokenResult.token;
       final expirationDuration =
@@ -76,7 +76,7 @@ class AuthProvider with ChangeNotifier {
         username = extractedData["username"];
         _isAdmin = extractedData["isAdmin"] ?? false;
       } else {
-        await _addNewUser(response.user.uid, username, email);
+        await _addNewUser(response.user?.uid, username, email);
       }
       //save to shared prefs
       _currentUsername = username;
@@ -109,14 +109,15 @@ class AuthProvider with ChangeNotifier {
   }
 
   // create new user in database
-  Future<void> _addNewUser(String userId, String username, String email) async {
+  Future<void> _addNewUser(
+      String? userId, String username, String email) async {
     try {
       final addUser = {
         "username": username,
         "email": email,
         "profileURL": "",
       };
-      final response = await http.put(
+      await http.put(
           Uri.parse(API.users + "$userId.json" + "?auth=$_authToken"),
           body: json.encode(addUser));
     } catch (error) {
@@ -136,7 +137,6 @@ class AuthProvider with ChangeNotifier {
       extractedData.putIfAbsent('isAdmin', () => extractedAdmin == userId);
       return extractedData;
     } catch (error) {
-      print(error);
       rethrow;
     }
   }
@@ -205,7 +205,6 @@ class AuthProvider with ChangeNotifier {
     final expiryDate =
         DateTime.tryParse(extractedData["expiryDate"].toString());
     _authToken = extractedData['token'];
-    print(_authToken);
     _userId = extractedData["userId"];
     _isAdmin = extractedData["isAdmin"] ?? false;
     if (_authToken == null || _userId == null) {
@@ -235,7 +234,6 @@ class AuthProvider with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString("profileURL", imageUrl);
     } catch (error) {
-      print(error);
       rethrow;
     }
   }

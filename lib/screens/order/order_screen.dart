@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/order_provider.dart';
-import 'package:petcare_commerce/screens/admin/orders/ongoing_order_item.dart';
-import 'package:petcare_commerce/widgets/empty_order_widget.dart';
+import '../../core/service/service_locator.dart';
+import '../../providers/order_provider.dart';
+import '../admin/orders/ongoing_order_item.dart';
+import '../../widgets/empty_order_widget.dart';
 import 'package:provider/provider.dart';
-
-import 'order_item_widget.dart';
 
 class OrderScreen extends StatefulWidget {
   static const String routeName = "/order_screen";
@@ -47,7 +45,7 @@ class _OrderScreenState extends State<OrderScreen>
                       builder: (ctx, data, child) {
                         final orders = data.orders;
                         return orders.isEmpty
-                            ? EmptyOrder(type: "Order")
+                            ? const EmptyOrder(type: "Order")
                             : ListView.builder(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 10),

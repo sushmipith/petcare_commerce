@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/screens/product/product_item_widget.dart';
+import '../../providers/products_provider.dart';
+import '../product/product_item_widget.dart';
 import 'package:provider/provider.dart';
 
 class FavouritesScreen extends StatelessWidget {
@@ -10,7 +10,6 @@ class FavouritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeConst = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Favourites"),

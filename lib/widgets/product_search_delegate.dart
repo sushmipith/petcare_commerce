@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/screens/product/product_detail_screen.dart';
-import 'package:petcare_commerce/screens/product/product_item_widget.dart';
-import 'package:provider/provider.dart';
+import '../core/service/service_locator.dart';
+import '../providers/products_provider.dart';
+import '../screens/product/product_item_widget.dart';
 
 class ProductSearchDelegate extends SearchDelegate {
   @override
@@ -16,7 +14,7 @@ class ProductSearchDelegate extends SearchDelegate {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = "";
         },
@@ -58,7 +56,7 @@ class ProductSearchDelegate extends SearchDelegate {
     return query.isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               Center(
                 child: Text("Search product items"),
               )

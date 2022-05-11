@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:petcare_commerce/core/network/http_service.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/models/product_model.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
+import '../core/network/http_service.dart';
+import '../core/service/service_locator.dart';
+import '../models/product_model.dart';
+import 'auth_provider.dart';
 
-import '../core/network/API.dart';
+import '../core/network/api.dart';
 
 class ProductsProvider with ChangeNotifier {
   List<ProductModel> _products = [];
@@ -79,10 +79,10 @@ class ProductsProvider with ChangeNotifier {
       List<ReviewModel>? updatedReviews = indexProduct.reviews ?? [];
       updatedReviews.add(newReview);
       double totalRating = 0;
-      updatedReviews.forEach((element) {
+      for (var element in updatedReviews) {
         double parseRating = double.tryParse(element.rating) ?? 0.0;
         totalRating += parseRating;
-      });
+      }
 
       await httpService.patch(API.productId + "$productId.json",
           body: json.encode({
@@ -115,7 +115,6 @@ class ProductsProvider with ChangeNotifier {
       final favouriteResponse =
           await httpService.get(API.toggleFavourite + "$userId.json");
       final favouriteData = json.decode(favouriteResponse.body);
-      print('favourite data is $favouriteData');
       List<ProductModel> allProducts = [];
       allMap.forEach((prodId, prodData) {
         allProducts.add(ProductModel.fromJson(prodId, prodData, favouriteData));
@@ -147,7 +146,6 @@ class ProductsProvider with ChangeNotifier {
       }
       final response =
           await httpService.post(API.products, body: json.encode(addMap));
-      print(response.body);
       final id = json.decode(response.body);
       final newProduct = ProductModel(
         id: id["name"],
@@ -162,8 +160,7 @@ class ProductsProvider with ChangeNotifier {
       _products.add(newProduct);
       notifyListeners();
     } catch (error) {
-      print(error);
-      throw (error);
+      rethrow;
     }
   }
 
@@ -185,10 +182,8 @@ class ProductsProvider with ChangeNotifier {
         updateMap["imageURL"] = await uploadProductPhoto(id, imageFile);
         updatedProduct.imageURL = updateMap["imageURL"];
       }
-      final response = await httpService.patch(
-          API.baseUrl + "/products/$id.json",
+      await httpService.patch(API.baseUrl + "/products/$id.json",
           body: json.encode(updateMap));
-      print(response.body);
       final editedProduct = ProductModel(
         id: updatedProduct.id,
         type: updatedProduct.type,
@@ -203,8 +198,7 @@ class ProductsProvider with ChangeNotifier {
       _products.add(editedProduct);
       notifyListeners();
     } catch (error) {
-      print(error);
-      throw (error);
+      rethrow;
     }
   }
 
@@ -225,7 +219,6 @@ class ProductsProvider with ChangeNotifier {
         throw const HttpException("Could not be deleted! Try again!");
       }
     } catch (error) {
-      print(error);
       rethrow;
     }
   }
@@ -242,14 +235,13 @@ class ProductsProvider with ChangeNotifier {
       String imageUrl = await (await uploadTask).ref.getDownloadURL();
       return imageUrl;
     } catch (error) {
-      print(error);
       rethrow;
     }
   }
 
 // get search results according to query
   List<ProductModel> getSearchItems(String query) {
-    if (query.isNotEmpty && query != null) {
+    if (query.isNotEmpty) {
       return _products
           .where((prod) => prod.title.toLowerCase().startsWith(query))
           .toList();

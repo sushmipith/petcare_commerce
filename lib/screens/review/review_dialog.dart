@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/cart_provider.dart';
-import 'package:petcare_commerce/providers/order_provider.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
+import '../../core/service/service_locator.dart';
+import '../../providers/products_provider.dart';
+import '../../widgets/custom_snack_bar.dart';
 
 class ReviewDialog extends StatefulWidget {
   final String? productId;

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/utils/order_helper.dart';
-import 'package:petcare_commerce/providers/order_provider.dart';
-import 'package:petcare_commerce/screens/order/cancel_order_screen.dart';
-import 'package:petcare_commerce/screens/review/review_dialog.dart';
-import 'package:petcare_commerce/widgets/card_info_builder.dart';
-import 'package:petcare_commerce/widgets/order_status_timeline.dart';
-import 'package:petcare_commerce/widgets/text_with_icon.dart';
+import '../../core/constants/constants.dart';
+import '../../core/utils/order_helper.dart';
+import '../../providers/order_provider.dart';
+import 'cancel_order_screen.dart';
+import '../review/review_dialog.dart';
+import '../../widgets/card_info_builder.dart';
+import '../../widgets/order_status_timeline.dart';
+import '../../widgets/text_with_icon.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailScreen extends StatelessWidget {
@@ -27,7 +27,6 @@ class OrderDetailScreen extends StatelessWidget {
             elevation: 0,
             title: const Text('Order Details'),
             centerTitle: true,
-            actions: [],
           ),
           body: ListView(
             children: [

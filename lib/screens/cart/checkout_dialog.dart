@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/models/cart_model.dart';
-import 'package:petcare_commerce/providers/cart_provider.dart';
-import 'package:petcare_commerce/providers/order_provider.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
+import '../../core/service/service_locator.dart';
+import '../../models/cart_model.dart';
+import '../../providers/cart_provider.dart';
+import '../../providers/order_provider.dart';
+import '../../widgets/custom_snack_bar.dart';
 
 class CheckoutDialog extends StatefulWidget {
   final Map<String, CartModel> cartMap;

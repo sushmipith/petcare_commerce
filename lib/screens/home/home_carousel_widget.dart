@@ -9,6 +9,8 @@ class HomeCarouselWidget extends StatelessWidget {
     "https://firebasestorage.googleapis.com/v0/b/petcarecommerce-b065e.appspot.com/o/banner%2Fpettoy-big-banner2.jpg?alt=media&token=bba7e750-79ef-4add-8f03-b0c647d385f2"
   ];
 
+  const HomeCarouselWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaConst = MediaQuery.of(context);

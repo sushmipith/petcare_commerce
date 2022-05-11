@@ -1,5 +1,4 @@
 enum OrderStatus { ongoing, delivered, cancelled }
-enum DeliveryStatus { Pickup, Validate, Delivery, Payment, Completed }
 
 class OrderUtils {
   static const List<String> cancelReasons = [

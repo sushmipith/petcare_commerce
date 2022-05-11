@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/utils/order_helper.dart';
-import 'package:petcare_commerce/models/order_model.dart';
+import '../core/constants/constants.dart';
+import '../core/utils/order_helper.dart';
+import '../models/order_model.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:intl/intl.dart';
 

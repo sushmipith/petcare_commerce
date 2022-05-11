@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/models/product_model.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/screens/product/product_item_widget.dart';
+import '../../core/service/service_locator.dart';
+import '../../models/product_model.dart';
+import '../../providers/products_provider.dart';
+import 'product_item_widget.dart';
 
 class ProductListScreen extends StatelessWidget {
   static const String routeName = "/product_list_screen";

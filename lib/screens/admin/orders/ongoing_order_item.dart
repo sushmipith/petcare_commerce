@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/core/utils/order_helper.dart';
-import 'package:petcare_commerce/models/order_model.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/screens/admin/orders/ongoing_order_details.dart';
-import 'package:petcare_commerce/screens/order/order_details_screen.dart';
-import 'package:petcare_commerce/widgets/text_with_icon.dart';
+import '../../../core/service/service_locator.dart';
+import '../../../core/utils/order_helper.dart';
+import '../../../models/order_model.dart';
+import '../../../providers/auth_provider.dart';
+import 'ongoing_order_details.dart';
+import '../../order/order_details_screen.dart';
+import '../../../widgets/text_with_icon.dart';
 
 class OngoingOrderItem extends StatelessWidget {
   final OrderModel selectedOrder;

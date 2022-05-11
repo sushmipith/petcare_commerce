@@ -1,13 +1,11 @@
 import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:petcare_commerce/core/network/http_service.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/models/cart_model.dart';
-import 'package:petcare_commerce/models/order_model.dart';
-import 'package:petcare_commerce/core/network/API.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
+import '../core/network/http_service.dart';
+import '../core/service/service_locator.dart';
+import '../models/cart_model.dart';
+import '../models/order_model.dart';
+import '../core/network/api.dart';
+import 'auth_provider.dart';
 
 class OrderProvider with ChangeNotifier {
   final HttpService httpService = locator<HttpService>();
@@ -31,7 +29,6 @@ class OrderProvider with ChangeNotifier {
       _orders = _loadedOrders.reversed.toList();
       notifyListeners();
     } catch (error) {
-      print(error);
       rethrow;
     }
   }
@@ -88,7 +85,6 @@ class OrderProvider with ChangeNotifier {
           userId: userId!));
       notifyListeners();
     } catch (error) {
-      print(error);
       rethrow;
     }
   }
@@ -109,7 +105,7 @@ class OrderProvider with ChangeNotifier {
         const updateStatus = 'order_cancelled';
         orderModel.orderActions!.add(
             OrderStatusModel(action: updateStatus, createdAt: DateTime.now()));
-        final response = await httpService.patch(
+        await httpService.patch(
             API.orders + '${orderModel.userId}/$orderId.json',
             body: json.encode({
               'status': updateStatus,
@@ -122,7 +118,6 @@ class OrderProvider with ChangeNotifier {
                       })
                   .toList(),
             }));
-        final responseMap = json.decode(response.body) as Map<String, dynamic>;
         _orders[index].orderActions = orderModel.orderActions;
         _orders[index].status = updateStatus;
         _orders[index].cancelReason = cancelReason;

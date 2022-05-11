@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/screens/auth/forgot_password_screen.dart';
-import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
+import '../../core/constants/assets_source.dart';
+import '../../core/service/service_locator.dart';
+import '../../core/constants/constants.dart';
+import '../../providers/auth_provider.dart';
+import 'forgot_password_screen.dart';
+import '../bottom_overview_screen.dart';
+import '../../widgets/custom_snack_bar.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -192,10 +191,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                           width: double.infinity,
                           margin: const EdgeInsets.symmetric(horizontal: 15),
-                          child: RaisedButton(
-                            color: themeConst.primaryColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: themeConst.primaryColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                            ),
                             onPressed: _isLoading ? null : _saveForm,
                             child: _isLoading
                                 ? const Center(

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/cart_provider.dart';
-import 'package:petcare_commerce/providers/order_provider.dart';
-import 'package:petcare_commerce/screens/cart/cart_item_widget.dart';
-import 'package:petcare_commerce/screens/cart/checkout_dialog.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
-import 'package:petcare_commerce/widgets/empty_order_widget.dart';
+import '../../core/constants/constants.dart';
+import '../../providers/cart_provider.dart';
+import 'cart_item_widget.dart';
+import 'checkout_dialog.dart';
+import '../../widgets/empty_order_widget.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
@@ -19,7 +16,6 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   ThemeData? themeConst;
   double? mHeight, mWidth;
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +30,7 @@ class _CartScreenState extends State<CartScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           scrollDirection: Axis.vertical,
           child: data.totalCount == 0
-              ? EmptyOrder(
+              ? const EmptyOrder(
                   type: "Cart",
                 )
               : Column(
@@ -88,7 +84,7 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           Expanded(
                             flex: 1,
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               onPressed: () {
                                 showDialog<void>(
                                   context: context,
@@ -102,10 +98,12 @@ class _CartScreenState extends State<CartScreen> {
                               child: const Text(
                                 "Checkout",
                               ),
-                              textColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              color: themeConst?.primaryColor,
+                              style: ElevatedButton.styleFrom(
+                                textStyle: const TextStyle(color: Colors.white),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                primary: themeConst?.primaryColor,
+                              ),
                             ),
                           )
                         ],

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/screens/product/product_list_screen.dart';
-import 'package:petcare_commerce/screens/home/home_carousel_widget.dart';
-import 'package:petcare_commerce/screens/product/product_item_widget.dart';
+import '../../providers/products_provider.dart';
+import '../product/product_list_screen.dart';
+import 'home_carousel_widget.dart';
+import '../product/product_item_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -95,7 +95,7 @@ class HomeScreen extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: [
-              HomeCarouselWidget(),
+              const HomeCarouselWidget(),
               SizedBox(
                 height: mHeight * 0.03,
               ),
@@ -207,7 +207,7 @@ class HomeScreen extends StatelessWidget {
                             "diff": "type"
                           });
                         }),
-                    Container(
+                    SizedBox(
                       height: mHeight * 0.22,
                       child: ListView.builder(
                         padding: const EdgeInsets.all(10),

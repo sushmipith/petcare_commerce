@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/models/cart_model.dart';
+import '../models/cart_model.dart';
 
 class CartProvider with ChangeNotifier {
   Map<String, CartModel> _items = {};
@@ -32,7 +32,7 @@ class CartProvider with ChangeNotifier {
 
   // get total items in cart
   int get totalCount {
-    return _items == null ? 0 : _items.length;
+    return _items.length;
   }
 
   //remove a single item from cart
@@ -57,8 +57,8 @@ class CartProvider with ChangeNotifier {
   //total amount of the cart
   double get totalAmount {
     double total = 0.0;
-    _items.forEach((key, CartModel) {
-      total += CartModel.price * CartModel.quantity;
+    _items.forEach((key, cartModel) {
+      total += cartModel.price * cartModel.quantity;
     });
     return total;
   }

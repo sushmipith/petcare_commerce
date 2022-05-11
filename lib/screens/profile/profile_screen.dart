@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/screens/auth/login_screen.dart';
-import 'package:petcare_commerce/screens/order/order_screen.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
-import 'package:provider/provider.dart';
+import '../../core/constants/assets_source.dart';
+import '../../core/constants/constants.dart';
+import '../../core/service/service_locator.dart';
+import '../../providers/auth_provider.dart';
+import '../auth/login_screen.dart';
+import '../order/order_screen.dart';
+import '../../widgets/custom_snack_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'favourites_screen.dart';
@@ -53,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         await _imagePicker.pickImage(source: imgSrc, imageQuality: 50);
     if (pickedFile != null) {
       final croppedFile = await ImageCropper().cropImage(
-        sourcePath: await pickedFile.path,
+        sourcePath: pickedFile.path,
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
           CropAspectRatioPreset.ratio3x2,
@@ -302,7 +301,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 LoginScreen.routeName, (route) => false);
                           }
                         } catch (error) {
-                          print(error);
+                          rethrow;
                         }
                       },
                     ),
@@ -313,7 +312,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ? Container(
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 50, vertical: 20),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               onPressed: _isUploading
                                   ? null
                                   : () async {
@@ -333,7 +332,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   content: const Text(
                                                       "Cant upload the photo"),
                                                   actions: [
-                                                    FlatButton(
+                                                    TextButton(
                                                       onPressed: () {
                                                         Navigator.pop(dCtx);
                                                       },
@@ -346,8 +345,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         _isUploading = false;
                                       });
                                     },
-                              color: themeConst!.primaryColor,
-                              textColor: Colors.white,
+                              style: ElevatedButton.styleFrom(
+                                  primary: themeConst!.primaryColor,
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                  )),
                               child: _isUploading
                                   ? const Center(
                                       child: SizedBox(

@@ -10,12 +10,14 @@ class TextWithIcon extends StatelessWidget {
   final double? spacing;
 
   const TextWithIcon(
-      {required this.icon,
+      {Key? key,
+      required this.icon,
       required this.text,
       this.mainAxisAlignment,
       required this.textStyle,
       this.spacing,
-      this.padding});
+      this.padding})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

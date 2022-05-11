@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
+import '../core/constants/assets_source.dart';
 
 class EmptyOrder extends StatelessWidget {
   final String type;
 
-  EmptyOrder({required this.type});
+  const EmptyOrder({Key? key, required this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +15,7 @@ class EmptyOrder extends StatelessWidget {
         child: Column(
           children: [
             Lottie.asset(
-              type == "Cart"
-                  ? AssetsSource.emptyBox
-                  : AssetsSource.emptyOrder,
+              type == "Cart" ? AssetsSource.emptyBox : AssetsSource.emptyOrder,
               fit: BoxFit.contain,
               repeat: false,
             ),

@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/utils/order_utils.dart';
+import '../../../core/constants/constants.dart';
 
 import 'ongoing_order_screen.dart';
 
@@ -33,19 +31,6 @@ class TopTabWidget extends StatelessWidget {
         return Colors.redAccent;
       default:
         return primaryColor;
-    }
-  }
-
-  OrderStatus _getStatusForButton() {
-    switch (currentStatus) {
-      case ButtonStatus.delivered:
-        return OrderStatus.delivered;
-      case ButtonStatus.transit:
-        return OrderStatus.ongoing;
-      case ButtonStatus.cancelled:
-        return OrderStatus.cancelled;
-      default:
-        return OrderStatus.ongoing;
     }
   }
 

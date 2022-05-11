@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
+import '../core/constants/assets_source.dart';
+import '../core/constants/constants.dart';
 
 /// Widget [ApiErrorWidget] : The ApiErrorWidget is use when data load fails
 /// showing try again button and image

@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/models/product_model.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
+import '../../../core/constants/constants.dart';
+import '../../../core/service/service_locator.dart';
+import '../../../models/product_model.dart';
+import '../../../providers/products_provider.dart';
+import '../../../widgets/custom_snack_bar.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const String routeName = "/edit_product_screen";
@@ -205,19 +205,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
         _imageFile!,
         fit: BoxFit.contain,
       );
-    } else if (_editProduct!.imageURL != null) {
-      if (_editProduct!.imageURL.isNotEmpty) {
-        return Image.network(
-          _editProduct!.imageURL,
-          fit: BoxFit.contain,
-        );
-      } else {
-        return const Center(
-            child: Text(
-          "Upload product picture",
-          textAlign: TextAlign.center,
-        ));
-      }
+    } else if (_editProduct!.imageURL.isNotEmpty) {
+      return Image.network(
+        _editProduct!.imageURL,
+        fit: BoxFit.contain,
+      );
     } else {
       return const Center(
           child: Text(
@@ -363,12 +355,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
             SizedBox(
               height: mHeight! * 0.05,
             ),
-            RaisedButton.icon(
-              color: greenColor,
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                  primary: greenColor,
+                  textStyle: const TextStyle(color: Colors.white)),
               icon: _isLoading ? Container() : const Icon(Icons.save),
-              textColor: Colors.white,
               onPressed: _isLoading ? null : _saveForm,
-              disabledColor: greenColor,
               label: _isLoading
                   ? const Center(
                       child: SizedBox(

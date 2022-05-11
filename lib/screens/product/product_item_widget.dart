@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/screens/product/product_detail_screen.dart';
-import 'package:provider/provider.dart';
+import '../../core/constants/assets_source.dart';
+import '../../core/constants/constants.dart';
+import '../../core/service/service_locator.dart';
+import '../../providers/products_provider.dart';
+import 'product_detail_screen.dart';
 
 class ProductItemWidget extends StatelessWidget {
   final String id;
 
-  const ProductItemWidget({required this.id});
+  const ProductItemWidget({Key? key, required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class ProductItemWidget extends StatelessWidget {
         elevation: 4,
         margin: const EdgeInsets.symmetric(horizontal: 5),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Container(
+        child: SizedBox(
           height: mHeight * 0.15,
           width: mWidth * 0.35,
           child: Column(

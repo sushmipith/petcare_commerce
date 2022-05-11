@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:petcare_commerce/models/order_model.dart';
+import '../../models/order_model.dart';
 
 class OrderItemWidget extends StatelessWidget {
   final OrderModel orderModel;
 
-  OrderItemWidget({required this.orderModel});
+  const OrderItemWidget({Key? key, required this.orderModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData mediaConst = MediaQuery.of(context);
     ThemeData themeConst = Theme.of(context);
     return Card(
       child: ExpansionTile(

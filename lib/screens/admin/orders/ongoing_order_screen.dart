@@ -2,17 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/admin_order_provider.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/providers/order_provider.dart';
-import 'package:petcare_commerce/screens/admin/orders/ongoing_order_item.dart';
-import 'package:petcare_commerce/screens/admin/orders/top_tab_widget.dart';
-import 'package:petcare_commerce/screens/auth/login_screen.dart';
-import 'package:petcare_commerce/screens/order/order_item_widget.dart';
-import 'package:petcare_commerce/widgets/api_error_widget.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
+import '../../../core/constants/assets_source.dart';
+import '../../../core/service/service_locator.dart';
+import '../../../providers/admin_order_provider.dart';
+import '../../../providers/auth_provider.dart';
+import 'ongoing_order_item.dart';
+import 'top_tab_widget.dart';
+import '../../auth/login_screen.dart';
+import '../../../widgets/api_error_widget.dart';
+import '../../../widgets/custom_snack_bar.dart';
 import 'package:provider/provider.dart';
 
 enum ButtonStatus { delivered, transit, cancelled }

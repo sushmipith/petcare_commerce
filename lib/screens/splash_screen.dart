@@ -1,5 +1,5 @@
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/screens/bottom_overview_screen.dart';
+import '../core/service/service_locator.dart';
+import 'bottom_overview_screen.dart';
 
 import '../core/constants/assets_source.dart';
 import '../providers/auth_provider.dart';

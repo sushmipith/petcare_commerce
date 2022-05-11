@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/screens/admin/product/edit_product_screen.dart';
+import '../../../providers/products_provider.dart';
+import 'edit_product_screen.dart';
 import 'package:provider/provider.dart';
 
 class UserProductScreen extends StatelessWidget {
@@ -8,9 +8,6 @@ class UserProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData mediaConst = MediaQuery.of(context);
-    double mHeight = mediaConst.size.height;
-    double mWidth = mediaConst.size.width;
     ThemeData themeConst = Theme.of(context);
     final productsProvider = Provider.of<ProductsProvider>(context);
     final userProducts = productsProvider.products;
@@ -52,15 +49,18 @@ class UserProductScreen extends StatelessWidget {
                               showDialog(
                                   context: context,
                                   builder: (dCtx) => AlertDialog(
-                                        title: Text("Success!"),
-                                        content: Text("Deleted the item!"),
+                                        title: const Text("Success!"),
+                                        content:
+                                            const Text("Deleted the item!"),
                                         actions: [
-                                          RaisedButton(
+                                          ElevatedButton(
                                             onPressed: () {
                                               Navigator.pop(dCtx);
                                             },
-                                            color: themeConst.primaryColor,
-                                            child: Text("Okay"),
+                                            style: ElevatedButton.styleFrom(
+                                              primary: themeConst.primaryColor,
+                                            ),
+                                            child: const Text("Okay"),
                                           )
                                         ],
                                       ));
@@ -68,16 +68,18 @@ class UserProductScreen extends StatelessWidget {
                               showDialog(
                                   context: context,
                                   builder: (dCtx) => AlertDialog(
-                                        title: Text("Error!"),
-                                        content:
-                                            Text("Cannot delete the item!"),
+                                        title: const Text("Error!"),
+                                        content: const Text(
+                                            "Cannot delete the item!"),
                                         actions: [
-                                          RaisedButton(
+                                          ElevatedButton(
                                             onPressed: () {
                                               Navigator.pop(dCtx);
                                             },
-                                            child: Text("Okay"),
-                                            color: themeConst.primaryColor,
+                                            style: ElevatedButton.styleFrom(
+                                              primary: themeConst.primaryColor,
+                                            ),
+                                            child: const Text("Okay"),
                                           )
                                         ],
                                       ));

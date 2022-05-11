@@ -1,5 +1,4 @@
-import 'package:petcare_commerce/core/utils/order_utils.dart';
-import 'package:petcare_commerce/models/cart_model.dart';
+import 'cart_model.dart';
 
 class OrderModel {
   final String id;

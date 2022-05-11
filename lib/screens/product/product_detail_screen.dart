@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:petcare_commerce/core/constants/assets_source.dart';
-import 'package:petcare_commerce/core/constants/constants.dart';
-import 'package:petcare_commerce/core/service/service_locator.dart';
-import 'package:petcare_commerce/providers/auth_provider.dart';
-import 'package:petcare_commerce/providers/cart_provider.dart';
-import 'package:petcare_commerce/providers/products_provider.dart';
-import 'package:petcare_commerce/widgets/custom_snack_bar.dart';
+import '../../core/constants/assets_source.dart';
+import '../../core/constants/constants.dart';
+import '../../core/service/service_locator.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/cart_provider.dart';
+import '../../providers/products_provider.dart';
+import '../../widgets/custom_snack_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../image_preview_screen.dart';
@@ -112,7 +112,7 @@ class ProductDetailScreen extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.star,
-                      color: themeConst.accentColor,
+                      color: themeConst.colorScheme.secondary,
                       size: 30,
                     ),
                     const SizedBox(
@@ -141,7 +141,7 @@ class ProductDetailScreen extends StatelessWidget {
                         try {
                           await productProvider.toggleFavourite(id);
                         } catch (error) {
-                          print(error);
+                          rethrow;
                         }
                       },
                     );
@@ -260,13 +260,15 @@ class ProductDetailScreen extends StatelessWidget {
           ? Container()
           : Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
-              child: RaisedButton.icon(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  color: Colors.lightGreen,
-                  textColor: Colors.white,
+              child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    primary: Colors.lightGreen,
+                    textStyle: const TextStyle(color: Colors.white),
+                  ),
                   onPressed: () {
                     locator<CartProvider>().addToCart(
                         id, loadedProduct.title, loadedProduct.price);
