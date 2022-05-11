@@ -1,16 +1,36 @@
-# petcare_commerce
+# PetCareCommerce App
 
-A new Flutter application.
+PetCare Commerce is an ecommerce mobile application which sells variety of Pet Care Products within few clicks.
 
-## Getting Started
+## Features
+- Authentication - User and Admin
+- Browse and Search Products
+- Product Categories
+- Zoom Product Image
+- Product Rating and Review
+- Easy Add to Cart
+- Product Add, Edit and Delete
+- Order Tracking and Management System
+- Order Cancellation
+- User Profile and User Favourites
 
-This project is a starting point for a Flutter application.
+## Get Started
 
-A few resources to get you started if this is your first Flutter project:
+### Fetch Dependencies:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+```bash
+flutter pub get
+```
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Build Android
+
+#### Develop
+```bash
+flutter build apk --profile
+flutter build apk --debug
+```
+
+#### Production
+```bash
+flutter build appbundle
+```
