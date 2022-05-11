@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'auth/login_screen.dart';
 import 'home/home_screen.dart';
 
+/// Screen [BottomOverviewScreen] : BottomOverviewScreen is the main home page with bottom navigation
 class BottomOverviewScreen extends StatefulWidget {
   static const String routeName = "/bottom_overview_screen";
 

@@ -4,10 +4,11 @@ import '../../../core/service/service_locator.dart';
 import '../../../core/utils/order_helper.dart';
 import '../../../models/order_model.dart';
 import '../../../providers/auth_provider.dart';
-import 'ongoing_order_details.dart';
+import 'ongoing_order_details_screen.dart';
 import '../../order/order_details_screen.dart';
 import '../../../widgets/text_with_icon.dart';
 
+/// Widget [OngoingOrderItem] : OngoingOrderItem used for displaying an order item from list
 class OngoingOrderItem extends StatelessWidget {
   final OrderModel selectedOrder;
 

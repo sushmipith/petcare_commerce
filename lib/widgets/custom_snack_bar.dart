@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///FUNC [showCustomSnackBar] : Show snackbar messages during success or fail
 ScaffoldMessengerState showCustomSnackBar({
   required BuildContext context,
   required String message,

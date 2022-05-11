@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import '../service/service_locator.dart';
 import '../../providers/auth_provider.dart';
 
+/// Service [HttpService] : HttpService lets you connect to the network with token
 class HttpService {
   Future<http.Response> get(
     String url,

@@ -5,6 +5,7 @@ import '../../core/service/service_locator.dart';
 import '../../providers/products_provider.dart';
 import 'product_detail_screen.dart';
 
+/// Widget [ProductItemWidget] : ProductItemWidget display a single product item
 class ProductItemWidget extends StatelessWidget {
   final String id;
 

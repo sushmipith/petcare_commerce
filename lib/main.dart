@@ -6,7 +6,7 @@ import 'providers/auth_provider.dart';
 import 'providers/cart_provider.dart';
 import 'providers/order_provider.dart';
 import 'providers/products_provider.dart';
-import 'screens/admin/orders/ongoing_order_details.dart';
+import 'screens/admin/orders/ongoing_order_details_screen.dart';
 import 'screens/admin/product/edit_product_screen.dart';
 import 'screens/auth/forgot_password_screen.dart';
 import 'screens/auth/login_screen.dart';
@@ -24,6 +24,7 @@ import 'package:provider/provider.dart';
 
 import 'core/service/service_locator.dart';
 
+/// FUNC [main] : main is the function that runs the program
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();

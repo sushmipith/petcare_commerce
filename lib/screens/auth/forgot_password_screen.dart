@@ -6,6 +6,7 @@ import '../../widgets/custom_snack_bar.dart';
 import '../../providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 
+/// Screen [ForgotPasswordScreen] : ForgotPasswordScreen for reseting user's password
 class ForgotPasswordScreen extends StatefulWidget {
   static const routeName = '/forgot_password_screen';
   const ForgotPasswordScreen({Key? key}) : super(key: key);

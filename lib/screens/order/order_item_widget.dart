@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import '../../models/order_model.dart';
 
+/// Widget [OrderItemWidget] : OrderItemWidget display a single order item in the list
 class OrderItemWidget extends StatelessWidget {
   final OrderModel orderModel;
 

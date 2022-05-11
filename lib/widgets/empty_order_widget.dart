@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../core/constants/assets_source.dart';
 
+/// Widget [EmptyOrder] : EmptyOrder for showing empty order or cart
 class EmptyOrder extends StatelessWidget {
   final String type;
 

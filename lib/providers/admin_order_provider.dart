@@ -7,6 +7,7 @@ import '../models/order_model.dart';
 import '../core/network/api.dart';
 import '../screens/admin/orders/ongoing_order_screen.dart';
 
+/// Provider [AdminOrderProvider] : AdminOrderProvider handles admin operations and order status
 class AdminOrderProvider with ChangeNotifier {
   final HttpService httpService = locator<HttpService>();
 

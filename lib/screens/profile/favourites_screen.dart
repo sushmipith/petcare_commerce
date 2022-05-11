@@ -3,6 +3,7 @@ import '../../providers/products_provider.dart';
 import '../product/product_item_widget.dart';
 import 'package:provider/provider.dart';
 
+/// Screen [FavouritesScreen] : FavouritesScreen display list of favourite products
 class FavouritesScreen extends StatelessWidget {
   static const String routeName = "/favourites_screen";
 

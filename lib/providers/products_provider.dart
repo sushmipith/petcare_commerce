@@ -12,6 +12,7 @@ import 'auth_provider.dart';
 
 import '../core/network/api.dart';
 
+/// Provider [ProductsProvider] : ProductsProvider handles product information and details
 class ProductsProvider with ChangeNotifier {
   List<ProductModel> _products = [];
   final HttpService httpService = locator<HttpService>();

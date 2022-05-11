@@ -8,6 +8,7 @@ import '../../../models/product_model.dart';
 import '../../../providers/products_provider.dart';
 import '../../../widgets/custom_snack_bar.dart';
 
+/// Screen [EditProductScreen] : EditProductScreen for editing product or adding new product
 class EditProductScreen extends StatefulWidget {
   static const String routeName = "/edit_product_screen";
 

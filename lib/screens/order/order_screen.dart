@@ -5,6 +5,7 @@ import '../admin/orders/ongoing_order_item.dart';
 import '../../widgets/empty_order_widget.dart';
 import 'package:provider/provider.dart';
 
+/// Screen [OrderScreen] : OrderScreen display list of orders made by user
 class OrderScreen extends StatefulWidget {
   static const String routeName = "/order_screen";
 

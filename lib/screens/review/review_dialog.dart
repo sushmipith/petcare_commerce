@@ -4,6 +4,7 @@ import '../../core/service/service_locator.dart';
 import '../../providers/products_provider.dart';
 import '../../widgets/custom_snack_bar.dart';
 
+/// Widget [ReviewDialog] : ReviewDialog lets user add rating and a review to a product
 class ReviewDialog extends StatefulWidget {
   final String? productId;
   final String? productTitle;

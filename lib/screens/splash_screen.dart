@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'auth/login_screen.dart';
 
+/// Screen [SplashScreen] : SplashScreen is the loading screen that loads user data
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 

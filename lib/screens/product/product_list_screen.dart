@@ -4,6 +4,7 @@ import '../../models/product_model.dart';
 import '../../providers/products_provider.dart';
 import 'product_item_widget.dart';
 
+/// Screen [ProductListScreen] : ProductListScreen display list of products in the screen
 class ProductListScreen extends StatelessWidget {
   static const String routeName = "/product_list_screen";
 

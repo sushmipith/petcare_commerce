@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/cart_model.dart';
 
+/// Provider [CartProvider] : CartProvider handles cart operation and information
 class CartProvider with ChangeNotifier {
   Map<String, CartModel> _items = {};
 

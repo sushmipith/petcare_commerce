@@ -6,6 +6,7 @@ import '../../providers/cart_provider.dart';
 import '../../providers/order_provider.dart';
 import '../../widgets/custom_snack_bar.dart';
 
+/// Dialog [CheckoutDialog] : CheckoutDialog asks users to add their details before checkout
 class CheckoutDialog extends StatefulWidget {
   final Map<String, CartModel> cartMap;
 

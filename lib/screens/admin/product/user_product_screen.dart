@@ -3,6 +3,7 @@ import '../../../providers/products_provider.dart';
 import 'edit_product_screen.dart';
 import 'package:provider/provider.dart';
 
+/// Screen [UserProductScreen] : UserProductScreen for viewing all products to add/edit or delete
 class UserProductScreen extends StatelessWidget {
   const UserProductScreen({Key? key}) : super(key: key);
 

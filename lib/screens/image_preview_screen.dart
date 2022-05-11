@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/assets_source.dart';
 
+/// Screen [ImagePreviewScreen] : ImagePreviewScreen lets you zoom in/out on an image
 class ImagePreviewScreen extends StatelessWidget {
   static const String routeName = '/image_preview_screen';
 

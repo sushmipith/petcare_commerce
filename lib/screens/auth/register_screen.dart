@@ -8,6 +8,7 @@ import '../../widgets/custom_snack_bar.dart';
 
 import '../bottom_overview_screen.dart';
 
+/// Screen [RegisterScreen] : RegisterScreen for signing up new users
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "/register_screen";
 

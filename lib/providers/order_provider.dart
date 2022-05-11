@@ -7,6 +7,7 @@ import '../models/order_model.dart';
 import '../core/network/api.dart';
 import 'auth_provider.dart';
 
+/// Provider [OrderProvider] : OrderProvider handles order operation and status
 class OrderProvider with ChangeNotifier {
   final HttpService httpService = locator<HttpService>();
 

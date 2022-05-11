@@ -8,6 +8,7 @@ import '../../providers/products_provider.dart';
 
 GetIt locator = GetIt.instance;
 
+/// FUNC [setupLocator] : setupLocator service makes the services and providers a singleton
 Future<void> setupLocator() async {
   // * Http Service
   locator.registerLazySingleton<HttpService>(() => HttpService());

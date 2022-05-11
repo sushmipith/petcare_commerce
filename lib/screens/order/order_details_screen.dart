@@ -11,6 +11,7 @@ import '../../widgets/order_status_timeline.dart';
 import '../../widgets/text_with_icon.dart';
 import 'package:provider/provider.dart';
 
+/// Screen [OrderDetailScreen] : OrderDetailScreen display details about an order for user and contain actions
 class OrderDetailScreen extends StatelessWidget {
   static const String routeName = "/order-detail-screen";
 

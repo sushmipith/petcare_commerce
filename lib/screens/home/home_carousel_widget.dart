@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+/// Widget [HomeCarouselWidget] : HomeCarouselWidget shows a list of banners on the homepage
 class HomeCarouselWidget extends StatelessWidget {
   static const List<String> _imgList = [
     "https://firebasestorage.googleapis.com/v0/b/petcarecommerce-b065e.appspot.com/o/banner%2FBANNER_01.jpg?alt=media&token=797dccf5-89d2-4cc5-b8cb-a9a2db36b761",

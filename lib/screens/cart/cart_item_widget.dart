@@ -4,6 +4,7 @@ import '../../core/service/service_locator.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/products_provider.dart';
 
+/// Widget [CartItemWidget] : CartItemWidget displays a single item on the cart
 class CartItemWidget extends StatelessWidget {
   final String id;
   final String title;

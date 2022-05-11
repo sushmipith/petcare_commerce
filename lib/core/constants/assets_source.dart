@@ -1,3 +1,4 @@
+/// Constant [AssetsSource] : AssetsSource contains the list of assets and their source in the app
 class AssetsSource {
   static const String appLogo = 'assets/images/app_logo.png';
   static const String bgPic = 'assets/images/bg_picture.png';

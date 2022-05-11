@@ -3,6 +3,7 @@ import '../../../core/constants/constants.dart';
 
 import 'ongoing_order_screen.dart';
 
+/// Widget [TopTabWidget] : TopTabWidget used for controlling order status type to display
 class TopTabWidget extends StatelessWidget {
   final Function(ButtonStatus status) changeButtonStatus;
   final ButtonStatus currentStatus;

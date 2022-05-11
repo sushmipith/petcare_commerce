@@ -12,6 +12,8 @@ import '../../../widgets/order_status_timeline.dart';
 import '../../../widgets/text_with_icon.dart';
 import 'package:provider/provider.dart';
 
+/// Screen [OngoingOrderDetailScreen] : OngoingOrderDetailScreen contains order details timeline and actions
+/// for admin to change order status
 class OngoingOrderDetailScreen extends StatelessWidget {
   static const String routeName = "/ongoing-detail-screen";
 

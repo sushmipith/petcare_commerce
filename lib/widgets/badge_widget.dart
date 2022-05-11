@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Widget [BadgeWidget] : The BadgeWidget is use to show badge reminder for items in cart
 class BadgeWidget extends StatelessWidget {
   final Widget child;
   final String value;

@@ -6,6 +6,7 @@ import 'checkout_dialog.dart';
 import '../../widgets/empty_order_widget.dart';
 import 'package:provider/provider.dart';
 
+/// Screen [CartScreen] : CartScreen shows all the items that are added to cart
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
 

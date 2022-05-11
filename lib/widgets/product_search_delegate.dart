@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:petcare_commerce/core/constants/assets_source.dart';
 import '../core/service/service_locator.dart';
 import '../providers/products_provider.dart';
 import '../screens/product/product_item_widget.dart';
 
+/// Widget [ProductSearchDelegate] : ProductSearchDelegate for handling search feature for product
 class ProductSearchDelegate extends SearchDelegate {
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -56,10 +58,16 @@ class ProductSearchDelegate extends SearchDelegate {
     return query.isEmpty
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Center(
-                child: Text("Search product items"),
-              )
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                AssetsSource.appLogo,
+                height: 200,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text("Search product items")
             ],
           )
         : GridView.builder(

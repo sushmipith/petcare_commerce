@@ -6,6 +6,7 @@ import 'home_carousel_widget.dart';
 import '../product/product_item_widget.dart';
 import 'package:provider/provider.dart';
 
+///Widget [HomeScreen] : HomeScreen is the main page where user can browse products and categories
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 

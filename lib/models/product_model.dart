@@ -1,3 +1,4 @@
+/// Model [ProductModel] : ProductModel describes product variables
 class ProductModel {
   final String id;
   final String title;
@@ -42,6 +43,7 @@ class ProductModel {
   }
 }
 
+/// Model [ReviewModel] : ReviewModel describes review variables
 class ReviewModel {
   String rating;
   String review;

@@ -9,6 +9,7 @@ import '../bottom_overview_screen.dart';
 import '../../widgets/custom_snack_bar.dart';
 import 'register_screen.dart';
 
+/// Screen [LoginScreen] : LoginScreen for login user with email and password
 class LoginScreen extends StatefulWidget {
   static const String routeName = "/login_screen";
 

@@ -9,6 +9,7 @@ enum AuthResultStatus {
   undefined,
 }
 
+/// Exception [AuthResultException] : Contains the various constants used in the app like theme and regex
 class AuthResultException implements Exception {
   static AuthResultStatus handleException(e) {
     AuthResultStatus status;

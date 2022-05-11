@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'text_with_icon.dart';
 
-///Widget [CardInfoBuilder] : To build card info for simple view
+///Widget [CardInfoBuilder] : To build card info for simple view on order details
 class CardInfoBuilder extends StatelessWidget {
   final Widget description;
   final String title;

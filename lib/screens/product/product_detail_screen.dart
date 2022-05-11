@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../image_preview_screen.dart';
 
+/// Screen [ProductDetailScreen] : ProductDetailScreen display full details of a product
 class ProductDetailScreen extends StatelessWidget {
   static const String routeName = "/product_detail_screen";
 

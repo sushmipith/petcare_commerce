@@ -5,6 +5,7 @@ import '../models/order_model.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:intl/intl.dart';
 
+/// Widget [OrderStatusTimeline] : OrderStatusTimeline for showing order status history timeline
 class OrderStatusTimeline extends StatelessWidget {
   final List<OrderStatusModel> orderActions;
 

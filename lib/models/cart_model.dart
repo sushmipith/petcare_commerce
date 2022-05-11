@@ -1,3 +1,4 @@
+/// Model [CartModel] : CartModel containting cart details and variables
 class CartModel {
   final String id;
   final String title;

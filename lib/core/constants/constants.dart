@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+/// Constants : Contains the various constants used in the app like theme and regex
 const Color blackColor = Color(0xFF111111);
 const Color primaryColor = Color(0xFF9d73ef);
 const Color primaryLightColor = Color(0xFF9d73ef);

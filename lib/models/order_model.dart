@@ -1,5 +1,6 @@
 import 'cart_model.dart';
 
+/// Model [OrderModel] : OrderModel describes order variables
 class OrderModel {
   final String id;
   final double amount;
