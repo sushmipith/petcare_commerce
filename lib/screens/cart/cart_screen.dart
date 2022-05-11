@@ -98,9 +98,9 @@ class _CartScreenState extends State<CartScreen> {
                               },
                               child: const Text(
                                 "Checkout",
+                                style: const TextStyle(color: Colors.white),
                               ),
                               style: ElevatedButton.styleFrom(
-                                textStyle: const TextStyle(color: Colors.white),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 primary: themeConst?.primaryColor,

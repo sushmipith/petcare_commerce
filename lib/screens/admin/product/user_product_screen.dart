@@ -61,11 +61,14 @@ class UserProductScreen extends StatelessWidget {
                                             style: ElevatedButton.styleFrom(
                                               primary: themeConst.primaryColor,
                                             ),
-                                            child: const Text("Okay"),
+                                            child: const Text("Okay",
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           )
                                         ],
                                       ));
                             } catch (error) {
+                              print(error);
                               showDialog(
                                   context: context,
                                   builder: (dCtx) => AlertDialog(
@@ -80,7 +83,9 @@ class UserProductScreen extends StatelessWidget {
                                             style: ElevatedButton.styleFrom(
                                               primary: themeConst.primaryColor,
                                             ),
-                                            child: const Text("Okay"),
+                                            child: const Text("Okay",
+                                                style: TextStyle(
+                                                    color: Colors.white)),
                                           )
                                         ],
                                       ));

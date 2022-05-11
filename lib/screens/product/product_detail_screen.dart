@@ -268,7 +268,6 @@ class ProductDetailScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 20),
                     primary: Colors.lightGreen,
-                    textStyle: const TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
                     locator<CartProvider>().addToCart(
@@ -284,8 +283,11 @@ class ProductDetailScreen extends StatelessWidget {
                           },
                         ));
                   },
-                  icon: const Icon(Icons.shopping_cart),
-                  label: const Text("Add to Cart")),
+                  icon: const Icon(Icons.shopping_cart, color: Colors.white),
+                  label: const Text(
+                    "Add to Cart",
+                    style: TextStyle(color: Colors.white),
+                  )),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );

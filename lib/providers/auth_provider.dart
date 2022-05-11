@@ -121,8 +121,8 @@ class AuthProvider with ChangeNotifier {
       await http.put(
           Uri.parse(API.users + "$userId.json" + "?auth=$_authToken"),
           body: json.encode(addUser));
-      await http.put(Uri.parse(API.nodeJsURL + "/users"),
-          body: json.encode(addUser));
+      // await http.put(Uri.parse(API.nodeJsURL + "/users"),
+      //     body: json.encode(addUser));
     } catch (error) {
       rethrow;
     }
@@ -137,7 +137,7 @@ class AuthProvider with ChangeNotifier {
       final adminResponse = await http
           .get(Uri.parse(API.admins + "$userId.json" + "?auth=$_authToken"));
       final extractedAdmin = json.decode(adminResponse.body);
-      await http.get(Uri.parse(API.nodeJsURL + "/users/$userId"));
+      // await http.get(Uri.parse(API.nodeJsURL + "/users/$userId"));
       extractedData.putIfAbsent('isAdmin', () => extractedAdmin == userId);
       return extractedData;
     } catch (error) {

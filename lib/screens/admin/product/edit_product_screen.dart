@@ -79,10 +79,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
     try {
       if (_id != null) {
         await locator<ProductsProvider>().updateProduct(
-            _id!, newProduct, _editProduct!.imageURL, _imageFile!);
+            _id!, newProduct, _editProduct!.imageURL, _imageFile);
       } else {
         await locator<ProductsProvider>().addProduct(newProduct, _imageFile!);
       }
+      showCustomSnackBar(
+          message: "Successfully updated the product",
+          isError: false,
+          context: context);
       Navigator.pop(context);
     } catch (error) {
       showCustomSnackBar(
@@ -358,9 +362,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                  primary: greenColor,
-                  textStyle: const TextStyle(color: Colors.white)),
-              icon: _isLoading ? Container() : const Icon(Icons.save),
+                primary: greenColor,
+              ),
+              icon: _isLoading
+                  ? Container()
+                  : const Icon(Icons.save, color: Colors.white),
               onPressed: _isLoading ? null : _saveForm,
               label: _isLoading
                   ? const Center(
@@ -372,7 +378,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         ),
                       ),
                     )
-                  : const Text("Save"),
+                  : const Text("Save", style: TextStyle(color: Colors.white)),
             )
           ],
         ),

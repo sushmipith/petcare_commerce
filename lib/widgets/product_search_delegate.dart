@@ -13,6 +13,9 @@ class ProductSearchDelegate extends SearchDelegate {
   }
 
   @override
+  String? get searchFieldLabel => 'Search Products';
+
+  @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
@@ -55,21 +58,21 @@ class ProductSearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     final searchItems = locator<ProductsProvider>().getSearchItems(query);
+    final products = locator<ProductsProvider>().products;
     return query.isEmpty
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                AssetsSource.appLogo,
-                height: 200,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text("Search product items")
-            ],
-          )
+        ? GridView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1.1,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 10),
+            itemCount: products.length,
+            itemBuilder: (ctx, index) {
+              return ProductItemWidget(
+                id: products[index].id,
+              );
+            })
         : GridView.builder(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

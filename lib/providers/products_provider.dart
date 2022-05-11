@@ -199,6 +199,7 @@ class ProductsProvider with ChangeNotifier {
       _products.add(editedProduct);
       notifyListeners();
     } catch (error) {
+      print(error);
       rethrow;
     }
   }

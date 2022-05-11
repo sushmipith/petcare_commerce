@@ -35,13 +35,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       await locator<AuthProvider>().forgotPassword(_email!);
       setState(() {
         _isLoading = false;
-        _isVerify = true;
       });
       showCustomSnackBar(
         context: context,
-        message: 'Verification code has been send to your email. Please check',
+        message: 'Verification link has been send to your email. Please check',
         isError: false,
       );
+      Navigator.of(context).pop();
     } catch (error) {
       setState(() => _isLoading = false);
       showCustomSnackBar(
@@ -91,7 +91,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         child: Column(
           children: [
             Text(
-              "To reset please enter your email, a verification code will be sent to your email.",
+              "To reset please enter your email, a verification link will be sent to your email.",
               style: themeConst.textTheme.subtitle1!.copyWith(
                 color: blackColor,
               ),
@@ -135,7 +135,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             width: 20,
                             child: CircularProgressIndicator()))
                     : Text(
-                        "Send Code",
+                        "Send Link",
                         style: themeConst.textTheme.headline6!.copyWith(
                             color: Colors.white, fontWeight: FontWeight.w600),
                       ),
